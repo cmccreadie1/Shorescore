@@ -42,10 +42,10 @@
             color-scheme: dark;
         }
 
-        /* Lighter, high-contrast radial backdrop for maximum pop */
+        /* Lighter, rich ocean-blue gradient backdrop for higher contrast and readability */
         body {
             font-family: 'Inter', 'Google Sans', sans-serif;
-            background: radial-gradient(circle at 50% 0%, #334155 0%, #1e293b 60%, #0f172a 100%) fixed;
+            background: radial-gradient(circle at 50% 0%, #1e3a8a 0%, #1e293b 65%, #0f172a 100%) fixed;
             color: #ffffff;
             min-height: 100vh;
         }
@@ -61,48 +61,48 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* Spacious & Luxurious Glassmorphism Surface Tokens */
+        /* Spacious & High-Visibility Glassmorphism Surface Tokens */
         .glass-card {
-            background: rgba(30, 41, 59, 0.65);
+            background: rgba(30, 41, 59, 0.75);
             backdrop-filter: blur(28px);
             -webkit-backdrop-filter: blur(28px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3), 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            border: 1.5px solid rgba(255, 255, 255, 0.22);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 25px 50px -12px rgba(0, 0, 0, 0.6);
             border-radius: 32px;
         }
 
         .glass-card-sm {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
+            border: 1.5px solid rgba(255, 255, 255, 0.18);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
             border-radius: 24px;
         }
 
         .glass-pill {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
             border-radius: 9999px;
         }
 
         /* Material You Zone Badges & Cards */
-        .zone-badge-Red { background: rgba(248, 113, 113, 0.25); border: 1.5px solid #f87171; color: #fca5a5; }
-        .zone-badge-Yellow { background: rgba(253, 224, 71, 0.25); border: 1.5px solid #fde047; color: #fef08a; }
-        .zone-badge-Green { background: rgba(74, 222, 128, 0.25); border: 1.5px solid #4ade80; color: #86efac; }
-        .zone-badge-Blue { background: rgba(56, 189, 248, 0.25); border: 1.5px solid #38bdf8; color: #93c5fd; }
+        .zone-badge-Red { background: rgba(248, 113, 113, 0.3); border: 2px solid #f87171; color: #ffffff; }
+        .zone-badge-Yellow { background: rgba(253, 224, 71, 0.3); border: 2px solid #fde047; color: #ffffff; }
+        .zone-badge-Green { background: rgba(74, 222, 128, 0.3); border: 2px solid #4ade80; color: #ffffff; }
+        .zone-badge-Blue { background: rgba(56, 189, 248, 0.3); border: 2px solid #38bdf8; color: #ffffff; }
 
-        .zone-card-Red { background: rgba(248, 113, 113, 0.12); border-top: 6px solid #f87171; border-color: rgba(248, 113, 113, 0.35); }
-        .zone-card-Yellow { background: rgba(253, 224, 71, 0.12); border-top: 6px solid #fde047; border-color: rgba(253, 224, 71, 0.35); }
-        .zone-card-Green { background: rgba(74, 222, 128, 0.12); border-top: 6px solid #4ade80; border-color: rgba(74, 222, 128, 0.35); }
-        .zone-card-Blue { background: rgba(56, 189, 248, 0.12); border-top: 6px solid #38bdf8; border-color: rgba(56, 189, 248, 0.35); }
+        .zone-card-Red { background: rgba(248, 113, 113, 0.15); border-top: 6px solid #f87171; border-color: rgba(248, 113, 113, 0.4); }
+        .zone-card-Yellow { background: rgba(253, 224, 71, 0.15); border-top: 6px solid #fde047; border-color: rgba(253, 224, 71, 0.4); }
+        .zone-card-Green { background: rgba(74, 222, 128, 0.15); border-top: 6px solid #4ade80; border-color: rgba(74, 222, 128, 0.4); }
+        .zone-card-Blue { background: rgba(56, 189, 248, 0.15); border-top: 6px solid #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
 
-        .zone-block-Red { background: rgba(248, 113, 113, 0.2); border: 1px solid rgba(248, 113, 113, 0.4); color: #fca5a5; }
-        .zone-block-Yellow { background: rgba(253, 224, 71, 0.2); border: 1px solid rgba(253, 224, 71, 0.4); color: #fef08a; }
-        .zone-block-Green { background: rgba(74, 222, 128, 0.2); border: 1px solid rgba(74, 222, 128, 0.4); color: #86efac; }
-        .zone-block-Blue { background: rgba(56, 189, 248, 0.2); border: 1px solid rgba(56, 189, 248, 0.4); color: #93c5fd; }
+        .zone-block-Red { background: rgba(248, 113, 113, 0.25); border: 1.5px solid rgba(248, 113, 113, 0.5); color: #ffffff; }
+        .zone-block-Yellow { background: rgba(253, 224, 71, 0.25); border: 1.5px solid rgba(253, 224, 71, 0.5); color: #ffffff; }
+        .zone-block-Green { background: rgba(74, 222, 128, 0.25); border: 1.5px solid rgba(74, 222, 128, 0.5); color: #ffffff; }
+        .zone-block-Blue { background: rgba(56, 189, 248, 0.25); border: 1.5px solid rgba(56, 189, 248, 0.5); color: #ffffff; }
 
         /* Elastic Touch Feedback */
         .touch-elastic {
@@ -121,21 +121,21 @@
         .swap-peg-active {
             animation: swapBob 1s ease-in-out infinite;
             cursor: pointer;
-            box-shadow: 0 0 0 3px #fde047 !important;
+            box-shadow: 0 0 0 4px #fde047 !important;
         }
 
         .swap-peg-selected {
-            background-color: rgba(253, 224, 71, 0.5) !important;
+            background-color: rgba(253, 224, 71, 0.6) !important;
             border-color: #fde047 !important;
-            color: #fef08a !important;
-            box-shadow: 0 0 0 4px #fde047 !important;
-            transform: scale(1.1) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 0 5px #fde047 !important;
+            transform: scale(1.15) !important;
             animation: none !important;
         }
 
-        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(168, 199, 250, 0.4); border-radius: 9999px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(168, 199, 250, 0.5); border-radius: 9999px; }
 
         @media print {
             .no-print { display: none !important; }
@@ -153,35 +153,35 @@
     <!-- FORM TEAM FROM SOLOS SELECTION MODAL                                -->
     <!-- =================================================================== -->
     <div id="formTeamModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-xl z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-card p-8 max-w-lg w-full space-y-6 shadow-2xl text-pixelText">
-            <div class="flex items-center justify-between border-b border-white/15 pb-4">
+        <div class="glass-card p-8 max-w-xl w-full space-y-6 shadow-2xl text-pixelText">
+            <div class="flex items-center justify-between border-b border-white/20 pb-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 rounded-full bg-pixelEmerald/20 border border-pixelEmerald/40 flex items-center justify-center text-pixelEmerald">
-                        <i class="fa-solid fa-users-line text-xl"></i>
+                    <div class="w-12 h-12 rounded-full bg-pixelEmerald/25 border border-pixelEmerald/50 flex items-center justify-center text-pixelEmerald">
+                        <i class="fa-solid fa-users-line text-2xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-black font-heading text-pixelText tracking-wider">Form Team from Solos</h3>
-                        <p class="text-xs text-pixelMuted">Group 4 individual competitors into a team</p>
+                        <h3 class="text-2xl font-black font-heading text-pixelText tracking-wider">Form Team from Solos</h3>
+                        <p class="text-sm text-pixelMuted">Group 4 individual competitors into a team</p>
                     </div>
                 </div>
-                <button onclick="triggerHaptic(); closeFormTeamModal()" class="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-pixelMuted hover:text-white font-bold text-2xl touch-elastic">&times;</button>
+                <button onclick="triggerHaptic(); closeFormTeamModal()" class="w-12 h-12 rounded-full glass-pill flex items-center justify-center text-pixelMuted hover:text-white font-bold text-3xl touch-elastic">&times;</button>
             </div>
 
-            <div class="space-y-4">
+            <div class="space-y-5">
                 <div>
-                    <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">New Team Name</label>
-                    <input type="text" id="modalNewTeamName" class="w-full bg-slate-900/70 border border-white/20 rounded-2xl px-4 py-3.5 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none uppercase tracking-wider" placeholder="e.g. Team Apex">
+                    <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">New Team Name</label>
+                    <input type="text" id="modalNewTeamName" class="w-full bg-slate-900/80 border border-white/25 rounded-2xl px-5 py-4 text-base font-bold text-pixelText focus:border-pixelBlue focus:outline-none uppercase tracking-wider" placeholder="e.g. Team Apex">
                 </div>
 
                 <div>
-                    <span class="block text-xs font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Available Solos (<span id="modalSelectedCountBadge" class="text-pixelEmerald font-mono-tabular">0</span>/4 selected):</span>
-                    <div id="modalSolosCheckboxList" class="space-y-2.5 max-h-60 overflow-y-auto custom-scrollbar pr-1"></div>
+                    <span class="block text-sm font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Available Solos (<span id="modalSelectedCountBadge" class="text-pixelEmerald font-mono-tabular">0</span>/4 selected):</span>
+                    <div id="modalSolosCheckboxList" class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar pr-2"></div>
                 </div>
             </div>
 
-            <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/15">
-                <button onclick="triggerHaptic(); closeFormTeamModal()" class="glass-pill text-pixelMuted hover:text-white font-bold px-6 py-3 rounded-2xl text-xs uppercase tracking-wider touch-elastic">Cancel</button>
-                <button onclick="triggerHaptic(); confirmFormTeamFromSolos()" id="modalConfirmTeamBtn" class="bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black px-7 py-3 rounded-2xl text-xs flex items-center gap-2 shadow-lg uppercase tracking-wider touch-elastic cursor-not-allowed opacity-50" disabled>
+            <div class="flex items-center justify-end gap-4 pt-4 border-t border-white/20">
+                <button onclick="triggerHaptic(); closeFormTeamModal()" class="glass-pill text-pixelMuted hover:text-white font-bold px-6 py-3.5 rounded-2xl text-sm uppercase tracking-wider touch-elastic">Cancel</button>
+                <button onclick="triggerHaptic(); confirmFormTeamFromSolos()" id="modalConfirmTeamBtn" class="bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black px-8 py-3.5 rounded-2xl text-sm flex items-center gap-2 shadow-lg uppercase tracking-wider touch-elastic cursor-not-allowed opacity-50" disabled>
                     <i class="fa-solid fa-check"></i> Form Team
                 </button>
             </div>
@@ -192,16 +192,16 @@
     <!-- TRANSITION OVERLAY ANIMATION MODAL                                  -->
     <!-- =================================================================== -->
     <div id="transitionOverlay" class="fixed inset-0 bg-slate-950/90 backdrop-blur-2xl z-50 flex flex-col items-center justify-center p-6 hidden">
-        <div class="glass-card p-10 max-w-md w-full text-center space-y-6 shadow-2xl border-pixelBlue/40">
-            <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
-                <div class="absolute inset-0 rounded-full border-4 border-pixelBlue/20 border-t-pixelBlue animate-spin"></div>
-                <i class="fa-solid fa-bolt text-pixelBlue text-4xl"></i>
+        <div class="glass-card p-10 max-w-lg w-full text-center space-y-6 shadow-2xl border-pixelBlue/50">
+            <div class="relative w-28 h-28 mx-auto flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full border-4 border-pixelBlue/30 border-t-pixelBlue animate-spin"></div>
+                <i class="fa-solid fa-bolt text-pixelBlue text-5xl"></i>
             </div>
             <div class="space-y-2">
-                <h3 class="text-2xl font-black font-heading text-pixelText tracking-wider" id="transitionTitle">Generating Draw...</h3>
-                <p class="text-xs text-pixelMuted font-medium" id="transitionSubtitle">Running Scalable Draw Engine...</p>
+                <h3 class="text-3xl font-black font-heading text-pixelText tracking-wider" id="transitionTitle">Generating Draw...</h3>
+                <p class="text-sm text-pixelMuted font-medium" id="transitionSubtitle">Running Scalable Draw Engine...</p>
             </div>
-            <div class="w-full bg-slate-900/80 h-3 rounded-full overflow-hidden border border-white/15">
+            <div class="w-full bg-slate-900/80 h-3.5 rounded-full overflow-hidden border border-white/20">
                 <div id="transitionProgressBar" class="bg-gradient-to-r from-pixelBlue to-pixelEmerald h-full w-0 transition-all duration-300"></div>
             </div>
         </div>
@@ -211,36 +211,36 @@
     <!-- FULL REDRAW CONFIGURATION MODAL                                     -->
     <!-- =================================================================== -->
     <div id="redrawConfigModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-xl z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-card p-8 max-w-lg w-full space-y-6 shadow-2xl text-pixelText">
-            <div class="flex items-center justify-between border-b border-white/15 pb-4">
+        <div class="glass-card p-8 max-w-xl w-full space-y-6 shadow-2xl text-pixelText">
+            <div class="flex items-center justify-between border-b border-white/20 pb-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 rounded-full bg-pixelGold/20 border border-pixelGold/40 flex items-center justify-center text-pixelGold">
-                        <i class="fa-solid fa-sliders text-xl"></i>
+                    <div class="w-12 h-12 rounded-full bg-pixelGold/25 border border-pixelGold/50 flex items-center justify-center text-pixelGold">
+                        <i class="fa-solid fa-sliders text-2xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-black font-heading text-pixelText tracking-wider">Redraw Parameters</h3>
-                        <p class="text-xs text-pixelMuted">Configure mobility pegs before regenerating</p>
+                        <h3 class="text-2xl font-black font-heading text-pixelText tracking-wider">Redraw Parameters</h3>
+                        <p class="text-sm text-pixelMuted">Configure mobility pegs before regenerating</p>
                     </div>
                 </div>
-                <button onclick="triggerHaptic(); closeRedrawConfigModal()" class="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-pixelMuted hover:text-white font-bold text-2xl touch-elastic">&times;</button>
+                <button onclick="triggerHaptic(); closeRedrawConfigModal()" class="w-12 h-12 rounded-full glass-pill flex items-center justify-center text-pixelMuted hover:text-white font-bold text-3xl touch-elastic">&times;</button>
             </div>
 
-            <p class="text-xs font-bold text-pixelMuted">Adjust the mobility peg ranges before re-running the Monte Carlo engine for all <span id="redrawAnglerCountBadge" class="font-mono-tabular font-black text-pixelGold">0</span> anglers.</p>
+            <p class="text-sm font-bold text-pixelMuted">Adjust the mobility peg ranges before re-running the Monte Carlo engine for all <span id="redrawAnglerCountBadge" class="font-mono-tabular font-black text-pixelGold text-base">0</span> anglers.</p>
 
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Day 1 Mobility [A] Pegs</label>
-                    <input type="text" id="modalAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/70 border border-white/20 rounded-2xl px-4 py-3 text-xs font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3,4,5,6">
+                    <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Day 1 Mobility [A] Pegs</label>
+                    <input type="text" id="modalAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-3.5 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3,4,5,6">
                 </div>
                 <div id="modalD2MobilityContainer">
-                    <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Day 2 Mobility [A] Pegs</label>
-                    <input type="text" id="modalAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/70 border border-white/20 rounded-2xl px-4 py-3 text-xs font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3,4,5,6">
+                    <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Day 2 Mobility [A] Pegs</label>
+                    <input type="text" id="modalAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-3.5 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3,4,5,6">
                 </div>
             </div>
 
-            <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/15">
-                <button onclick="triggerHaptic(); closeRedrawConfigModal()" class="glass-pill text-pixelMuted hover:text-white font-bold px-6 py-3 rounded-2xl text-xs uppercase tracking-wider touch-elastic">Cancel</button>
-                <button onclick="triggerHaptic(); confirmExecuteFullRedraw()" class="bg-pixelGold hover:bg-yellow-300 text-slate-950 font-black px-7 py-3 rounded-2xl text-xs flex items-center gap-2 shadow-lg uppercase tracking-wider touch-elastic">
+            <div class="flex items-center justify-end gap-4 pt-4 border-t border-white/20">
+                <button onclick="triggerHaptic(); closeRedrawConfigModal()" class="glass-pill text-pixelMuted hover:text-white font-bold px-6 py-3.5 rounded-2xl text-sm uppercase tracking-wider touch-elastic">Cancel</button>
+                <button onclick="triggerHaptic(); confirmExecuteFullRedraw()" class="bg-pixelGold hover:bg-yellow-300 text-slate-950 font-black px-8 py-3.5 rounded-2xl text-sm flex items-center gap-2 shadow-lg uppercase tracking-wider touch-elastic">
                     <i class="fa-solid fa-rotate"></i> Execute Redraw
                 </button>
             </div>
@@ -248,67 +248,67 @@
     </div>
 
     <!-- =================================================================== -->
-    <!-- 1. STANDALONE SETUP SPLASH PAGE (LUXURIOUS PIXEL HERO STYLE)        -->
+    <!-- 1. STANDALONE SETUP SPLASH PAGE (EXPANDED WIDTH & TYPOGRAPHY)       -->
     <!-- =================================================================== -->
-    <div id="setup-splash-page" class="min-h-screen w-full flex flex-col justify-center py-10 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto w-full space-y-8">
+    <div id="setup-splash-page" class="min-h-screen w-full flex flex-col justify-center py-10 px-2 sm:px-6 lg:px-8">
+        <div class="max-w-[1700px] mx-auto w-full space-y-8">
             
             <!-- Android Settings Hero Tile Header -->
-            <div class="glass-card p-8 sm:p-10 text-center space-y-4 relative overflow-hidden">
-                <div class="absolute -right-10 -top-10 w-48 h-48 bg-pixelBlue/15 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="inline-flex items-center gap-2 glass-pill px-5 py-2 text-xs font-black uppercase tracking-wider text-pixelBlue border border-pixelBlue/40">
+            <div class="glass-card p-8 sm:p-12 text-center space-y-4 relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-56 h-56 bg-pixelBlue/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="inline-flex items-center gap-2 glass-pill px-6 py-2.5 text-sm font-black uppercase tracking-wider text-pixelBlue border border-pixelBlue/40">
                     <i class="fa-solid fa-sliders text-pixelBlue"></i> Phase 1: Competition Setup
                 </div>
-                <h1 class="text-4xl sm:text-6xl font-black font-heading text-pixelText tracking-wide uppercase">Shore Fishing Competition Wizard</h1>
-                <p class="text-pixelMuted text-sm sm:text-base max-w-xl mx-auto font-medium leading-relaxed">Configure competition duration, roster parameters (16 to 130+ Anglers), and dedicated mobility pegs before publishing to the Live Workspace.</p>
+                <h1 class="text-4xl sm:text-7xl font-black font-heading text-pixelText tracking-wide uppercase">Shore Fishing Competition Wizard</h1>
+                <p class="text-pixelMuted text-base sm:text-lg max-w-2xl mx-auto font-medium leading-relaxed">Configure competition duration, roster parameters (16 to 130+ Anglers), and dedicated mobility pegs before publishing to the Live Workspace.</p>
             </div>
 
-            <div class="glass-card p-8 sm:p-10 space-y-8">
+            <div class="glass-card p-8 sm:p-12 space-y-8">
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div class="space-y-2">
-                        <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted font-heading">Competition Title</label>
-                        <input type="text" id="cfgTitle" class="w-full bg-slate-900/70 border border-white/20 rounded-2xl px-4 py-3.5 text-pixelText font-bold focus:outline-none focus:border-pixelBlue text-xs" placeholder="e.g. 2026 Open Championship">
+                        <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Competition Title</label>
+                        <input type="text" id="cfgTitle" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-bold focus:outline-none focus:border-pixelBlue text-sm" placeholder="e.g. 2026 Open Championship">
                     </div>
                     <div class="space-y-2">
-                        <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted font-heading">Duration</label>
-                        <select id="cfgDuration" onchange="toggleCompDurationSetup()" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-4 py-3.5 text-pixelText font-black focus:outline-none focus:border-pixelBlue text-xs">
+                        <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Duration</label>
+                        <select id="cfgDuration" onchange="toggleCompDurationSetup()" class="w-full bg-slate-900/90 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black focus:outline-none focus:border-pixelBlue text-sm">
                             <option value="2">2-Day Competition</option>
                             <option value="1">1-Day Competition</option>
                         </select>
                     </div>
                     <div class="space-y-2">
-                        <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted font-heading">Teams of 4</label>
-                        <input type="number" id="inputNumTeams" min="0" value="3" class="w-full bg-slate-900/70 border border-white/20 rounded-2xl px-4 py-3.5 text-pixelText font-black text-xs text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
+                        <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Teams of 4</label>
+                        <input type="number" id="inputNumTeams" min="0" value="3" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
                     </div>
                     <div class="space-y-2">
-                        <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted font-heading">Solo Competitors</label>
-                        <input type="number" id="inputNumSolos" min="0" value="4" class="w-full bg-slate-900/70 border border-white/20 rounded-2xl px-4 py-3.5 text-pixelText font-black text-xs text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
+                        <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Solo Competitors</label>
+                        <input type="number" id="inputNumSolos" min="0" value="4" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
                     </div>
                 </div>
 
-                <div class="glass-card-sm p-6 space-y-5">
-                    <label class="flex items-center gap-3 cursor-pointer">
-                        <input type="checkbox" id="chkMobilityRequired" onchange="toggleMobilityOptions(this.checked)" class="w-6 h-6 rounded-lg border-white/20 bg-slate-900 text-pixelBlue focus:ring-pixelBlue">
-                        <span class="text-xs sm:text-sm font-black text-pixelText uppercase tracking-wider font-heading">Require Accessible / Mobility [A] Peg Allocations?</span>
+                <div class="glass-card-sm p-6 sm:p-8 space-y-6">
+                    <label class="flex items-center gap-4 cursor-pointer">
+                        <input type="checkbox" id="chkMobilityRequired" onchange="toggleMobilityOptions(this.checked)" class="w-7 h-7 rounded-lg border-white/20 bg-slate-900 text-pixelBlue focus:ring-pixelBlue">
+                        <span class="text-sm sm:text-base font-black text-pixelText uppercase tracking-wider font-heading">Require Accessible / Mobility [A] Peg Allocations?</span>
                     </label>
 
-                    <div id="mobilityExpandedPanel" class="hidden pt-4 border-t border-white/15 grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div class="space-y-3 bg-slate-900/50 p-4 rounded-2xl border border-white/15">
-                            <span class="text-xs font-black text-pixelBlue block uppercase tracking-wider font-heading">Day 1 [A] Mobility Assignment</span>
-                            <div class="flex items-center gap-5 text-xs font-bold text-pixelMuted">
+                    <div id="mobilityExpandedPanel" class="hidden pt-5 border-t border-white/20 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-white/20">
+                            <span class="text-sm font-black text-pixelBlue block uppercase tracking-wider font-heading">Day 1 [A] Mobility Assignment</span>
+                            <div class="flex items-center gap-6 text-sm font-bold text-pixelMuted">
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="d1MobType" value="specific" checked onchange="toggleMobilityInputType(1)" class="text-pixelBlue"> Specific Pegs
+                                    <input type="radio" name="d1MobType" value="specific" checked onchange="toggleMobilityInputType(1)" class="text-pixelBlue w-4 h-4"> Specific Pegs
                                 </label>
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="d1MobType" value="zone" onchange="toggleMobilityInputType(1)" class="text-pixelBlue"> Dedicated Zone
+                                    <input type="radio" name="d1MobType" value="zone" onchange="toggleMobilityInputType(1)" class="text-pixelBlue w-4 h-4"> Dedicated Zone
                                 </label>
                             </div>
                             <div id="d1MobInputSpecific">
-                                <input type="text" id="cfgAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-2.5 text-xs font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3, 4, 5, 6">
+                                <input type="text" id="cfgAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3, 4, 5, 6">
                             </div>
                             <div id="d1MobInputZone" class="hidden">
-                                <select id="cfgAccessZoneD1" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-2.5 text-xs font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
+                                <select id="cfgAccessZoneD1" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
                                     <option value="Red">Red Zone</option>
                                     <option value="Yellow">Yellow Zone</option>
                                     <option value="Green">Green Zone</option>
@@ -317,21 +317,21 @@
                             </div>
                         </div>
 
-                        <div id="d2MobilitySetupContainer" class="space-y-3 bg-slate-900/50 p-4 rounded-2xl border border-white/15">
-                            <span class="text-xs font-black text-pixelBlue block uppercase tracking-wider font-heading">Day 2 [A] Mobility Assignment</span>
-                            <div class="flex items-center gap-5 text-xs font-bold text-pixelMuted">
+                        <div id="d2MobilitySetupContainer" class="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-white/20">
+                            <span class="text-sm font-black text-pixelBlue block uppercase tracking-wider font-heading">Day 2 [A] Mobility Assignment</span>
+                            <div class="flex items-center gap-6 text-sm font-bold text-pixelMuted">
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="d2MobType" value="specific" checked onchange="toggleMobilityInputType(2)" class="text-pixelBlue"> Specific Pegs
+                                    <input type="radio" name="d2MobType" value="specific" checked onchange="toggleMobilityInputType(2)" class="text-pixelBlue w-4 h-4"> Specific Pegs
                                 </label>
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="d2MobType" value="zone" onchange="toggleMobilityInputType(2)" class="text-pixelBlue"> Dedicated Zone
+                                    <input type="radio" name="d2MobType" value="zone" onchange="toggleMobilityInputType(2)" class="text-pixelBlue w-4 h-4"> Dedicated Zone
                                 </label>
                             </div>
                             <div id="d2MobInputSpecific">
-                                <input type="text" id="cfgAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-2.5 text-xs font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3, 4, 5, 6">
+                                <input type="text" id="cfgAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3, 4, 5, 6">
                             </div>
                             <div id="d2MobInputZone" class="hidden">
-                                <select id="cfgAccessZoneD2" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-2.5 text-xs font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
+                                <select id="cfgAccessZoneD2" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
                                     <option value="Yellow">Yellow Zone</option>
                                     <option value="Red">Red Zone</option>
                                     <option value="Green">Green Zone</option>
@@ -343,16 +343,16 @@
                 </div>
 
                 <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
-                    <div class="flex items-center gap-3">
-                        <button onclick="triggerHaptic(); loadDemoDataset()" type="button" class="glass-pill text-pixelText font-bold px-5 py-3 text-xs transition-all uppercase tracking-wider touch-elastic">
-                            <i class="fa-solid fa-flask mr-1.5 text-pixelCyan"></i> Load Demo (16)
+                    <div class="flex items-center gap-4">
+                        <button onclick="triggerHaptic(); loadDemoDataset()" type="button" class="glass-pill text-pixelText font-bold px-6 py-3.5 text-sm transition-all uppercase tracking-wider touch-elastic">
+                            <i class="fa-solid fa-flask mr-2 text-pixelCyan"></i> Load Demo (16)
                         </button>
-                        <button onclick="triggerHaptic(); triggerRestoreFileInput()" type="button" class="glass-pill text-pixelText font-bold px-5 py-3 text-xs transition-all uppercase tracking-wider touch-elastic">
-                            <i class="fa-solid fa-file-import mr-1.5 text-pixelBlue"></i> Restore File
+                        <button onclick="triggerHaptic(); triggerRestoreFileInput()" type="button" class="glass-pill text-pixelText font-bold px-6 py-3.5 text-sm transition-all uppercase tracking-wider touch-elastic">
+                            <i class="fa-solid fa-file-import mr-2 text-pixelBlue"></i> Restore File
                         </button>
                     </div>
 
-                    <button onclick="triggerHaptic(); generateRosterFieldsFromParameters()" type="button" class="bg-pixelBlue hover:bg-blue-300 text-slate-950 font-black uppercase tracking-wider px-7 py-3.5 rounded-2xl text-xs transition-all shadow-lg flex items-center gap-2 touch-elastic">
+                    <button onclick="triggerHaptic(); generateRosterFieldsFromParameters()" type="button" class="bg-pixelBlue hover:bg-blue-300 text-slate-950 font-black uppercase tracking-wider px-8 py-4 rounded-2xl text-sm transition-all shadow-lg flex items-center gap-2 touch-elastic">
                         <span>Create Input Fields</span>
                         <i class="fa-solid fa-arrow-down"></i>
                     </button>
@@ -360,20 +360,20 @@
             </div>
 
             <form id="rosterFieldsForm" onsubmit="handleCreateTheDraw(event)" class="hidden space-y-6">
-                <div class="glass-card p-8 sm:p-10 space-y-6">
-                    <div class="flex items-center justify-between border-b border-white/15 pb-5">
-                        <h3 class="text-lg font-black font-heading text-pixelText flex items-center gap-2 uppercase tracking-wider">
+                <div class="glass-card p-8 sm:p-12 space-y-6">
+                    <div class="flex items-center justify-between border-b border-white/20 pb-5">
+                        <h3 class="text-xl font-black font-heading text-pixelText flex items-center gap-3 uppercase tracking-wider">
                             <i class="fa-solid fa-users text-pixelBlue"></i> Competitor Roster Entry
                         </h3>
-                        <span class="text-xs font-black text-pixelBlue glass-pill px-4 py-1.5 border border-pixelBlue/40 uppercase tracking-wider font-mono-tabular" id="setupTotalCountLabel">Total: 16 Anglers</span>
+                        <span class="text-sm font-black text-pixelBlue glass-pill px-5 py-2 border border-pixelBlue/40 uppercase tracking-wider font-mono-tabular" id="setupTotalCountLabel">Total: 16 Anglers</span>
                     </div>
 
                     <div id="batchEntryContainer" class="space-y-6"></div>
 
-                    <div class="pt-5 border-t border-white/15 flex items-center justify-end">
-                        <button type="submit" onclick="triggerHaptic()" class="bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black font-heading uppercase tracking-wider px-10 py-4 rounded-2xl text-lg transition-all shadow-xl hover:scale-105 flex items-center gap-3 touch-elastic">
+                    <div class="pt-6 border-t border-white/20 flex items-center justify-end">
+                        <button type="submit" onclick="triggerHaptic()" class="bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black font-heading uppercase tracking-wider px-12 py-4 shadow-xl text-xl rounded-2xl transition-all hover:scale-105 flex items-center gap-3 touch-elastic">
                             <span>CREATE THE DRAW</span>
-                            <i class="fa-solid fa-bolt text-xl"></i>
+                            <i class="fa-solid fa-bolt text-2xl"></i>
                         </button>
                     </div>
                 </div>
@@ -384,46 +384,46 @@
 
 
     <!-- =================================================================== -->
-    <!-- 2. LIVE TOURNAMENT WORKSPACE                                        -->
+    <!-- 2. LIVE TOURNAMENT WORKSPACE (EXPANDED SCREEN WIDTH)               -->
     <!-- =================================================================== -->
     <div id="main-app-workspace" class="hidden flex-col flex-1">
         
         <!-- Sticky Glass Header -->
-        <header class="bg-slate-950/75 backdrop-blur-2xl border-b border-white/15 sticky top-0 z-40 shadow-2xl">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <header class="bg-slate-950/80 backdrop-blur-2xl border-b border-white/20 sticky top-0 z-40 shadow-2xl">
+            <div class="max-w-[1800px] mx-auto px-2 sm:px-4 lg:px-6">
                 <div class="flex items-center justify-between h-20">
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-full bg-pixelBlue/20 border border-pixelBlue/40 flex items-center justify-center text-pixelBlue shadow-inner">
-                            <i class="fa-solid fa-fish-fins text-xl"></i>
+                        <div class="w-12 h-12 rounded-full bg-pixelBlue/25 border border-pixelBlue/50 flex items-center justify-center text-pixelBlue shadow-inner">
+                            <i class="fa-solid fa-fish-fins text-2xl"></i>
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <h1 class="text-lg sm:text-xl font-black font-heading text-pixelText leading-none uppercase tracking-wider" id="headerAppTitle">Shore Fishing Competition Manager</h1>
-                                <span class="text-[11px] font-black glass-pill text-pixelBlue px-3 py-0.5 border border-pixelBlue/40 font-mono-tabular">v1.0.0</span>
+                            <div class="flex items-center gap-3">
+                                <h1 class="text-xl sm:text-2xl font-black font-heading text-pixelText leading-none uppercase tracking-wider" id="headerAppTitle">Shore Fishing Competition Manager</h1>
+                                <span class="text-xs font-black glass-pill text-pixelBlue px-3 py-1 border border-pixelBlue/40 font-mono-tabular">v1.0.0</span>
                             </div>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="text-[10px] font-black text-pixelEmerald glass-pill px-3 py-0.5 border border-pixelEmerald/40 uppercase tracking-wider" id="headerDaysBadge">2-Day Competition</span>
+                            <div class="flex items-center gap-2 mt-1.5">
+                                <span class="text-xs font-black text-pixelEmerald glass-pill px-3 py-0.5 border border-pixelEmerald/40 uppercase tracking-wider" id="headerDaysBadge">2-Day Competition</span>
                             </div>
                         </div>
                     </div>
 
-                    <nav class="hidden md:flex space-x-1.5 glass-pill p-2 border border-white/15">
-                        <button onclick="triggerHaptic(); switchTab('tab-draw')" id="nav-tab-draw" class="nav-btn px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 text-slate-950 bg-pixelBlue shadow-md touch-elastic">
-                            <i class="fa-solid fa-shuffle"></i> Peg Draw
+                    <nav class="hidden md:flex space-x-2 glass-pill p-2 border border-white/20">
+                        <button onclick="triggerHaptic(); switchTab('tab-draw')" id="nav-tab-draw" class="nav-btn px-7 py-3 rounded-full text-sm font-black uppercase tracking-wider transition-all flex items-center gap-2 text-slate-950 bg-pixelBlue shadow-md touch-elastic">
+                            <i class="fa-solid fa-shuffle text-base"></i> Peg Draw
                         </button>
-                        <button onclick="triggerHaptic(); switchTab('tab-scorecard')" id="nav-tab-scorecard" class="nav-btn px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 text-pixelMuted hover:text-white">
-                            <i class="fa-solid fa-clipboard-list"></i> Scorecards
+                        <button onclick="triggerHaptic(); switchTab('tab-scorecard')" id="nav-tab-scorecard" class="nav-btn px-7 py-3 rounded-full text-sm font-black uppercase tracking-wider transition-all flex items-center gap-2 text-pixelMuted hover:text-white">
+                            <i class="fa-solid fa-clipboard-list text-base"></i> Scorecards
                         </button>
-                        <button onclick="triggerHaptic(); switchTab('tab-results')" id="nav-tab-results" class="nav-btn px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 text-pixelMuted hover:text-white">
-                            <i class="fa-solid fa-trophy"></i> Results
+                        <button onclick="triggerHaptic(); switchTab('tab-results')" id="nav-tab-results" class="nav-btn px-7 py-3 rounded-full text-sm font-black uppercase tracking-wider transition-all flex items-center gap-2 text-pixelMuted hover:text-white">
+                            <i class="fa-solid fa-trophy text-base"></i> Results
                         </button>
                     </nav>
 
                     <div class="flex items-center gap-3">
-                        <button onclick="triggerHaptic(); openRedrawConfigModal()" class="text-xs glass-pill text-pixelText hover:bg-white/15 border border-white/20 px-4 py-2 transition-all flex items-center gap-2 font-black uppercase tracking-wider touch-elastic">
+                        <button onclick="triggerHaptic(); openRedrawConfigModal()" class="text-xs sm:text-sm glass-pill text-pixelText hover:bg-white/15 border border-white/25 px-5 py-2.5 transition-all flex items-center gap-2 font-black uppercase tracking-wider touch-elastic">
                             <i class="fa-solid fa-rotate text-pixelGold"></i> Full Redraw
                         </button>
-                        <button onclick="triggerHaptic(); executeFactoryResetWithBackup()" class="text-xs bg-pixelCoral/25 hover:bg-pixelCoral/35 text-pixelCoral border border-pixelCoral/50 px-4 py-2 rounded-full transition-all flex items-center gap-2 font-black uppercase tracking-wider touch-elastic" title="Auto-downloads backup and returns to Setup">
+                        <button onclick="triggerHaptic(); executeFactoryResetWithBackup()" class="text-xs sm:text-sm bg-pixelCoral/30 hover:bg-pixelCoral/40 text-pixelCoral border border-pixelCoral/50 px-5 py-2.5 rounded-full transition-all flex items-center gap-2 font-black uppercase tracking-wider touch-elastic" title="Auto-downloads backup and returns to Setup">
                             <i class="fa-solid fa-power-off"></i> Reset
                         </button>
                     </div>
@@ -431,20 +431,20 @@
             </div>
 
             <!-- Mobile Navigation Bar -->
-            <div class="md:hidden flex border-t border-white/15 bg-slate-950/85 px-3 py-2.5 justify-around text-xs backdrop-blur-xl">
-                <button onclick="triggerHaptic(); switchTab('tab-draw')" id="mob-tab-draw" class="mob-btn py-2 px-5 rounded-2xl text-slate-950 bg-pixelBlue font-black uppercase tracking-wider flex flex-col items-center gap-1 touch-elastic">
-                    <i class="fa-solid fa-shuffle text-base"></i> Draw
+            <div class="md:hidden flex border-t border-white/20 bg-slate-950/90 px-3 py-3 justify-around text-xs backdrop-blur-xl">
+                <button onclick="triggerHaptic(); switchTab('tab-draw')" id="mob-tab-draw" class="mob-btn py-2.5 px-6 rounded-2xl text-slate-950 bg-pixelBlue font-black uppercase tracking-wider flex flex-col items-center gap-1 touch-elastic">
+                    <i class="fa-solid fa-shuffle text-lg"></i> Draw
                 </button>
-                <button onclick="triggerHaptic(); switchTab('tab-scorecard')" id="mob-tab-scorecard" class="mob-btn py-2 px-5 rounded-2xl text-pixelMuted font-black uppercase tracking-wider flex flex-col items-center gap-1 touch-elastic">
-                    <i class="fa-solid fa-clipboard-list text-base"></i> Scorecards
+                <button onclick="triggerHaptic(); switchTab('tab-scorecard')" id="mob-tab-scorecard" class="mob-btn py-2.5 px-6 rounded-2xl text-pixelMuted font-black uppercase tracking-wider flex flex-col items-center gap-1 touch-elastic">
+                    <i class="fa-solid fa-clipboard-list text-lg"></i> Scorecards
                 </button>
-                <button onclick="triggerHaptic(); switchTab('tab-results')" id="mob-tab-results" class="mob-btn py-2 px-5 rounded-2xl text-pixelMuted font-black uppercase tracking-wider flex flex-col items-center gap-1 touch-elastic">
-                    <i class="fa-solid fa-trophy text-base"></i> Results
+                <button onclick="triggerHaptic(); switchTab('tab-results')" id="mob-tab-results" class="mob-btn py-2.5 px-6 rounded-2xl text-pixelMuted font-black uppercase tracking-wider flex flex-col items-center gap-1 touch-elastic">
+                    <i class="fa-solid fa-trophy text-lg"></i> Results
                 </button>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-6">
+        <main class="max-w-[1800px] mx-auto px-2 sm:px-4 lg:px-6 py-8 flex-grow w-full space-y-6">
 
             <!-- =================================================================== -->
             <!-- TAB 1: OFFICIAL PEG DRAW & SLEEK COMPACT BEACH LEGEND               -->
@@ -452,112 +452,112 @@
             <div id="tab-draw" class="tab-content space-y-6">
 
                 <!-- LUXURIOUS RECTANGULAR BEACH LEGEND STRIP -->
-                <div class="glass-card p-6 space-y-4">
-                    <div class="space-y-3">
+                <div class="glass-card p-6 sm:p-8 space-y-4">
+                    <div class="space-y-4">
                         <div>
-                            <span class="text-xs font-black text-pixelMuted uppercase tracking-wider block mb-2 font-heading">Day 1 Zone Layout</span>
-                            <div id="beachLegendDay1" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+                            <span class="text-sm font-black text-pixelMuted uppercase tracking-wider block mb-2 font-heading">Day 1 Zone Layout</span>
+                            <div id="beachLegendDay1" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
                         </div>
 
                         <div id="beachLegendDay2Container">
-                            <span class="text-xs font-black text-pixelMuted uppercase tracking-wider block mb-2 font-heading">Day 2 Zone Layout</span>
-                            <div id="beachLegendDay2" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+                            <span class="text-sm font-black text-pixelMuted uppercase tracking-wider block mb-2 font-heading">Day 2 Zone Layout</span>
+                            <div id="beachLegendDay2" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
                         </div>
                     </div>
                 </div>
 
-                <div id="activeSwapBanner" class="hidden glass-card bg-pixelGold/20 border-pixelGold/50 text-pixelText p-5 shadow-2xl flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-pixelGold/30 flex items-center justify-center text-pixelGold">
-                            <i class="fa-solid fa-arrows-rotate text-xl animate-spin"></i>
+                <div id="activeSwapBanner" class="hidden glass-card bg-pixelGold/25 border-pixelGold/60 text-pixelText p-6 shadow-2xl flex items-center justify-between">
+                    <div class="flex items-center gap-5">
+                        <div class="w-14 h-14 rounded-full bg-pixelGold/35 flex items-center justify-center text-pixelGold">
+                            <i class="fa-solid fa-arrows-rotate text-2xl animate-spin"></i>
                         </div>
                         <div>
-                            <h4 class="font-black font-heading text-base uppercase tracking-wider text-pixelGold" id="swapBannerStatusText">Swap Pegs Mode Active</h4>
-                            <p class="text-xs font-medium text-pixelMuted" id="swapBannerSubText">Select Day 1 or Day 2, then click Peg 1 badge and Peg 2 badge to swap.</p>
+                            <h4 class="font-black font-heading text-lg uppercase tracking-wider text-pixelGold" id="swapBannerStatusText">Swap Pegs Mode Active</h4>
+                            <p class="text-sm font-medium text-pixelMuted" id="swapBannerSubText">Select Day 1 or Day 2, then click Peg 1 badge and Peg 2 badge to swap.</p>
                         </div>
                     </div>
-                    <button onclick="triggerHaptic(); cancelSwapPegsMode()" class="glass-pill text-pixelText text-xs font-black uppercase tracking-wider px-5 py-2.5 hover:bg-white/15 touch-elastic">
+                    <button onclick="triggerHaptic(); cancelSwapPegsMode()" class="glass-pill text-pixelText text-sm font-black uppercase tracking-wider px-6 py-3 hover:bg-white/20 touch-elastic">
                         Cancel
                     </button>
                 </div>
 
                 <!-- MAIN WORKSPACE ACTION TOOLBAR -->
-                <div class="glass-card p-6 space-y-4">
+                <div class="glass-card p-6 sm:p-8 space-y-5">
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <div class="flex items-center gap-3">
-                            <button onclick="triggerHaptic(); toggleAmendToolbar()" id="mainAmendBtn" class="bg-pixelBlue hover:bg-blue-300 text-slate-950 font-black uppercase tracking-wider px-6 py-3 rounded-2xl text-xs transition-all flex items-center gap-2 shadow-md touch-elastic font-heading">
-                                <i class="fa-solid fa-pen-to-square"></i> <span id="mainAmendBtnText">Amend Draw</span>
+                            <button onclick="triggerHaptic(); toggleAmendToolbar()" id="mainAmendBtn" class="bg-pixelBlue hover:bg-blue-300 text-slate-950 font-black uppercase tracking-wider px-7 py-3.5 rounded-2xl text-sm transition-all flex items-center gap-2.5 shadow-md touch-elastic font-heading">
+                                <i class="fa-solid fa-pen-to-square text-base"></i> <span id="mainAmendBtnText">Amend Draw</span>
                             </button>
 
-                            <button onclick="triggerHaptic(); togglePrintOutputToolbar()" id="mainPrintOutputBtn" class="glass-pill text-pixelText hover:bg-white/15 font-black uppercase tracking-wider px-6 py-3 text-xs transition-all flex items-center gap-2 border border-white/20 touch-elastic font-heading">
-                                <i class="fa-solid fa-print text-pixelCyan"></i> <span id="mainPrintOutputBtnText">Print & Output</span>
+                            <button onclick="triggerHaptic(); togglePrintOutputToolbar()" id="mainPrintOutputBtn" class="glass-pill text-pixelText hover:bg-white/20 font-black uppercase tracking-wider px-7 py-3.5 text-sm transition-all flex items-center gap-2.5 border border-white/25 touch-elastic font-heading">
+                                <i class="fa-solid fa-print text-pixelCyan text-base"></i> <span id="mainPrintOutputBtnText">Print & Output</span>
                             </button>
                         </div>
 
-                        <span class="text-xs font-black uppercase tracking-wider text-pixelBlue glass-pill px-5 py-2 border border-pixelBlue/40 font-heading">
+                        <span class="text-sm font-black uppercase tracking-wider text-pixelBlue glass-pill px-6 py-2.5 border border-pixelBlue/40 font-heading">
                             <i class="fa-solid fa-layer-group text-pixelBlue mr-2"></i> Live Workspace
                         </span>
                     </div>
 
                     <!-- COLLAPSIBLE AMENDMENT TOOLBAR -->
-                    <div id="amendmentToolbar" class="hidden glass-card-sm p-4 flex flex-wrap items-center gap-3 text-xs">
-                        <span class="font-black text-pixelMuted mr-2 uppercase tracking-wider text-xs font-heading">Amend Tools:</span>
+                    <div id="amendmentToolbar" class="hidden glass-card-sm p-5 flex flex-wrap items-center gap-3 text-sm">
+                        <span class="font-black text-pixelMuted mr-2 uppercase tracking-wider text-sm font-heading">Amend Tools:</span>
                         
-                        <button onclick="triggerHaptic(); toggleDeleteMode()" id="toolBtnDelete" class="glass-pill text-pixelText hover:bg-pixelCoral/25 border border-white/20 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 touch-elastic">
+                        <button onclick="triggerHaptic(); toggleDeleteMode()" id="toolBtnDelete" class="glass-pill text-pixelText hover:bg-pixelCoral/30 border border-white/25 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic">
                             <i class="fa-solid fa-xmark text-pixelCoral"></i> Delete Angler
                         </button>
 
-                        <button onclick="triggerHaptic(); injectBlankIndividualCard()" class="glass-pill text-pixelText hover:bg-white/15 border border-white/20 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 touch-elastic">
+                        <button onclick="triggerHaptic(); injectBlankIndividualCard()" class="glass-pill text-pixelText hover:bg-white/20 border border-white/25 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic">
                             <i class="fa-solid fa-user-plus text-pixelBlue"></i> Add Individual
                         </button>
 
-                        <button onclick="triggerHaptic(); injectBlankTeamCard()" class="glass-pill text-pixelText hover:bg-white/15 border border-white/20 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 touch-elastic">
+                        <button onclick="triggerHaptic(); injectBlankTeamCard()" class="glass-pill text-pixelText hover:bg-white/20 border border-white/25 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic">
                             <i class="fa-solid fa-users text-pixelEmerald"></i> Add Team of 4
                         </button>
 
-                        <button onclick="triggerHaptic(); openFormTeamModal()" id="toolBtnCreateTeam" class="glass-pill text-pixelMuted border border-white/15 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 cursor-not-allowed opacity-50" disabled title="Requires at least 4 unassigned solo anglers">
+                        <button onclick="triggerHaptic(); openFormTeamModal()" id="toolBtnCreateTeam" class="glass-pill text-pixelMuted border border-white/20 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 cursor-not-allowed opacity-50" disabled title="Requires at least 4 unassigned solo anglers">
                             <i class="fa-solid fa-users-line"></i> Form Team (<span id="soloCountBadge" class="font-mono-tabular">0</span>/4)
                         </button>
 
-                        <button onclick="triggerHaptic(); toggleSwapPegsMode()" id="toolBtnSwap" class="bg-pixelGold/25 hover:bg-pixelGold/35 text-pixelGold border border-pixelGold/50 font-black uppercase tracking-wider px-4 py-2 rounded-full transition-all flex items-center gap-2 touch-elastic">
+                        <button onclick="triggerHaptic(); toggleSwapPegsMode()" id="toolBtnSwap" class="bg-pixelGold/30 hover:bg-pixelGold/40 text-pixelGold border border-pixelGold/60 font-black uppercase tracking-wider px-5 py-2.5 rounded-full transition-all flex items-center gap-2 touch-elastic">
                             <i class="fa-solid fa-arrows-rotate"></i> Swap Pegs
                         </button>
 
-                        <button onclick="triggerHaptic(); toggleAmendNamesMode()" id="toolBtnNames" class="glass-pill text-pixelText hover:bg-white/15 border border-white/20 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 touch-elastic">
+                        <button onclick="triggerHaptic(); toggleAmendNamesMode()" id="toolBtnNames" class="glass-pill text-pixelText hover:bg-white/20 border border-white/25 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic">
                             <i class="fa-solid fa-font text-pixelCyan"></i> Amend Names
                         </button>
                     </div>
 
                     <!-- COLLAPSIBLE PRINT & OUTPUT TOOLBAR -->
-                    <div id="printOutputToolbar" class="hidden glass-card-sm p-4 flex flex-wrap items-center gap-3 text-xs">
-                        <span class="font-black text-pixelMuted mr-2 uppercase tracking-wider text-xs font-heading">Output Actions:</span>
+                    <div id="printOutputToolbar" class="hidden glass-card-sm p-5 flex flex-wrap items-center gap-3 text-sm">
+                        <span class="font-black text-pixelMuted mr-2 uppercase tracking-wider text-sm font-heading">Output Actions:</span>
 
-                        <button onclick="triggerHaptic(); copyWhatsAppDraw()" class="bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black uppercase tracking-wider px-5 py-2.5 rounded-full transition-all flex items-center gap-2 shadow-md touch-elastic font-heading">
-                            <i class="fa-brands fa-whatsapp text-base"></i> Share Draw
+                        <button onclick="triggerHaptic(); copyWhatsAppDraw()" class="bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black uppercase tracking-wider px-6 py-3 rounded-full transition-all flex items-center gap-2 shadow-md touch-elastic font-heading">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Share Draw
                         </button>
 
-                        <button onclick="triggerHaptic(); exportScoresJSON()" class="glass-pill text-pixelBlue border border-pixelBlue/50 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic font-heading">
+                        <button onclick="triggerHaptic(); exportScoresJSON()" class="glass-pill text-pixelBlue border border-pixelBlue/60 font-black uppercase tracking-wider px-6 py-3 transition-all flex items-center gap-2 touch-elastic font-heading">
                             <i class="fa-solid fa-file-code"></i> Scores JSON
                         </button>
 
-                        <button onclick="triggerHaptic(); window.print()" class="glass-pill text-pixelText border border-white/20 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic font-heading">
+                        <button onclick="triggerHaptic(); window.print()" class="glass-pill text-pixelText border border-white/25 font-black uppercase tracking-wider px-6 py-3 transition-all flex items-center gap-2 touch-elastic font-heading">
                             <i class="fa-solid fa-print"></i> Print Draw
                         </button>
                     </div>
 
-                    <div id="swapDaySelectorBar" class="hidden glass-card-sm p-4 flex items-center gap-5 text-xs">
-                        <span class="font-black text-pixelGold uppercase tracking-wider text-xs font-heading">Select Day to Swap:</span>
-                        <label class="flex items-center gap-2 font-bold text-pixelText cursor-pointer uppercase tracking-wider">
-                            <input type="radio" name="swapDayRadio" value="1" checked onchange="setSwapDay(1)" class="text-pixelGold"> Day 1 Pegs
+                    <div id="swapDaySelectorBar" class="hidden glass-card-sm p-5 flex items-center gap-6 text-sm">
+                        <span class="font-black text-pixelGold uppercase tracking-wider text-sm font-heading">Select Day to Swap:</span>
+                        <label class="flex items-center gap-2.5 font-bold text-pixelText cursor-pointer uppercase tracking-wider">
+                            <input type="radio" name="swapDayRadio" value="1" checked onchange="setSwapDay(1)" class="text-pixelGold w-4 h-4"> Day 1 Pegs
                         </label>
-                        <label class="flex items-center gap-2 font-bold text-pixelText cursor-pointer uppercase tracking-wider">
-                            <input type="radio" name="swapDayRadio" value="2" onchange="setSwapDay(2)" class="text-pixelGold"> Day 2 Pegs
+                        <label class="flex items-center gap-2.5 font-bold text-pixelText cursor-pointer uppercase tracking-wider">
+                            <input type="radio" name="swapDayRadio" value="2" onchange="setSwapDay(2)" class="text-pixelGold w-4 h-4"> Day 2 Pegs
                         </label>
                     </div>
                 </div>
 
-                <!-- TEAM & SOLO DRAW CARDS GRID -->
-                <div id="teamCardsDrawContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+                <!-- OVERSIZED TEAM & SOLO DRAW CARDS GRID -->
+                <div id="teamCardsDrawContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
 
             </div>
 
@@ -565,61 +565,61 @@
             <!-- TAB 2: SCORECARD SPREADSHEET TABLE                                  -->
             <!-- =================================================================== -->
             <div id="tab-scorecard" class="tab-content space-y-6 hidden">
-                <div class="glass-card p-6 space-y-5">
+                <div class="glass-card p-6 sm:p-8 space-y-5">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
-                            <h2 class="text-2xl font-black font-heading text-pixelText flex items-center gap-3 uppercase tracking-wider">
+                            <h2 class="text-2xl sm:text-3xl font-black font-heading text-pixelText flex items-center gap-3 uppercase tracking-wider">
                                 <i class="fa-solid fa-clipboard-check text-pixelBlue"></i> Match Secretary Scorecards
                             </h2>
-                            <p class="text-xs text-pixelMuted font-medium mt-1">3 core fields per entry. Type values and press <kbd class="px-2 py-0.5 bg-slate-900 border border-white/20 rounded-md text-[10px] font-mono text-pixelBlue">Tab</kbd> or <kbd class="px-2 py-0.5 bg-slate-900 border border-white/20 rounded-md text-[10px] font-mono text-pixelBlue">Enter</kbd> to save & jump.</p>
+                            <p class="text-sm text-pixelMuted font-medium mt-1">3 core fields per entry. Type values and press <kbd class="px-2.5 py-1 bg-slate-900 border border-white/25 rounded-md text-xs font-mono text-pixelBlue">Tab</kbd> or <kbd class="px-2.5 py-1 bg-slate-900 border border-white/25 rounded-md text-xs font-mono text-pixelBlue">Enter</kbd> to save & jump.</p>
                         </div>
 
                         <!-- Day Toggle Buttons -->
                         <div id="scoreDayToggleGroup" class="flex items-center gap-3 self-stretch sm:self-auto">
-                            <button onclick="triggerHaptic(); setScorecardDay(1)" id="scoreDayBtn1" class="px-7 py-3 rounded-2xl text-xs font-black font-heading uppercase tracking-wider text-slate-950 bg-pixelBlue shadow-lg border border-pixelBlue/50 transition-all flex items-center gap-2 touch-elastic">
-                                <i class="fa-solid fa-calendar-day"></i> Day 1 Scorecard
+                            <button onclick="triggerHaptic(); setScorecardDay(1)" id="scoreDayBtn1" class="px-8 py-3.5 rounded-2xl text-sm font-black font-heading uppercase tracking-wider text-slate-950 bg-pixelBlue shadow-lg border border-pixelBlue/60 transition-all flex items-center gap-2 touch-elastic">
+                                <i class="fa-solid fa-calendar-day text-base"></i> Day 1 Scorecard
                             </button>
-                            <button onclick="triggerHaptic(); setScorecardDay(2)" id="scoreDayBtn2" class="px-7 py-3 rounded-2xl text-xs font-black font-heading uppercase tracking-wider text-pixelMuted glass-pill hover:text-white transition-all flex items-center gap-2 touch-elastic">
-                                <i class="fa-solid fa-calendar-days"></i> Day 2 Scorecard
+                            <button onclick="triggerHaptic(); setScorecardDay(2)" id="scoreDayBtn2" class="px-8 py-3.5 rounded-2xl text-sm font-black font-heading uppercase tracking-wider text-pixelMuted glass-pill hover:text-white transition-all flex items-center gap-2 touch-elastic">
+                                <i class="fa-solid fa-calendar-days text-base"></i> Day 2 Scorecard
                             </button>
                         </div>
                     </div>
 
                     <div class="relative z-20">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-pixelMuted"></i>
-                        <input type="text" id="scoreSearchInput" onkeyup="filterScorecardTable()" class="w-full bg-slate-900/70 border border-white/20 rounded-2xl pl-12 pr-4 py-3.5 text-pixelText placeholder-pixelMuted focus:outline-none focus:border-pixelBlue text-xs font-bold uppercase tracking-wider" placeholder="Filter by Angler Name or Peg Number (e.g. 'McCreadie' or '14')...">
+                        <i class="fa-solid fa-magnifying-glass absolute left-5 top-4.5 text-pixelMuted text-base"></i>
+                        <input type="text" id="scoreSearchInput" onkeyup="filterScorecardTable()" class="w-full bg-slate-900/80 border border-white/25 rounded-2xl pl-14 pr-5 py-4 text-pixelText placeholder-pixelMuted focus:outline-none focus:border-pixelBlue text-sm font-bold uppercase tracking-wider" placeholder="Filter by Angler Name or Peg Number (e.g. 'McCreadie' or '14')...">
                     </div>
                 </div>
 
                 <!-- SCORECARD CONTAINER WITH HIGH-CONTRAST WATERMARK -->
-                <div id="scorecardContainerPanel" class="glass-card p-6 relative transition-colors duration-300 min-h-[500px]">
+                <div id="scorecardContainerPanel" class="glass-card p-6 sm:p-8 relative transition-colors duration-300 min-h-[550px]">
                     
                     <div class="sticky top-32 z-0 h-0 w-full pointer-events-none select-none flex items-center justify-center overflow-visible">
-                        <span id="scorecardWatermark" class="text-pixelBlue/20 font-black font-heading text-[10rem] sm:text-[16rem] md:text-[20rem] uppercase tracking-widest leading-none text-center transform translate-y-12 drop-shadow-2xl">
+                        <span id="scorecardWatermark" class="text-pixelBlue/25 font-black font-heading text-[12rem] sm:text-[18rem] md:text-[22rem] uppercase tracking-widest leading-none text-center transform translate-y-12 drop-shadow-2xl">
                             DAY 1
                         </span>
                     </div>
 
-                    <div class="relative z-10 flex items-center justify-between mb-5 pb-4 border-b border-white/15">
-                        <h3 class="text-sm font-black font-heading text-pixelText uppercase tracking-wider flex items-center gap-2">
+                    <div class="relative z-10 flex items-center justify-between mb-6 pb-4 border-b border-white/20">
+                        <h3 class="text-base font-black font-heading text-pixelText uppercase tracking-wider flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-pixelBlue"></i> Official Scorecard: Day <span id="currentScoreDayLabel" class="font-mono-tabular">1</span>
                         </h3>
-                        <span class="text-xs font-black text-pixelEmerald glass-pill px-5 py-1.5 border border-pixelEmerald/40 uppercase tracking-wider font-mono-tabular" id="cardsCompletedBadge">0 / 0 Completed</span>
+                        <span class="text-sm font-black text-pixelEmerald glass-pill px-6 py-2 border border-pixelEmerald/50 uppercase tracking-wider font-mono-tabular" id="cardsCompletedBadge">0 / 0 Completed</span>
                     </div>
 
                     <div class="relative z-10 overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs text-pixelText border-collapse">
-                            <thead class="bg-slate-900/85 backdrop-blur-md text-pixelMuted text-xs font-black font-heading uppercase tracking-wider border-b border-white/15">
+                        <table class="w-full text-left text-sm text-pixelText border-collapse">
+                            <thead class="bg-slate-900/90 backdrop-blur-md text-pixelMuted text-sm font-black font-heading uppercase tracking-wider border-b border-white/20">
                                 <tr>
-                                    <th class="py-3.5 px-4 text-center min-w-[80px]">Peg</th>
-                                    <th class="py-3.5 px-4">Angler Name</th>
-                                    <th class="py-3.5 px-4">Team</th>
-                                    <th class="py-3.5 px-4 min-w-[150px] text-center">Total Points / Length (CM)</th>
-                                    <th class="py-3.5 px-4 min-w-[130px] text-center">Fish Count</th>
-                                    <th class="py-3.5 px-4 min-w-[140px] text-center">Biggest Fish (CM)</th>
+                                    <th class="py-4 px-5 text-center min-w-[90px]">Peg</th>
+                                    <th class="py-4 px-5">Angler Name</th>
+                                    <th class="py-4 px-5">Team</th>
+                                    <th class="py-4 px-5 min-w-[170px] text-center">Total Points / Length (CM)</th>
+                                    <th class="py-4 px-5 min-w-[140px] text-center">Fish Count</th>
+                                    <th class="py-4 px-5 min-w-[150px] text-center">Biggest Fish (CM)</th>
                                 </tr>
                             </thead>
-                            <tbody id="scorecardTableBody" class="divide-y divide-white/10 border-b border-white/15"></tbody>
+                            <tbody id="scorecardTableBody" class="divide-y divide-white/15 border-b border-white/20"></tbody>
                         </table>
                     </div>
                 </div>
@@ -629,148 +629,148 @@
             <!-- TAB 3: RESULTS & LEADERBOARDS                                      -->
             <!-- =================================================================== -->
             <div id="tab-results" class="tab-content space-y-6 hidden">
-                <div class="glass-card p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="flex flex-wrap glass-pill p-2 border border-white/15 w-full md:w-auto">
-                        <button onclick="triggerHaptic(); switchResultsSubTab('res-individual')" id="subnav-res-individual" class="res-subnav-btn px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider text-slate-950 bg-pixelBlue font-heading transition-all">
+                <div class="glass-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="flex flex-wrap glass-pill p-2 border border-white/20 w-full md:w-auto">
+                        <button onclick="triggerHaptic(); switchResultsSubTab('res-individual')" id="subnav-res-individual" class="res-subnav-btn px-6 py-2.5 rounded-full text-sm font-black uppercase tracking-wider text-slate-950 bg-pixelBlue font-heading transition-all">
                             Individual
                         </button>
-                        <button onclick="triggerHaptic(); switchResultsSubTab('res-team')" id="subnav-res-team" class="res-subnav-btn px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider text-pixelMuted hover:text-white font-heading transition-all">
+                        <button onclick="triggerHaptic(); switchResultsSubTab('res-team')" id="subnav-res-team" class="res-subnav-btn px-6 py-2.5 rounded-full text-sm font-black uppercase tracking-wider text-pixelMuted hover:text-white font-heading transition-all">
                             Team Winners
                         </button>
-                        <button onclick="triggerHaptic(); switchResultsSubTab('res-day1zones')" id="subnav-res-day1zones" class="res-subnav-btn px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider text-pixelMuted hover:text-white font-heading transition-all">
+                        <button onclick="triggerHaptic(); switchResultsSubTab('res-day1zones')" id="subnav-res-day1zones" class="res-subnav-btn px-6 py-2.5 rounded-full text-sm font-black uppercase tracking-wider text-pixelMuted hover:text-white font-heading transition-all">
                             Day 1 Zones
                         </button>
-                        <button onclick="triggerHaptic(); switchResultsSubTab('res-day2zones')" id="subnav-res-day2zones" class="res-subnav-btn px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider text-pixelMuted hover:text-white font-heading transition-all">
+                        <button onclick="triggerHaptic(); switchResultsSubTab('res-day2zones')" id="subnav-res-day2zones" class="res-subnav-btn px-6 py-2.5 rounded-full text-sm font-black uppercase tracking-wider text-pixelMuted hover:text-white font-heading transition-all">
                             Day 2 Zones
                         </button>
-                        <button onclick="triggerHaptic(); switchResultsSubTab('res-topfish')" id="subnav-res-topfish" class="res-subnav-btn px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider text-pixelMuted hover:text-white font-heading transition-all">
+                        <button onclick="triggerHaptic(); switchResultsSubTab('res-topfish')" id="subnav-res-topfish" class="res-subnav-btn px-6 py-2.5 rounded-full text-sm font-black uppercase tracking-wider text-pixelMuted hover:text-white font-heading transition-all">
                             Top 5 Fish
                         </button>
                     </div>
 
-                    <button onclick="triggerHaptic(); window.print()" class="glass-pill text-pixelText border border-white/20 font-black uppercase tracking-wider px-6 py-2.5 text-xs transition-all flex items-center gap-2 self-end md:self-auto touch-elastic font-heading">
-                        <i class="fa-solid fa-file-pdf text-pixelCoral"></i> Print Official Results
+                    <button onclick="triggerHaptic(); window.print()" class="glass-pill text-pixelText border border-white/25 font-black uppercase tracking-wider px-7 py-3 text-sm transition-all flex items-center gap-2 self-end md:self-auto touch-elastic font-heading">
+                        <i class="fa-solid fa-file-pdf text-pixelCoral text-base"></i> Print Official Results
                     </button>
                 </div>
 
                 <!-- SUB-TAB 1: INDIVIDUAL LEADERBOARD -->
-                <div id="res-individual" class="res-subtab-content glass-card p-6 space-y-5">
+                <div id="res-individual" class="res-subtab-content glass-card p-6 sm:p-8 space-y-6">
                     <div>
-                        <h3 class="text-xl font-black font-heading text-pixelText flex items-center gap-3 uppercase tracking-wider">
+                        <h3 class="text-2xl font-black font-heading text-pixelText flex items-center gap-3 uppercase tracking-wider">
                             <i class="fa-solid fa-user-check text-pixelBlue"></i> Overall Individual Championship
                         </h3>
-                        <p class="text-xs text-pixelMuted font-medium mt-1">
+                        <p class="text-sm text-pixelMuted font-medium mt-1">
                             Ranked by lowest Cumulative Zone Points. Tie-breakers: 1st Total CM &rarr; 2nd Total Fish &rarr; 3rd Biggest Fish.
                         </p>
                     </div>
 
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs text-pixelText border-collapse">
+                        <table class="w-full text-left text-sm text-pixelText border-collapse">
                             <thead>
-                                <tr class="bg-slate-900/85 text-pixelMuted text-xs font-black font-heading uppercase tracking-wider border-b border-white/15">
-                                    <th class="py-3.5 px-3 text-center border-r border-white/15">Rank</th>
-                                    <th class="py-3.5 px-3 border-r border-white/15">Angler Name</th>
-                                    <th class="py-3.5 px-3 border-r border-white/15">Team</th>
+                                <tr class="bg-slate-900/90 text-pixelMuted text-sm font-black font-heading uppercase tracking-wider border-b border-white/20">
+                                    <th class="py-4 px-4 text-center border-r border-white/20">Rank</th>
+                                    <th class="py-4 px-4 border-r border-white/20">Angler Name</th>
+                                    <th class="py-4 px-4 border-r border-white/20">Team</th>
                                     
-                                    <th colspan="4" class="py-3.5 px-3 text-center bg-white/10 border-r border-white/15 text-pixelText">Combined Scores</th>
-                                    <th colspan="4" class="py-3.5 px-3 text-center bg-pixelBlue/15 border-r border-white/15 text-pixelBlue">Day 1 Scores</th>
-                                    <th colspan="4" class="py-3.5 px-3 text-center bg-pixelGold/15 text-pixelGold">Day 2 Scores</th>
+                                    <th colspan="4" class="py-4 px-4 text-center bg-white/10 border-r border-white/20 text-pixelText">Combined Scores</th>
+                                    <th colspan="4" class="py-4 px-4 text-center bg-pixelBlue/20 border-r border-white/20 text-pixelBlue">Day 1 Scores</th>
+                                    <th colspan="4" class="py-4 px-4 text-center bg-pixelGold/20 text-pixelGold">Day 2 Scores</th>
                                 </tr>
-                                <tr class="bg-slate-900/70 text-pixelMuted text-[10px] font-black uppercase tracking-wider border-b border-white/15 font-heading">
-                                    <th class="py-2.5 px-2 text-center border-r border-white/15">#</th>
-                                    <th class="py-2.5 px-2 border-r border-white/15">Name</th>
-                                    <th class="py-2.5 px-2 border-r border-white/15">Team</th>
+                                <tr class="bg-slate-900/80 text-pixelMuted text-xs font-black uppercase tracking-wider border-b border-white/20 font-heading">
+                                    <th class="py-3 px-3 text-center border-r border-white/20">#</th>
+                                    <th class="py-3 px-3 border-r border-white/20">Name</th>
+                                    <th class="py-3 px-3 border-r border-white/20">Team</th>
                                     
-                                    <th class="py-2.5 px-2 text-center bg-white/10">Pts</th>
-                                    <th class="py-2.5 px-2 text-center bg-white/10">CM</th>
-                                    <th class="py-2.5 px-2 text-center bg-white/10">Fish</th>
-                                    <th class="py-2.5 px-2 text-center bg-white/10 border-r border-white/15">BIG</th>
+                                    <th class="py-3 px-3 text-center bg-white/10">Pts</th>
+                                    <th class="py-3 px-3 text-center bg-white/10">CM</th>
+                                    <th class="py-3 px-3 text-center bg-white/10">Fish</th>
+                                    <th class="py-3 px-3 text-center bg-white/10 border-r border-white/20">BIG</th>
 
-                                    <th class="py-2.5 px-2 text-center bg-pixelBlue/10">Pts</th>
-                                    <th class="py-2.5 px-2 text-center bg-pixelBlue/10">CM</th>
-                                    <th class="py-2.5 px-2 text-center bg-pixelBlue/10">Fish</th>
-                                    <th class="py-2.5 px-2 text-center bg-pixelBlue/10 border-r border-white/15">BIG</th>
+                                    <th class="py-3 px-3 text-center bg-pixelBlue/10">Pts</th>
+                                    <th class="py-3 px-3 text-center bg-pixelBlue/10">CM</th>
+                                    <th class="py-3 px-3 text-center bg-pixelBlue/10">Fish</th>
+                                    <th class="py-3 px-3 text-center bg-pixelBlue/10 border-r border-white/20">BIG</th>
 
-                                    <th class="py-2.5 px-2 text-center bg-pixelGold/10">Pts</th>
-                                    <th class="py-2.5 px-2 text-center bg-pixelGold/10">CM</th>
-                                    <th class="py-2.5 px-2 text-center bg-pixelGold/10">Fish</th>
-                                    <th class="py-2.5 px-2 text-center bg-pixelGold/10">BIG</th>
+                                    <th class="py-3 px-3 text-center bg-pixelGold/10">Pts</th>
+                                    <th class="py-3 px-3 text-center bg-pixelGold/10">CM</th>
+                                    <th class="py-3 px-3 text-center bg-pixelGold/10">Fish</th>
+                                    <th class="py-3 px-3 text-center bg-pixelGold/10">BIG</th>
                                 </tr>
                             </thead>
-                            <tbody id="individualResultsBody" class="divide-y divide-white/10 border-b border-white/15"></tbody>
+                            <tbody id="individualResultsBody" class="divide-y divide-white/15 border-b border-white/20"></tbody>
                         </table>
                     </div>
                 </div>
 
                 <!-- SUB-TAB 2: TEAM WINNERS -->
-                <div id="res-team" class="res-subtab-content glass-card p-6 space-y-5 hidden">
+                <div id="res-team" class="res-subtab-content glass-card p-6 sm:p-8 space-y-6 hidden">
                     <div>
-                        <h3 class="text-xl font-black font-heading text-pixelGold flex items-center gap-3 uppercase tracking-wider">
+                        <h3 class="text-2xl font-black font-heading text-pixelGold flex items-center gap-3 uppercase tracking-wider">
                             <i class="fa-solid fa-trophy"></i> Team Winners Championship
                         </h3>
-                        <p class="text-xs text-pixelMuted font-medium mt-1">Ranked by combined Team Zone Points across all 4 team members.</p>
+                        <p class="text-sm text-pixelMuted font-medium mt-1">Ranked by combined Team Zone Points across all 4 team members.</p>
                     </div>
 
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs text-pixelText border-collapse">
+                        <table class="w-full text-left text-sm text-pixelText border-collapse">
                             <thead>
-                                <tr class="bg-slate-900/85 text-pixelMuted text-xs font-black font-heading uppercase tracking-wider border-b border-white/15">
-                                    <th class="py-3.5 px-4 text-center min-w-[150px]">Rank / Team Name</th>
-                                    <th class="py-3.5 px-3 text-center min-w-[70px] text-pixelBlue font-mono-tabular">PTS</th>
-                                    <th class="py-3.5 px-3 text-center min-w-[80px] text-pixelEmerald font-mono-tabular">CM</th>
-                                    <th class="py-3.5 px-3 text-center min-w-[80px] text-pixelGold font-mono-tabular">Fish CT</th>
-                                    <th class="py-3.5 px-4 text-left">Team Scores Matrix (Member Breakdown)</th>
+                                <tr class="bg-slate-900/90 text-pixelMuted text-sm font-black font-heading uppercase tracking-wider border-b border-white/20">
+                                    <th class="py-4 px-5 text-center min-w-[160px]">Rank / Team Name</th>
+                                    <th class="py-4 px-4 text-center min-w-[80px] text-pixelBlue font-mono-tabular">PTS</th>
+                                    <th class="py-4 px-4 text-center min-w-[90px] text-pixelEmerald font-mono-tabular">CM</th>
+                                    <th class="py-4 px-4 text-center min-w-[90px] text-pixelGold font-mono-tabular">Fish CT</th>
+                                    <th class="py-4 px-5 text-left">Team Scores Matrix (Member Breakdown)</th>
                                 </tr>
                             </thead>
-                            <tbody id="teamResultsContainer" class="divide-y divide-white/10 border-b border-white/15"></tbody>
+                            <tbody id="teamResultsContainer" class="divide-y divide-white/15 border-b border-white/20"></tbody>
                         </table>
                     </div>
                 </div>
 
                 <!-- SUB-TAB 3: DAY 1 ZONE RESULTS -->
-                <div id="res-day1zones" class="res-subtab-content space-y-5 hidden">
-                    <div class="glass-card p-5">
-                        <h3 class="text-base font-black font-heading text-pixelText uppercase tracking-wider flex items-center gap-2">
+                <div id="res-day1zones" class="res-subtab-content space-y-6 hidden">
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-black font-heading text-pixelText uppercase tracking-wider flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-pixelBlue"></i> Day 1 Zone Standings & Session Breakdown
                         </h3>
-                        <p class="text-xs text-pixelMuted font-medium mt-1">
+                        <p class="text-sm text-pixelMuted font-medium mt-1">
                             Ranked by lowest Zone Points (PTS). Tie-breakers: 1st Total CM &rarr; 2nd Total Fish &rarr; 3rd Biggest Fish.
                         </p>
                     </div>
-                    <div id="day1StackedZonesContainer" class="grid grid-cols-1 lg:grid-cols-4 gap-4"></div>
+                    <div id="day1StackedZonesContainer" class="grid grid-cols-1 lg:grid-cols-4 gap-5"></div>
                 </div>
 
                 <!-- SUB-TAB 4: DAY 2 ZONE RESULTS -->
-                <div id="res-day2zones" class="res-subtab-content space-y-5 hidden">
-                    <div class="glass-card p-5">
-                        <h3 class="text-base font-black font-heading text-pixelGold uppercase tracking-wider flex items-center gap-2">
+                <div id="res-day2zones" class="res-subtab-content space-y-6 hidden">
+                    <div class="glass-card p-6">
+                        <h3 class="text-lg font-black font-heading text-pixelGold uppercase tracking-wider flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-pixelGold"></i> Day 2 Zone Standings & Session Breakdown
                         </h3>
-                        <p class="text-xs text-pixelMuted font-medium mt-1">
+                        <p class="text-sm text-pixelMuted font-medium mt-1">
                             Ranked by lowest Zone Points (PTS). Tie-breakers: 1st Total CM &rarr; 2nd Total Fish &rarr; 3rd Biggest Fish.
                         </p>
                     </div>
-                    <div id="day2StackedZonesContainer" class="grid grid-cols-1 lg:grid-cols-4 gap-4"></div>
+                    <div id="day2StackedZonesContainer" class="grid grid-cols-1 lg:grid-cols-4 gap-5"></div>
                 </div>
 
                 <!-- SUB-TAB 5: TOP 5 BIGGEST FISH -->
-                <div id="res-topfish" class="res-subtab-content glass-card p-6 space-y-5 hidden">
-                    <h3 class="text-xl font-black font-heading text-pixelGold flex items-center gap-3 uppercase tracking-wider">
+                <div id="res-topfish" class="res-subtab-content glass-card p-6 sm:p-8 space-y-6 hidden">
+                    <h3 class="text-2xl font-black font-heading text-pixelGold flex items-center gap-3 uppercase tracking-wider">
                         <i class="fa-solid fa-trophy"></i> Top 5 Longest Fish Pool
                     </h3>
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs text-pixelText border-collapse">
-                            <thead class="bg-slate-900/85 text-pixelGold text-xs font-black font-heading uppercase tracking-wider border-b border-white/15">
+                        <table class="w-full text-left text-sm text-pixelText border-collapse">
+                            <thead class="bg-slate-900/90 text-pixelGold text-sm font-black font-heading uppercase tracking-wider border-b border-white/20">
                                 <tr>
-                                    <th class="py-3.5 px-4">Rank</th>
-                                    <th class="py-3.5 px-4">Angler Name</th>
-                                    <th class="py-3.5 px-4">Zone & Peg</th>
-                                    <th class="py-3.5 px-4 text-center">Fish Length</th>
-                                    <th class="py-3.5 px-4 text-center">Match Day</th>
-                                    <th class="py-3.5 px-4">Status / Notes</th>
+                                    <th class="py-4 px-5">Rank</th>
+                                    <th class="py-4 px-5">Angler Name</th>
+                                    <th class="py-4 px-5">Zone & Peg</th>
+                                    <th class="py-4 px-5 text-center">Fish Length</th>
+                                    <th class="py-4 px-5 text-center">Match Day</th>
+                                    <th class="py-4 px-5">Status / Notes</th>
                                 </tr>
                             </thead>
-                            <tbody id="topFishTableBody" class="divide-y divide-white/10 border-b border-white/15"></tbody>
+                            <tbody id="topFishTableBody" class="divide-y divide-white/15 border-b border-white/20"></tbody>
                         </table>
                     </div>
                 </div>
@@ -1226,35 +1226,35 @@
             if (appState.teams.length > 0) {
                 html += `
                     <div>
-                        <h4 class="text-xs font-black text-pixelMuted uppercase tracking-wider mb-3 font-heading">Teams of Four (${appState.teams.length})</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <h4 class="text-sm font-black text-pixelMuted uppercase tracking-wider mb-4 font-heading">Teams of Four (${appState.teams.length})</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 `;
 
                 appState.teams.forEach((t) => {
                     const members = appState.anglers.filter(a => a.teamId === t.id);
 
                     let memberInputs = members.map((m, mIdx) => `
-                        <div class="flex items-center gap-2">
-                            <input type="text" value="${m.name}" onchange="updateSetupAnglerName('${m.id}', this.value)" placeholder="Member ${mIdx+1} Name" class="flex-grow bg-slate-900/70 border border-white/20 rounded-xl px-3.5 py-2 text-pixelText text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-pixelBlue">
-                            <label class="flex items-center gap-1.5 text-xs text-pixelMuted cursor-pointer shrink-0 font-bold">
-                                <input type="checkbox" ${m.mobility ? 'checked' : ''} onchange="toggleSetupAnglerMobility('${m.id}', this.checked)" class="rounded border-white/20 text-pixelBlue focus:ring-pixelBlue bg-slate-900">
-                                <span class="text-pixelGold text-[10px] font-black">[A]</span>
+                        <div class="flex items-center gap-2.5">
+                            <input type="text" value="${m.name}" onchange="updateSetupAnglerName('${m.id}', this.value)" placeholder="Member ${mIdx+1} Name" class="flex-grow bg-slate-900/80 border border-white/20 rounded-xl px-4 py-2.5 text-pixelText text-sm font-bold uppercase tracking-wider focus:outline-none focus:border-pixelBlue">
+                            <label class="flex items-center gap-1.5 text-sm text-pixelMuted cursor-pointer shrink-0 font-bold">
+                                <input type="checkbox" ${m.mobility ? 'checked' : ''} onchange="toggleSetupAnglerMobility('${m.id}', this.checked)" class="rounded border-white/20 text-pixelBlue focus:ring-pixelBlue bg-slate-900 w-4 h-4">
+                                <span class="text-pixelGold text-xs font-black">[A]</span>
                             </label>
                         </div>
                     `).join('');
 
                     html += `
-                        <div class="glass-card-sm p-5 space-y-4">
-                            <div class="flex items-center justify-between gap-2 pb-3 border-b border-white/15">
+                        <div class="glass-card-sm p-6 space-y-4">
+                            <div class="flex items-center justify-between gap-2 pb-3 border-b border-white/20">
                                 <div class="flex items-center gap-2 min-w-0 flex-grow">
-                                    <i class="fa-solid fa-users text-pixelBlue text-xs shrink-0"></i>
-                                    <input type="text" value="${t.name}" onchange="updateSetupTeamName('${t.id}', this.value)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-3.5 py-2 text-pixelText text-xs font-black uppercase tracking-wider focus:outline-none focus:border-pixelBlue" placeholder="Team Name">
+                                    <i class="fa-solid fa-users text-pixelBlue text-sm shrink-0"></i>
+                                    <input type="text" value="${t.name}" onchange="updateSetupTeamName('${t.id}', this.value)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-2 text-pixelText text-sm font-black uppercase tracking-wider focus:outline-none focus:border-pixelBlue" placeholder="Team Name">
                                 </div>
-                                <button type="button" onclick="triggerHaptic(); splitTeamInSetup('${t.id}')" class="bg-pixelCoral/20 hover:bg-pixelCoral/30 text-pixelCoral border border-pixelCoral/40 font-black text-[10px] uppercase tracking-wider px-3 py-1 rounded-xl transition-all shrink-0 flex items-center gap-1 touch-elastic" title="Dissolve team into 4 solo anglers">
+                                <button type="button" onclick="triggerHaptic(); splitTeamInSetup('${t.id}')" class="bg-pixelCoral/25 hover:bg-pixelCoral/35 text-pixelCoral border border-pixelCoral/50 font-black text-xs uppercase tracking-wider px-3.5 py-1 rounded-xl transition-all shrink-0 flex items-center gap-1 touch-elastic" title="Dissolve team into 4 solo anglers">
                                     <i class="fa-solid fa-scissors"></i> Split
                                 </button>
                             </div>
-                            <div class="space-y-2.5">
+                            <div class="space-y-3">
                                 ${memberInputs}
                             </div>
                         </div>
@@ -1267,19 +1267,19 @@
             const solos = appState.anglers.filter(a => a.teamId === null);
             if (solos.length > 0) {
                 let soloInputs = solos.map((s, sIdx) => `
-                    <div class="glass-card-sm p-4 flex items-center gap-3">
-                        <input type="text" value="${s.name}" onchange="updateSetupAnglerName('${s.id}', this.value)" placeholder="Solo Angler ${sIdx+1} Name" class="flex-grow bg-slate-900/70 border border-white/20 rounded-xl px-3.5 py-2 text-pixelText text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-pixelBlue">
-                        <label class="flex items-center gap-1.5 text-xs text-pixelMuted cursor-pointer shrink-0 font-bold">
-                            <input type="checkbox" ${s.mobility ? 'checked' : ''} onchange="toggleSetupAnglerMobility('${s.id}', this.checked)" class="rounded border-white/20 text-pixelBlue focus:ring-pixelBlue bg-slate-900">
-                            <span class="text-pixelGold text-[10px] font-black">[A]</span>
+                    <div class="glass-card-sm p-5 flex items-center gap-3">
+                        <input type="text" value="${s.name}" onchange="updateSetupAnglerName('${s.id}', this.value)" placeholder="Solo Angler ${sIdx+1} Name" class="flex-grow bg-slate-900/80 border border-white/20 rounded-xl px-4 py-2.5 text-pixelText text-sm font-bold uppercase tracking-wider focus:outline-none focus:border-pixelBlue">
+                        <label class="flex items-center gap-2 text-sm text-pixelMuted cursor-pointer shrink-0 font-bold">
+                            <input type="checkbox" ${s.mobility ? 'checked' : ''} onchange="toggleSetupAnglerMobility('${s.id}', this.checked)" class="rounded border-white/20 text-pixelBlue focus:ring-pixelBlue bg-slate-900 w-4 h-4">
+                            <span class="text-pixelGold text-xs font-black">[A]</span>
                         </label>
                     </div>
                 `).join('');
 
                 html += `
                     <div>
-                        <h4 class="text-xs font-black text-pixelMuted uppercase tracking-wider mb-3 font-heading">Individual Competitors (${solos.length})</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <h4 class="text-sm font-black text-pixelMuted uppercase tracking-wider mb-4 font-heading">Individual Competitors (${solos.length})</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                             ${soloInputs}
                         </div>
                     </div>
@@ -1700,7 +1700,7 @@
             container.innerHTML = '';
 
             if (!appState.draw.generated) {
-                container.innerHTML = `<div class="col-span-4 glass-card p-10 text-center text-pixelMuted font-bold">No draw generated yet.</div>`;
+                container.innerHTML = `<div class="col-span-4 glass-card p-12 text-center text-pixelMuted font-bold text-lg">No draw generated yet.</div>`;
                 return;
             }
 
@@ -1712,19 +1712,19 @@
             if (createTeamBtn) {
                 if (unassignedSolosCount >= 4) {
                     createTeamBtn.removeAttribute('disabled');
-                    createTeamBtn.className = "glass-pill text-pixelEmerald border border-pixelEmerald/50 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 cursor-pointer touch-elastic";
+                    createTeamBtn.className = "glass-pill text-pixelEmerald border border-pixelEmerald/50 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 cursor-pointer touch-elastic";
                 } else {
                     createTeamBtn.setAttribute('disabled', 'true');
-                    createTeamBtn.className = "glass-pill text-pixelMuted border border-white/15 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 cursor-not-allowed opacity-50";
+                    createTeamBtn.className = "glass-pill text-pixelMuted border border-white/20 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 cursor-not-allowed opacity-50";
                 }
             }
 
             let html = '';
 
             const dayHeadersHTML = `
-                <div class="flex items-center gap-2 shrink-0 ml-1 font-heading font-black text-xs uppercase tracking-wider text-pixelMuted">
-                    <span class="w-8 text-center">D1</span>
-                    ${appState.config.duration === 2 ? '<span class="w-8 text-center">D2</span>' : ''}
+                <div class="flex items-center gap-2 shrink-0 ml-1 font-heading font-black text-sm uppercase tracking-wider text-pixelMuted">
+                    <span class="w-10 text-center">D1</span>
+                    ${appState.config.duration === 2 ? '<span class="w-10 text-center">D2</span>' : ''}
                 </div>
             `;
 
@@ -1739,14 +1739,14 @@
                     const isD2Selected = swapFirstSelection && swapFirstSelection.anglerId === m.id && swapFirstSelection.day === 2;
 
                     const deleteBtn = isDeleteModeActive ? `
-                        <button onclick="triggerHaptic(); confirmDeleteAngler('${m.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1 text-sm touch-elastic">
+                        <button onclick="triggerHaptic(); confirmDeleteAngler('${m.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-base touch-elastic">
                             <i class="fa-solid fa-circle-xmark"></i>
                         </button>
                     ` : '';
 
                     const nameDisplay = isAmendNamesModeActive ? `
-                        <input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-900/80 border border-white/20 rounded-lg px-2.5 py-1 text-xs font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">
-                    ` : `<span class="text-xs font-black uppercase tracking-wider text-pixelText truncate max-w-[120px] sm:max-w-none font-heading">${(m.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed member</em>'}</span>`;
+                        <input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">
+                    ` : `<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate max-w-[140px] sm:max-w-none font-heading">${(m.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed member</em>'}</span>`;
 
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
@@ -1755,35 +1755,35 @@
                     const d2SelectedClass = isD2Selected ? 'swap-peg-selected' : '';
 
                     return `
-                        <div class="flex items-center justify-between py-2 px-3 rounded-xl bg-slate-900/50 border border-white/10 transition-all">
+                        <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
                             <div class="flex items-center gap-2 min-w-0">
                                 ${deleteBtn}
                                 ${nameDisplay}
-                                ${m.mobility ? '<span class="text-pixelGold bg-pixelGold/15 text-[10px] font-black px-2 py-0.5 rounded-full border border-pixelGold/40 shrink-0">[A]</span>' : ''}
+                                ${m.mobility ? '<span class="text-pixelGold bg-pixelGold/20 text-xs font-black px-2.5 py-0.5 rounded-full border border-pixelGold/50 shrink-0">[A]</span>' : ''}
                             </div>
                             <div class="flex items-center gap-2 shrink-0 ml-1 font-mono-tabular">
-                                ${d1 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 1)" class="zone-badge-${d1.zone} w-8 h-7 flex items-center justify-center rounded-lg text-xs font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">${d1.peg}</span>` : ''}
-                                ${appState.config.duration === 2 && d2 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 2)" class="zone-badge-${d2.zone} w-8 h-7 flex items-center justify-center rounded-lg text-xs font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">${d2.peg}</span>` : ''}
+                                ${d1 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 1)" class="zone-badge-${d1.zone} w-10 h-8 flex items-center justify-center rounded-lg text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">${d1.peg}</span>` : ''}
+                                ${appState.config.duration === 2 && d2 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 2)" class="zone-badge-${d2.zone} w-10 h-8 flex items-center justify-center rounded-lg text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">${d2.peg}</span>` : ''}
                             </div>
                         </div>
                     `;
                 }).join('');
 
                 const teamNameDisplay = isAmendNamesModeActive ? `
-                    <input type="text" value="${(t.name || '').toUpperCase()}" onchange="updateLiveTeamName('${t.id}', this.value)" class="bg-slate-900/80 border border-white/20 rounded-lg px-2.5 py-1 text-xs font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue" placeholder="TEAM NAME">
-                ` : `<span class="text-xs font-black font-heading text-pixelText uppercase tracking-wider truncate">${(t.name || '').toUpperCase() || 'UNNAMED TEAM'}</span>`;
+                    <input type="text" value="${(t.name || '').toUpperCase()}" onchange="updateLiveTeamName('${t.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue" placeholder="TEAM NAME">
+                ` : `<span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider truncate">${(t.name || '').toUpperCase() || 'UNNAMED TEAM'}</span>`;
 
                 const splitBtnLive = isAmendToolbarOpen ? `
-                    <button onclick="triggerHaptic(); splitTeamInLiveWorkspace('${t.id}')" class="bg-pixelCoral/20 hover:bg-pixelCoral/30 text-pixelCoral border border-pixelCoral/40 font-black text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-xl transition-all shrink-0 flex items-center gap-1 touch-elastic" title="Split team into solo anglers">
+                    <button onclick="triggerHaptic(); splitTeamInLiveWorkspace('${t.id}')" class="bg-pixelCoral/25 hover:bg-pixelCoral/35 text-pixelCoral border border-pixelCoral/50 font-black text-xs uppercase tracking-wider px-3 py-1 rounded-xl transition-all shrink-0 flex items-center gap-1 touch-elastic" title="Split team into solo anglers">
                         <i class="fa-solid fa-scissors"></i> Split
                     </button>
                 ` : '';
 
                 html += `
-                    <div class="glass-card-sm p-5 space-y-3 hover:border-pixelBlue/50 transition-all">
-                        <div class="flex items-center justify-between pb-3 border-b border-white/15">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <i class="fa-solid fa-users text-pixelBlue text-xs shrink-0"></i>
+                    <div class="glass-card-sm p-6 space-y-4 hover:border-pixelBlue/60 transition-all">
+                        <div class="flex items-center justify-between pb-3 border-b border-white/20">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <i class="fa-solid fa-users text-pixelBlue text-sm shrink-0"></i>
                                 ${teamNameDisplay}
                             </div>
                             <div class="flex items-center gap-2">
@@ -1791,7 +1791,7 @@
                                 ${dayHeadersHTML}
                             </div>
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-2.5">
                             ${memberRows}
                         </div>
                     </div>
@@ -1808,14 +1808,14 @@
                     const isD2Selected = swapFirstSelection && swapFirstSelection.anglerId === s.id && swapFirstSelection.day === 2;
 
                     const deleteBtn = isDeleteModeActive ? `
-                        <button onclick="triggerHaptic(); confirmDeleteAngler('${s.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1 text-sm touch-elastic">
+                        <button onclick="triggerHaptic(); confirmDeleteAngler('${s.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-base touch-elastic">
                             <i class="fa-solid fa-circle-xmark"></i>
                         </button>
                     ` : '';
 
                     const nameDisplay = isAmendNamesModeActive ? `
-                        <input type="text" value="${(s.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${s.id}', this.value)" class="bg-slate-900/80 border border-white/20 rounded-lg px-2.5 py-1 text-xs font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="SOLO ANGLER NAME">
-                    ` : `<span class="text-xs font-black uppercase tracking-wider text-pixelText truncate max-w-[120px] sm:max-w-none font-heading">${(s.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed angler</em>'}</span>`;
+                        <input type="text" value="${(s.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${s.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="SOLO ANGLER NAME">
+                    ` : `<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate max-w-[140px] sm:max-w-none font-heading">${(s.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed angler</em>'}</span>`;
 
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
@@ -1824,23 +1824,23 @@
                     const d2SelectedClass = isD2Selected ? 'swap-peg-selected' : '';
 
                     html += `
-                        <div class="glass-card-sm p-5 space-y-3 hover:border-pixelCyan/50 transition-all">
-                            <div class="flex items-center justify-between pb-3 border-b border-white/15">
-                                <div class="flex items-center gap-2 min-w-0">
-                                    <i class="fa-solid fa-user text-pixelCyan text-xs shrink-0"></i>
-                                    <span class="text-xs font-black font-heading text-pixelText uppercase tracking-wider">Solo Competitor</span>
+                        <div class="glass-card-sm p-6 space-y-4 hover:border-pixelCyan/60 transition-all">
+                            <div class="flex items-center justify-between pb-3 border-b border-white/20">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i>
+                                    <span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider">Solo Competitor</span>
                                 </div>
                                 ${dayHeadersHTML}
                             </div>
-                            <div class="flex items-center justify-between py-2 px-3 rounded-xl bg-slate-900/50 border border-white/10 transition-all">
+                            <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
                                 <div class="flex items-center gap-2 min-w-0">
                                     ${deleteBtn}
                                     ${nameDisplay}
-                                    ${s.mobility ? '<span class="text-pixelGold bg-pixelGold/15 text-[10px] font-black px-2 py-0.5 rounded-full border border-pixelGold/40 shrink-0">[A]</span>' : ''}
+                                    ${s.mobility ? '<span class="text-pixelGold bg-pixelGold/20 text-xs font-black px-2.5 py-0.5 rounded-full border border-pixelGold/50 shrink-0">[A]</span>' : ''}
                                 </div>
                                 <div class="flex items-center gap-2 shrink-0 ml-1 font-mono-tabular">
-                                    ${d1 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 1)" class="zone-badge-${d1.zone} w-8 h-7 flex items-center justify-center rounded-lg text-xs font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">${d1.peg}</span>` : ''}
-                                    ${appState.config.duration === 2 && d2 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 2)" class="zone-badge-${d2.zone} w-8 h-7 flex items-center justify-center rounded-lg text-xs font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">${d2.peg}</span>` : ''}
+                                    ${d1 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 1)" class="zone-badge-${d1.zone} w-10 h-8 flex items-center justify-center rounded-lg text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">${d1.peg}</span>` : ''}
+                                    ${appState.config.duration === 2 && d2 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 2)" class="zone-badge-${d2.zone} w-10 h-8 flex items-center justify-center rounded-lg text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">${d2.peg}</span>` : ''}
                                 </div>
                             </div>
                         </div>
@@ -1865,8 +1865,8 @@
             
             const listContainer = document.getElementById('modalSolosCheckboxList');
             listContainer.innerHTML = solos.map(s => `
-                <label class="flex items-center justify-between p-3.5 rounded-2xl glass-card-sm hover:bg-white/15 cursor-pointer transition-all border border-white/15">
-                    <span class="text-xs font-black uppercase tracking-wider text-pixelText font-heading">${(s.name || 'Unnamed').toUpperCase()} ${s.mobility ? '<span class="text-pixelGold text-[10px]">[A]</span>' : ''}</span>
+                <label class="flex items-center justify-between p-4 rounded-2xl glass-card-sm hover:bg-white/20 cursor-pointer transition-all border border-white/20">
+                    <span class="text-sm font-black uppercase tracking-wider text-pixelText font-heading">${(s.name || 'Unnamed').toUpperCase()} ${s.mobility ? '<span class="text-pixelGold text-xs">[A]</span>' : ''}</span>
                     <input type="checkbox" value="${s.id}" onchange="handleSoloCheckboxChange()" class="solo-select-chk w-5 h-5 rounded border-white/20 text-pixelEmerald focus:ring-pixelEmerald bg-slate-900">
                 </label>
             `).join('');
@@ -1933,7 +1933,7 @@
             const containerD2Box = document.getElementById('beachLegendDay2Container');
 
             if (!appState.draw.generated) {
-                containerD1.innerHTML = `<span class="text-xs text-pixelMuted font-bold col-span-4">No draw generated yet.</span>`;
+                containerD1.innerHTML = `<span class="text-sm text-pixelMuted font-bold col-span-4">No draw generated yet.</span>`;
                 if (containerD2) containerD2.innerHTML = '';
                 return;
             }
@@ -1965,18 +1965,18 @@
                     }).map(d => d.peg);
 
                     const mobBadges = mobilityPegNums.length > 0
-                        ? mobilityPegNums.map(p => `<span class="bg-pixelGold/25 text-pixelGold border border-pixelGold/50 font-mono-tabular font-black px-2.5 py-0.5 rounded-full text-[10px]">[A] Peg ${p}</span>`).join(' ')
-                        : '<span class="text-pixelMuted italic text-[10px] font-bold">None</span>';
+                        ? mobilityPegNums.map(p => `<span class="bg-pixelGold/30 text-pixelGold border border-pixelGold/60 font-mono-tabular font-black px-3 py-1 rounded-full text-xs">[A] Peg ${p}</span>`).join(' ')
+                        : '<span class="text-pixelMuted italic text-xs font-bold">None</span>';
 
                     return `
-                        <div class="zone-block-${color} rounded-2xl px-4 py-3 flex flex-col justify-between space-y-1.5 shadow-md">
+                        <div class="zone-block-${color} rounded-2xl px-5 py-4 flex flex-col justify-between space-y-2 shadow-md">
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-black font-heading uppercase tracking-wider">${color} Zone</span>
-                                <span class="text-xs font-black font-mono-tabular bg-slate-900/70 px-3 py-0.5 rounded-full border border-white/15">${rangeStr}</span>
+                                <span class="text-sm font-black font-heading uppercase tracking-wider">${color} Zone</span>
+                                <span class="text-xs font-black font-mono-tabular bg-slate-900/80 px-3.5 py-1 rounded-full border border-white/20">${rangeStr}</span>
                             </div>
-                            <div class="flex items-center justify-between pt-1 border-t border-white/10 text-[10px] font-bold">
-                                <span class="uppercase tracking-wider opacity-80 font-heading">Mobility:</span>
-                                <div class="flex items-center gap-1">
+                            <div class="flex items-center justify-between pt-1 border-t border-white/15 text-xs font-bold">
+                                <span class="uppercase tracking-wider opacity-90 font-heading">Mobility:</span>
+                                <div class="flex items-center gap-1.5">
                                     ${mobBadges}
                                 </div>
                             </div>
@@ -2005,7 +2005,7 @@
             if (isAmendToolbarOpen) {
                 toolbar.classList.remove('hidden');
                 document.getElementById('mainAmendBtnText').innerText = "Close Amend";
-                mainBtn.className = "bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black uppercase tracking-wider px-6 py-3 rounded-2xl text-xs transition-all flex items-center gap-2 shadow-md touch-elastic font-heading";
+                mainBtn.className = "bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black uppercase tracking-wider px-7 py-3.5 rounded-2xl text-sm transition-all flex items-center gap-2.5 shadow-md touch-elastic font-heading";
                 isAmendNamesModeActive = true;
                 toggleAmendNamesModeButtonState();
             } else {
@@ -2023,11 +2023,11 @@
             if (isPrintOutputToolbarOpen) {
                 toolbar.classList.remove('hidden');
                 document.getElementById('mainPrintOutputBtnText').innerText = "Close Output";
-                btn.className = "glass-pill text-pixelBlue border border-pixelBlue/50 font-black uppercase tracking-wider px-6 py-3 text-xs transition-all flex items-center gap-2 touch-elastic font-heading";
+                btn.className = "glass-pill text-pixelBlue border border-pixelBlue/60 font-black uppercase tracking-wider px-7 py-3.5 text-sm transition-all flex items-center gap-2.5 touch-elastic font-heading";
             } else {
                 toolbar.classList.add('hidden');
                 document.getElementById('mainPrintOutputBtnText').innerText = "Print & Output";
-                btn.className = "glass-pill text-pixelText hover:bg-white/15 font-black uppercase tracking-wider px-6 py-3 text-xs transition-all flex items-center gap-2 border border-white/20 touch-elastic font-heading";
+                btn.className = "glass-pill text-pixelText hover:bg-white/20 font-black uppercase tracking-wider px-7 py-3.5 text-sm transition-all flex items-center gap-2.5 border border-white/25 touch-elastic font-heading";
             }
         }
 
@@ -2035,8 +2035,8 @@
             const btn = document.getElementById('toolBtnNames');
             if (btn) {
                 btn.className = isAmendNamesModeActive 
-                    ? "bg-pixelCyan text-slate-950 font-black uppercase tracking-wider px-4 py-2 rounded-full transition-all flex items-center gap-2 touch-elastic"
-                    : "glass-pill text-pixelText hover:bg-white/15 border border-white/20 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 touch-elastic";
+                    ? "bg-pixelCyan text-slate-950 font-black uppercase tracking-wider px-5 py-2.5 rounded-full transition-all flex items-center gap-2 touch-elastic"
+                    : "glass-pill text-pixelText hover:bg-white/20 border border-white/25 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic";
             }
             renderTeamCardsDrawView();
         }
@@ -2054,11 +2054,11 @@
             
             document.getElementById('mainAmendBtnText').innerText = "Amend Draw";
             const mainBtn = document.getElementById('mainAmendBtn');
-            mainBtn.className = "bg-pixelBlue hover:bg-blue-300 text-slate-950 font-black uppercase tracking-wider px-6 py-3 rounded-2xl text-xs transition-all flex items-center gap-2 shadow-md touch-elastic font-heading";
+            mainBtn.className = "bg-pixelBlue hover:bg-blue-300 text-slate-950 font-black uppercase tracking-wider px-7 py-3.5 rounded-2xl text-sm transition-all flex items-center gap-2.5 shadow-md touch-elastic font-heading";
 
-            document.getElementById('toolBtnDelete').className = "glass-pill text-pixelText hover:bg-pixelCoral/25 border border-white/20 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 touch-elastic";
-            document.getElementById('toolBtnSwap').className = "bg-pixelGold/25 hover:bg-pixelGold/35 text-pixelGold border border-pixelGold/50 font-black uppercase tracking-wider px-4 py-2 rounded-full transition-all flex items-center gap-2 touch-elastic";
-            document.getElementById('toolBtnNames').className = "glass-pill text-pixelText hover:bg-white/15 border border-white/20 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 touch-elastic";
+            document.getElementById('toolBtnDelete').className = "glass-pill text-pixelText hover:bg-pixelCoral/30 border border-white/25 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic";
+            document.getElementById('toolBtnSwap').className = "bg-pixelGold/30 hover:bg-pixelGold/40 text-pixelGold border border-pixelGold/60 font-black uppercase tracking-wider px-5 py-2.5 rounded-full transition-all flex items-center gap-2 touch-elastic";
+            document.getElementById('toolBtnNames').className = "glass-pill text-pixelText hover:bg-white/20 border border-white/25 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic";
 
             renderTeamCardsDrawView();
         }
@@ -2071,8 +2071,8 @@
             document.getElementById('activeSwapBanner').classList.add('hidden');
 
             document.getElementById('toolBtnDelete').className = isDeleteModeActive 
-                ? "bg-pixelCoral text-slate-950 font-black uppercase tracking-wider px-4 py-2 rounded-full transition-all flex items-center gap-2 touch-elastic"
-                : "glass-pill text-pixelText hover:bg-pixelCoral/25 border border-white/20 font-black uppercase tracking-wider px-4 py-2 transition-all flex items-center gap-2 touch-elastic";
+                ? "bg-pixelCoral text-slate-950 font-black uppercase tracking-wider px-5 py-2.5 rounded-full transition-all flex items-center gap-2 touch-elastic"
+                : "glass-pill text-pixelText hover:bg-pixelCoral/30 border border-white/25 font-black uppercase tracking-wider px-5 py-2.5 transition-all flex items-center gap-2 touch-elastic";
             renderTeamCardsDrawView();
         }
 
@@ -2357,12 +2357,12 @@
             const watermark = document.getElementById('scorecardWatermark');
 
             if (day === 1) {
-                btn1.className = "px-7 py-3 rounded-2xl text-xs font-black font-heading uppercase tracking-wider text-slate-950 bg-pixelBlue shadow-lg border border-pixelBlue/50 transition-all flex items-center gap-2 touch-elastic";
-                btn2.className = "px-7 py-3 rounded-2xl text-xs font-black font-heading uppercase tracking-wider text-pixelMuted glass-pill hover:text-white transition-all flex items-center gap-2 touch-elastic";
+                btn1.className = "px-8 py-3.5 rounded-2xl text-sm font-black font-heading uppercase tracking-wider text-slate-950 bg-pixelBlue shadow-lg border border-pixelBlue/60 transition-all flex items-center gap-2 touch-elastic";
+                btn2.className = "px-8 py-3.5 rounded-2xl text-sm font-black font-heading uppercase tracking-wider text-pixelMuted glass-pill hover:text-white transition-all flex items-center gap-2 touch-elastic";
                 watermark.innerText = "DAY 1";
             } else {
-                btn1.className = "px-7 py-3 rounded-2xl text-xs font-black font-heading uppercase tracking-wider text-pixelMuted glass-pill hover:text-white transition-all flex items-center gap-2 touch-elastic";
-                btn2.className = "px-7 py-3 rounded-2xl text-xs font-black font-heading uppercase tracking-wider text-slate-950 bg-pixelGold shadow-lg border border-pixelGold/50 transition-all flex items-center gap-2 touch-elastic";
+                btn1.className = "px-8 py-3.5 rounded-2xl text-sm font-black font-heading uppercase tracking-wider text-pixelMuted glass-pill hover:text-white transition-all flex items-center gap-2 touch-elastic";
+                btn2.className = "px-8 py-3.5 rounded-2xl text-sm font-black font-heading uppercase tracking-wider text-slate-950 bg-pixelGold shadow-lg border border-pixelGold/60 transition-all flex items-center gap-2 touch-elastic";
                 watermark.innerText = "DAY 2";
             }
 
@@ -2375,7 +2375,7 @@
             const searchVal = (document.getElementById('scoreSearchInput').value || '').toLowerCase();
 
             if (!appState.draw.generated) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-pixelMuted font-bold uppercase tracking-wider">Make draw first.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-pixelMuted font-bold uppercase tracking-wider text-base">Make draw first.</td></tr>`;
                 return;
             }
 
@@ -2401,21 +2401,21 @@
 
                 return `
                     <tr class="hover:bg-white/10 transition-colors">
-                        <td class="py-3.5 px-4 text-center">
-                            <span class="glass-pill text-pixelText font-mono-tabular font-black px-3.5 py-1 text-xs border border-white/20 shadow-sm">
+                        <td class="py-4 px-5 text-center">
+                            <span class="glass-pill text-pixelText font-mono-tabular font-black px-4 py-1.5 text-sm border border-white/25 shadow-sm">
                                 ${peg}
                             </span>
                         </td>
-                        <td class="py-3.5 px-4 font-black uppercase tracking-wider text-pixelText font-heading text-sm">${(a.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed</em>'}</td>
-                        <td class="py-3.5 px-4 text-xs text-pixelMuted font-bold uppercase tracking-wider font-heading">${team ? team.name.toUpperCase() : 'INDIVIDUAL'}</td>
-                        <td class="py-3.5 px-4 text-center">
-                            <input type="number" step="0.1" min="0" value="${score.totalMetric}" onchange="updateScoreField('${a.id}', 'totalMetric', this.value)" class="w-32 bg-slate-900/80 border border-white/20 rounded-xl px-3.5 py-2 text-pixelText font-mono-tabular font-black text-xs text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
+                        <td class="py-4 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-base">${(a.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed</em>'}</td>
+                        <td class="py-4 px-5 text-sm text-pixelMuted font-bold uppercase tracking-wider font-heading">${team ? team.name.toUpperCase() : 'INDIVIDUAL'}</td>
+                        <td class="py-4 px-5 text-center">
+                            <input type="number" step="0.1" min="0" value="${score.totalMetric}" onchange="updateScoreField('${a.id}', 'totalMetric', this.value)" class="w-36 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
                         </td>
-                        <td class="py-3.5 px-4 text-center">
-                            <input type="number" min="0" value="${score.fishCount}" onchange="updateScoreField('${a.id}', 'fishCount', this.value)" class="w-28 bg-slate-900/80 border border-white/20 rounded-xl px-3.5 py-2 text-pixelText font-mono-tabular font-black text-xs text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
+                        <td class="py-4 px-5 text-center">
+                            <input type="number" min="0" value="${score.fishCount}" onchange="updateScoreField('${a.id}', 'fishCount', this.value)" class="w-32 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
                         </td>
-                        <td class="py-3.5 px-4 text-center">
-                            <input type="number" step="0.1" min="0" value="${score.bestFish}" onchange="updateScoreField('${a.id}', 'bestFish', this.value)" onkeydown="handleScoreInputKeydown(event, '${a.id}')" class="w-28 bg-slate-900/80 border border-white/20 rounded-xl px-3.5 py-2 text-pixelText font-mono-tabular font-black text-xs text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
+                        <td class="py-4 px-5 text-center">
+                            <input type="number" step="0.1" min="0" value="${score.bestFish}" onchange="updateScoreField('${a.id}', 'bestFish', this.value)" onkeydown="handleScoreInputKeydown(event, '${a.id}')" class="w-32 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
                         </td>
                     </tr>
                 `;
@@ -2543,7 +2543,7 @@
         function renderIndividualLeaderboard() {
             const tbody = document.getElementById('individualResultsBody');
             if (!appState.draw.generated) {
-                tbody.innerHTML = `<tr><td colspan="15" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider">Make draw first.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="15" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-base">Make draw first.</td></tr>`;
                 return;
             }
 
@@ -2593,24 +2593,24 @@
 
             tbody.innerHTML = indSummary.map((res, idx) => `
                 <tr class="hover:bg-white/10 transition-colors font-mono-tabular">
-                    <td class="py-3.5 px-3 font-black text-center text-pixelBlue border-r border-white/15">#${idx+1}</td>
-                    <td class="py-3.5 px-3 font-black uppercase tracking-wider text-pixelText font-heading text-xs border-r border-white/15">${res.name.toUpperCase()}</td>
-                    <td class="py-3.5 px-3 text-xs text-pixelMuted font-bold uppercase tracking-wider font-heading border-r border-white/15">${res.teamName.toUpperCase()}</td>
+                    <td class="py-4 px-3 font-black text-center text-pixelBlue border-r border-white/20 text-base">#${idx+1}</td>
+                    <td class="py-4 px-3 font-black uppercase tracking-wider text-pixelText font-heading text-sm border-r border-white/20">${res.name.toUpperCase()}</td>
+                    <td class="py-4 px-3 text-sm text-pixelMuted font-bold uppercase tracking-wider font-heading border-r border-white/20">${res.teamName.toUpperCase()}</td>
                     
-                    <td class="py-3.5 px-2 text-center bg-white/10 font-black text-pixelText"><span class="bg-pixelBlue text-slate-950 font-black px-3 py-1 rounded-full text-xs shadow-md">${res.totalZonePts}</span></td>
-                    <td class="py-3.5 px-2 text-center bg-white/10 font-black text-pixelEmerald">${res.totalMetric}</td>
-                    <td class="py-3.5 px-2 text-center bg-white/10 font-black text-pixelText">${res.totalFish}</td>
-                    <td class="py-3.5 px-2 text-center bg-white/10 font-black text-pixelGold border-r border-white/15">${res.overallBestFish}</td>
+                    <td class="py-4 px-2 text-center bg-white/10 font-black text-pixelText"><span class="bg-pixelBlue text-slate-950 font-black px-3.5 py-1 rounded-full text-sm shadow-md">${res.totalZonePts}</span></td>
+                    <td class="py-4 px-2 text-center bg-white/10 font-black text-pixelEmerald text-base">${res.totalMetric}</td>
+                    <td class="py-4 px-2 text-center bg-white/10 font-black text-pixelText text-base">${res.totalFish}</td>
+                    <td class="py-4 px-2 text-center bg-white/10 font-black text-pixelGold text-base border-r border-white/20">${res.overallBestFish}</td>
 
-                    <td class="py-3.5 px-2 text-center bg-pixelBlue/10 font-black text-pixelBlue"><span class="glass-pill px-2.5 py-1 border border-pixelBlue/40 text-xs">${res.d1Pts}</span></td>
-                    <td class="py-3.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText">${res.d1Metric}</td>
-                    <td class="py-3.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText">${res.d1Fish}</td>
-                    <td class="py-3.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText border-r border-white/15">${res.d1Best}</td>
+                    <td class="py-4 px-2 text-center bg-pixelBlue/10 font-black text-pixelBlue"><span class="glass-pill px-3 py-1 border border-pixelBlue/40 text-sm">${res.d1Pts}</span></td>
+                    <td class="py-4 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-sm">${res.d1Metric}</td>
+                    <td class="py-4 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-sm">${res.d1Fish}</td>
+                    <td class="py-4 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-sm border-r border-white/20">${res.d1Best}</td>
 
-                    <td class="py-3.5 px-2 text-center bg-pixelGold/10 font-black text-pixelGold"><span class="glass-pill px-2.5 py-1 border border-pixelGold/40 text-xs">${appState.config.duration === 2 ? res.d2Pts : '-'}</span></td>
-                    <td class="py-3.5 px-2 text-center bg-pixelGold/10 font-bold text-pixelText">${appState.config.duration === 2 ? res.d2Metric : '-'}</td>
-                    <td class="py-3.5 px-2 text-center bg-pixelGold/10 font-bold text-pixelText">${appState.config.duration === 2 ? res.d2Fish : '-'}</td>
-                    <td class="py-3.5 px-2 text-center bg-pixelGold/10 font-bold text-pixelText">${appState.config.duration === 2 ? res.d2Best : '-'}</td>
+                    <td class="py-4 px-2 text-center bg-pixelGold/10 font-black text-pixelGold"><span class="glass-pill px-3 py-1 border border-pixelGold/40 text-sm">${appState.config.duration === 2 ? res.d2Pts : '-'}</span></td>
+                    <td class="py-4 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-sm">${appState.config.duration === 2 ? res.d2Metric : '-'}</td>
+                    <td class="py-4 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-sm">${appState.config.duration === 2 ? res.d2Fish : '-'}</td>
+                    <td class="py-4 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-sm">${appState.config.duration === 2 ? res.d2Best : '-'}</td>
                 </tr>
             `).join('');
         }
@@ -2618,7 +2618,7 @@
         function renderTeamLeaderboard() {
             const container = document.getElementById('teamResultsContainer');
             if (appState.teams.length === 0) {
-                container.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider">No 4-person teams registered.</td></tr>`;
+                container.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-base">No 4-person teams registered.</td></tr>`;
                 return;
             }
 
@@ -2665,22 +2665,22 @@
             });
 
             container.innerHTML = teamSummaries.map((t, idx) => `
-                <tr class="hover:bg-white/10 transition-colors border-b border-white/10">
-                    <td class="py-4 px-4 text-center">
+                <tr class="hover:bg-white/10 transition-colors border-b border-white/15">
+                    <td class="py-4 px-5 text-center">
                         <div class="flex items-center justify-center gap-3">
-                            <span class="text-pixelGold font-mono-tabular font-black text-lg">#${idx+1}</span>
-                            <span class="font-black font-heading text-pixelText uppercase tracking-wider text-base">${t.teamName.toUpperCase()}</span>
+                            <span class="text-pixelGold font-mono-tabular font-black text-xl">#${idx+1}</span>
+                            <span class="font-black font-heading text-pixelText uppercase tracking-wider text-lg">${t.teamName.toUpperCase()}</span>
                         </div>
                     </td>
-                    <td class="py-4 px-3 text-center font-black text-pixelBlue font-mono-tabular text-base bg-white/10">${t.totalTeamZonePts}</td>
-                    <td class="py-4 px-3 text-center font-black text-pixelEmerald font-mono-tabular text-base bg-white/10">${t.totalTeamMetric}</td>
-                    <td class="py-4 px-3 text-center font-black text-pixelGold font-mono-tabular text-base bg-white/10">${t.totalTeamFish}</td>
-                    <td class="py-3 px-4">
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+                    <td class="py-4 px-4 text-center font-black text-pixelBlue font-mono-tabular text-lg bg-white/10">${t.totalTeamZonePts}</td>
+                    <td class="py-4 px-4 text-center font-black text-pixelEmerald font-mono-tabular text-lg bg-white/10">${t.totalTeamMetric}</td>
+                    <td class="py-4 px-4 text-center font-black text-pixelGold font-mono-tabular text-lg bg-white/10">${t.totalTeamFish}</td>
+                    <td class="py-3 px-5">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                             ${t.memberBreakdown.map(m => `
-                                <div class="glass-card-sm p-2.5 text-center space-y-1 border border-white/15">
-                                    <div class="font-black text-pixelText text-xs truncate uppercase tracking-wider font-heading">${m.name.toUpperCase()}</div>
-                                    <div class="text-[11px] font-bold text-pixelMuted font-mono-tabular">
+                                <div class="glass-card-sm p-3 text-center space-y-1 border border-white/20">
+                                    <div class="font-black text-pixelText text-sm truncate uppercase tracking-wider font-heading">${m.name.toUpperCase()}</div>
+                                    <div class="text-xs font-bold text-pixelMuted font-mono-tabular">
                                         <span class="text-pixelBlue font-black">${m.zPts}PTS</span> / <span class="text-pixelEmerald font-black">${m.metric}CM</span> / <span class="text-pixelGold font-black">${m.fish}F</span>
                                     </div>
                                 </div>
@@ -2703,35 +2703,35 @@
 
                 const rows = items.map(item => `
                     <tr class="hover:bg-white/10 transition-colors font-mono-tabular">
-                        <td class="py-2.5 px-1 text-center font-black shrink-0">
-                            <span class="bg-slate-900/80 text-pixelText font-black px-2.5 py-1 rounded-md text-[11px] border border-white/15 shadow-sm">${item.zonePoints}</span>
+                        <td class="py-3 px-1 text-center font-black shrink-0">
+                            <span class="bg-slate-900/90 text-pixelText font-black px-3 py-1 rounded-md text-xs border border-white/20 shadow-sm">${item.zonePoints}</span>
                         </td>
-                        <td class="py-2.5 px-2 font-black uppercase tracking-wider text-pixelText text-xs font-heading leading-tight">${item.anglerName.toUpperCase()}</td>
-                        <td class="py-2.5 px-1 font-black text-center text-pixelEmerald text-xs">${item.totalMetric}</td>
-                        <td class="py-2.5 px-1 font-black text-center text-pixelText text-xs">${item.fishCount}</td>
-                        <td class="py-2.5 px-1 font-black text-center text-pixelGold text-xs">${item.bestFish}</td>
+                        <td class="py-3 px-2 font-black uppercase tracking-wider text-pixelText text-sm font-heading leading-tight">${item.anglerName.toUpperCase()}</td>
+                        <td class="py-3 px-1 font-black text-center text-pixelEmerald text-sm">${item.totalMetric}</td>
+                        <td class="py-3 px-1 font-black text-center text-pixelText text-sm">${item.fishCount}</td>
+                        <td class="py-3 px-1 font-black text-center text-pixelGold text-sm">${item.bestFish}</td>
                     </tr>
                 `).join('');
 
                 return `
-                    <div class="glass-card p-4 shadow-lg zone-card-${color} flex flex-col justify-between space-y-3">
+                    <div class="glass-card p-5 shadow-lg zone-card-${color} flex flex-col justify-between space-y-3">
                         <div>
-                            <h4 class="text-xs font-black font-heading text-pixelText mb-3 flex items-center justify-between uppercase tracking-wider pb-2.5 border-b border-white/15">
+                            <h4 class="text-sm font-black font-heading text-pixelText mb-3 flex items-center justify-between uppercase tracking-wider pb-3 border-b border-white/20">
                                 <span>${color} Zone</span>
-                                <span class="text-[10px] font-black glass-pill px-3 py-0.5 border border-white/20">Day ${day}</span>
+                                <span class="text-xs font-black glass-pill px-3.5 py-1 border border-white/25">Day ${day}</span>
                             </h4>
                             <div class="w-full">
-                                <table class="w-full text-left text-xs text-pixelText border-collapse">
-                                    <thead class="bg-slate-900/70 text-pixelMuted text-[10px] font-black font-heading uppercase tracking-wider border-b border-white/15">
+                                <table class="w-full text-left text-sm text-pixelText border-collapse">
+                                    <thead class="bg-slate-900/80 text-pixelMuted text-xs font-black font-heading uppercase tracking-wider border-b border-white/20">
                                         <tr>
-                                            <th class="py-2 px-1 text-center w-[45px]">PTS</th>
-                                            <th class="py-2 px-2">Angler</th>
-                                            <th class="py-2 px-1 text-center w-[40px]">CM</th>
-                                            <th class="py-2 px-1 text-center w-[40px]">FISH</th>
-                                            <th class="py-2 px-1 text-center w-[40px]">BIG</th>
+                                            <th class="py-2.5 px-1 text-center w-[50px]">PTS</th>
+                                            <th class="py-2.5 px-2">Angler</th>
+                                            <th class="py-2.5 px-1 text-center w-[45px]">CM</th>
+                                            <th class="py-2.5 px-1 text-center w-[45px]">FISH</th>
+                                            <th class="py-2.5 px-1 text-center w-[45px]">BIG</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="divide-y divide-white/10">
+                                    <tbody class="divide-y divide-white/15">
                                         ${rows || '<tr><td colspan="5" class="text-center py-6 text-pixelMuted font-black uppercase tracking-wider">No results.</td></tr>'}
                                     </tbody>
                                 </table>
@@ -2773,18 +2773,18 @@
             const top5 = allFish.slice(0, 5);
 
             if (top5.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-pixelMuted font-black uppercase tracking-wider">No fish scores recorded yet.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-base">No fish scores recorded yet.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = top5.map((f, idx) => `
                 <tr class="hover:bg-white/10 font-mono-tabular">
-                    <td class="py-3.5 px-4 font-black text-pixelGold">#${idx+1}</td>
-                    <td class="py-3.5 px-4 font-black uppercase tracking-wider text-pixelText font-heading text-xs">${f.anglerName.toUpperCase()}</td>
-                    <td class="py-3.5 px-4"><span class="zone-badge-${f.zone} px-3.5 py-1 rounded-full text-xs font-black">${f.zone} • Peg ${f.peg}</span></td>
-                    <td class="py-3.5 px-4 text-center font-black text-pixelEmerald text-sm">${f.bestFish} CM</td>
-                    <td class="py-3.5 px-4 text-center text-xs font-bold uppercase tracking-wider text-pixelMuted font-heading">Day ${f.day}</td>
-                    <td class="py-3.5 px-4 text-xs font-bold uppercase tracking-wider text-pixelGold font-heading">Official Catch Record</td>
+                    <td class="py-4 px-5 font-black text-pixelGold text-base">#${idx+1}</td>
+                    <td class="py-4 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-sm">${f.anglerName.toUpperCase()}</td>
+                    <td class="py-4 px-5"><span class="zone-badge-${f.zone} px-4 py-1.5 rounded-full text-sm font-black">${f.zone} • Peg ${f.peg}</span></td>
+                    <td class="py-4 px-5 text-center font-black text-pixelEmerald text-base">${f.bestFish} CM</td>
+                    <td class="py-4 px-5 text-center text-sm font-bold uppercase tracking-wider text-pixelMuted font-heading">Day ${f.day}</td>
+                    <td class="py-4 px-5 text-sm font-bold uppercase tracking-wider text-pixelGold font-heading">Official Catch Record</td>
                 </tr>
             `).join('');
         }
