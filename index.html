@@ -88,21 +88,21 @@
             border-radius: 9999px;
         }
 
-        /* Material You Zone Badges & Cards */
-        .zone-badge-Red { background: rgba(248, 113, 113, 0.3); border: 2px solid #f87171; color: #ffffff; }
-        .zone-badge-Yellow { background: rgba(253, 224, 71, 0.3); border: 2px solid #fde047; color: #ffffff; }
-        .zone-badge-Green { background: rgba(74, 222, 128, 0.3); border: 2px solid #4ade80; color: #ffffff; }
-        .zone-badge-Blue { background: rgba(56, 189, 248, 0.3); border: 2px solid #38bdf8; color: #ffffff; }
+        /* Highly Vibrant Zone Badges, Cards & Blocks */
+        .zone-badge-Red { background: rgba(239, 68, 68, 0.55); border: 2px solid #f87171; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .zone-badge-Yellow { background: rgba(234, 179, 8, 0.55); border: 2px solid #fde047; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .zone-badge-Green { background: rgba(34, 197, 94, 0.55); border: 2px solid #4ade80; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .zone-badge-Blue { background: rgba(14, 165, 233, 0.55); border: 2px solid #38bdf8; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
 
-        .zone-card-Red { background: rgba(248, 113, 113, 0.15); border-top: 6px solid #f87171; border-color: rgba(248, 113, 113, 0.4); }
-        .zone-card-Yellow { background: rgba(253, 224, 71, 0.15); border-top: 6px solid #fde047; border-color: rgba(253, 224, 71, 0.4); }
-        .zone-card-Green { background: rgba(74, 222, 128, 0.15); border-top: 6px solid #4ade80; border-color: rgba(74, 222, 128, 0.4); }
-        .zone-card-Blue { background: rgba(56, 189, 248, 0.15); border-top: 6px solid #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
+        .zone-card-Red { background: rgba(239, 68, 68, 0.28); border-top: 8px solid #f87171; border-color: rgba(248, 113, 113, 0.6); }
+        .zone-card-Yellow { background: rgba(234, 179, 8, 0.28); border-top: 8px solid #fde047; border-color: rgba(253, 224, 71, 0.6); }
+        .zone-card-Green { background: rgba(34, 197, 94, 0.28); border-top: 8px solid #4ade80; border-color: rgba(74, 222, 128, 0.6); }
+        .zone-card-Blue { background: rgba(14, 165, 233, 0.28); border-top: 8px solid #38bdf8; border-color: rgba(56, 189, 248, 0.6); }
 
-        .zone-block-Red { background: rgba(248, 113, 113, 0.25); border: 1.5px solid rgba(248, 113, 113, 0.5); color: #ffffff; }
-        .zone-block-Yellow { background: rgba(253, 224, 71, 0.25); border: 1.5px solid rgba(253, 224, 71, 0.5); color: #ffffff; }
-        .zone-block-Green { background: rgba(74, 222, 128, 0.25); border: 1.5px solid rgba(74, 222, 128, 0.5); color: #ffffff; }
-        .zone-block-Blue { background: rgba(56, 189, 248, 0.25); border: 1.5px solid rgba(56, 189, 248, 0.5); color: #ffffff; }
+        .zone-block-Red { background: rgba(239, 68, 68, 0.45); border: 2px solid rgba(248, 113, 113, 0.8); color: #ffffff; }
+        .zone-block-Yellow { background: rgba(234, 179, 8, 0.45); border: 2px solid rgba(253, 224, 71, 0.8); color: #ffffff; }
+        .zone-block-Green { background: rgba(34, 197, 94, 0.45); border: 2px solid rgba(74, 222, 128, 0.8); color: #ffffff; }
+        .zone-block-Blue { background: rgba(14, 165, 233, 0.45); border: 2px solid rgba(56, 189, 248, 0.8); color: #ffffff; }
 
         /* Elastic Touch Feedback */
         .touch-elastic {
@@ -384,18 +384,15 @@
 
 
     <!-- =================================================================== -->
-    <!-- 2. LIVE TOURNAMENT WORKSPACE (EXPANDED SCREEN WIDTH)               -->
+    <!-- 2. LIVE TOURNAMENT WORKSPACE (CLEAN HEADER & EXPANDED TYPOGRAPHY)  -->
     <!-- =================================================================== -->
     <div id="main-app-workspace" class="hidden flex-col flex-1">
         
-        <!-- Sticky Glass Header -->
+        <!-- Sticky Glass Header (Cleaned up: fish icon removed) -->
         <header class="bg-slate-950/80 backdrop-blur-2xl border-b border-white/20 sticky top-0 z-40 shadow-2xl">
             <div class="max-w-[1800px] mx-auto px-2 sm:px-4 lg:px-6">
                 <div class="flex items-center justify-between h-20">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-full bg-pixelBlue/25 border border-pixelBlue/50 flex items-center justify-center text-pixelBlue shadow-inner">
-                            <i class="fa-solid fa-fish-fins text-2xl"></i>
-                        </div>
+                    <div class="flex items-center space-x-3">
                         <div>
                             <div class="flex items-center gap-3">
                                 <h1 class="text-xl sm:text-2xl font-black font-heading text-pixelText leading-none uppercase tracking-wider" id="headerAppTitle">Shore Fishing Competition Manager</h1>
@@ -447,11 +444,11 @@
         <main class="max-w-[1800px] mx-auto px-2 sm:px-4 lg:px-6 py-8 flex-grow w-full space-y-6">
 
             <!-- =================================================================== -->
-            <!-- TAB 1: OFFICIAL PEG DRAW & SLEEK COMPACT BEACH LEGEND               -->
+            <!-- TAB 1: OFFICIAL PEG DRAW & SLEEK VIBRANT BEACH LEGEND               -->
             <!-- =================================================================== -->
             <div id="tab-draw" class="tab-content space-y-6">
 
-                <!-- LUXURIOUS RECTANGULAR BEACH LEGEND STRIP -->
+                <!-- VIBRANT RECTANGULAR BEACH LEGEND STRIP -->
                 <div class="glass-card p-6 sm:p-8 space-y-4">
                     <div class="space-y-4">
                         <div>
@@ -562,7 +559,7 @@
             </div>
 
             <!-- =================================================================== -->
-            <!-- TAB 2: SCORECARD SPREADSHEET TABLE                                  -->
+            <!-- TAB 2: SCORECARD SPREADSHEET TABLE (HIGH-LEGIBILITY TYPOGRAPHY)    -->
             <!-- =================================================================== -->
             <div id="tab-scorecard" class="tab-content space-y-6 hidden">
                 <div class="glass-card p-6 sm:p-8 space-y-5">
@@ -571,7 +568,7 @@
                             <h2 class="text-2xl sm:text-3xl font-black font-heading text-pixelText flex items-center gap-3 uppercase tracking-wider">
                                 <i class="fa-solid fa-clipboard-check text-pixelBlue"></i> Match Secretary Scorecards
                             </h2>
-                            <p class="text-sm text-pixelMuted font-medium mt-1">3 core fields per entry. Type values and press <kbd class="px-2.5 py-1 bg-slate-900 border border-white/25 rounded-md text-xs font-mono text-pixelBlue">Tab</kbd> or <kbd class="px-2.5 py-1 bg-slate-900 border border-white/25 rounded-md text-xs font-mono text-pixelBlue">Enter</kbd> to save & jump.</p>
+                            <p class="text-sm sm:text-base text-pixelMuted font-medium mt-1">3 core fields per entry. Type values and press <kbd class="px-2.5 py-1 bg-slate-900 border border-white/25 rounded-md text-xs font-mono text-pixelBlue">Tab</kbd> or <kbd class="px-2.5 py-1 bg-slate-900 border border-white/25 rounded-md text-xs font-mono text-pixelBlue">Enter</kbd> to save & jump.</p>
                         </div>
 
                         <!-- Day Toggle Buttons -->
@@ -587,7 +584,7 @@
 
                     <div class="relative z-20">
                         <i class="fa-solid fa-magnifying-glass absolute left-5 top-4.5 text-pixelMuted text-base"></i>
-                        <input type="text" id="scoreSearchInput" onkeyup="filterScorecardTable()" class="w-full bg-slate-900/80 border border-white/25 rounded-2xl pl-14 pr-5 py-4 text-pixelText placeholder-pixelMuted focus:outline-none focus:border-pixelBlue text-sm font-bold uppercase tracking-wider" placeholder="Filter by Angler Name or Peg Number (e.g. 'McCreadie' or '14')...">
+                        <input type="text" id="scoreSearchInput" onkeyup="filterScorecardTable()" class="w-full bg-slate-900/80 border border-white/25 rounded-2xl pl-14 pr-5 py-4 text-pixelText placeholder-pixelMuted focus:outline-none focus:border-pixelBlue text-base font-bold uppercase tracking-wider" placeholder="Filter by Angler Name or Peg Number (e.g. 'McCreadie' or '14')...">
                     </div>
                 </div>
 
@@ -601,22 +598,22 @@
                     </div>
 
                     <div class="relative z-10 flex items-center justify-between mb-6 pb-4 border-b border-white/20">
-                        <h3 class="text-base font-black font-heading text-pixelText uppercase tracking-wider flex items-center gap-2">
+                        <h3 class="text-lg font-black font-heading text-pixelText uppercase tracking-wider flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-pixelBlue"></i> Official Scorecard: Day <span id="currentScoreDayLabel" class="font-mono-tabular">1</span>
                         </h3>
-                        <span class="text-sm font-black text-pixelEmerald glass-pill px-6 py-2 border border-pixelEmerald/50 uppercase tracking-wider font-mono-tabular" id="cardsCompletedBadge">0 / 0 Completed</span>
+                        <span class="text-base font-black text-pixelEmerald glass-pill px-6 py-2 border border-pixelEmerald/50 uppercase tracking-wider font-mono-tabular" id="cardsCompletedBadge">0 / 0 Completed</span>
                     </div>
 
                     <div class="relative z-10 overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-sm text-pixelText border-collapse">
-                            <thead class="bg-slate-900/90 backdrop-blur-md text-pixelMuted text-sm font-black font-heading uppercase tracking-wider border-b border-white/20">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-900/90 backdrop-blur-md text-pixelMuted text-base font-black font-heading uppercase tracking-wider border-b border-white/20">
                                 <tr>
-                                    <th class="py-4 px-5 text-center min-w-[90px]">Peg</th>
+                                    <th class="py-4 px-5 text-center min-w-[95px]">Peg</th>
                                     <th class="py-4 px-5">Angler Name</th>
                                     <th class="py-4 px-5">Team</th>
-                                    <th class="py-4 px-5 min-w-[170px] text-center">Total Points / Length (CM)</th>
-                                    <th class="py-4 px-5 min-w-[140px] text-center">Fish Count</th>
-                                    <th class="py-4 px-5 min-w-[150px] text-center">Biggest Fish (CM)</th>
+                                    <th class="py-4 px-5 min-w-[180px] text-center">Total Points / Length (CM)</th>
+                                    <th class="py-4 px-5 min-w-[150px] text-center">Fish Count</th>
+                                    <th class="py-4 px-5 min-w-[160px] text-center">Biggest Fish (CM)</th>
                                 </tr>
                             </thead>
                             <tbody id="scorecardTableBody" class="divide-y divide-white/15 border-b border-white/20"></tbody>
@@ -653,7 +650,7 @@
                     </button>
                 </div>
 
-                <!-- SUB-TAB 1: INDIVIDUAL LEADERBOARD -->
+                <!-- SUB-TAB 1: INDIVIDUAL LEADERBOARD (ENLARGED TYPOGRAPHY) -->
                 <div id="res-individual" class="res-subtab-content glass-card p-6 sm:p-8 space-y-6">
                     <div>
                         <h3 class="text-2xl font-black font-heading text-pixelText flex items-center gap-3 uppercase tracking-wider">
@@ -665,12 +662,12 @@
                     </div>
 
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-sm text-pixelText border-collapse">
+                        <table class="w-full text-left text-base text-pixelText border-collapse">
                             <thead>
-                                <tr class="bg-slate-900/90 text-pixelMuted text-sm font-black font-heading uppercase tracking-wider border-b border-white/20">
+                                <tr class="bg-slate-900/90 text-pixelMuted text-base font-black font-heading uppercase tracking-wider border-b border-white/20">
                                     <th class="py-4 px-4 text-center border-r border-white/20">Rank</th>
-                                    <th class="py-4 px-4 border-r border-white/20">Angler Name</th>
-                                    <th class="py-4 px-4 border-r border-white/20">Team</th>
+                                    <th class="py-4 px-5 border-r border-white/20 min-w-[200px]">Angler Name</th>
+                                    <th class="py-4 px-5 border-r border-white/20 min-w-[160px]">Team</th>
                                     
                                     <th colspan="4" class="py-4 px-4 text-center bg-white/10 border-r border-white/20 text-pixelText">Combined Scores</th>
                                     <th colspan="4" class="py-4 px-4 text-center bg-pixelBlue/20 border-r border-white/20 text-pixelBlue">Day 1 Scores</th>
@@ -678,8 +675,8 @@
                                 </tr>
                                 <tr class="bg-slate-900/80 text-pixelMuted text-xs font-black uppercase tracking-wider border-b border-white/20 font-heading">
                                     <th class="py-3 px-3 text-center border-r border-white/20">#</th>
-                                    <th class="py-3 px-3 border-r border-white/20">Name</th>
-                                    <th class="py-3 px-3 border-r border-white/20">Team</th>
+                                    <th class="py-3 px-5 border-r border-white/20">Name</th>
+                                    <th class="py-3 px-5 border-r border-white/20">Team</th>
                                     
                                     <th class="py-3 px-3 text-center bg-white/10">Pts</th>
                                     <th class="py-3 px-3 text-center bg-white/10">CM</th>
@@ -712,13 +709,13 @@
                     </div>
 
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-sm text-pixelText border-collapse">
+                        <table class="w-full text-left text-base text-pixelText border-collapse">
                             <thead>
-                                <tr class="bg-slate-900/90 text-pixelMuted text-sm font-black font-heading uppercase tracking-wider border-b border-white/20">
-                                    <th class="py-4 px-5 text-center min-w-[160px]">Rank / Team Name</th>
-                                    <th class="py-4 px-4 text-center min-w-[80px] text-pixelBlue font-mono-tabular">PTS</th>
-                                    <th class="py-4 px-4 text-center min-w-[90px] text-pixelEmerald font-mono-tabular">CM</th>
-                                    <th class="py-4 px-4 text-center min-w-[90px] text-pixelGold font-mono-tabular">Fish CT</th>
+                                <tr class="bg-slate-900/90 text-pixelMuted text-base font-black font-heading uppercase tracking-wider border-b border-white/20">
+                                    <th class="py-4 px-5 text-center min-w-[180px]">Rank / Team Name</th>
+                                    <th class="py-4 px-4 text-center min-w-[85px] text-pixelBlue font-mono-tabular">PTS</th>
+                                    <th class="py-4 px-4 text-center min-w-[95px] text-pixelEmerald font-mono-tabular">CM</th>
+                                    <th class="py-4 px-4 text-center min-w-[95px] text-pixelGold font-mono-tabular">Fish CT</th>
                                     <th class="py-4 px-5 text-left">Team Scores Matrix (Member Breakdown)</th>
                                 </tr>
                             </thead>
@@ -759,8 +756,8 @@
                         <i class="fa-solid fa-trophy"></i> Top 5 Longest Fish Pool
                     </h3>
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-sm text-pixelText border-collapse">
-                            <thead class="bg-slate-900/90 text-pixelGold text-sm font-black font-heading uppercase tracking-wider border-b border-white/20">
+                        <table class="w-full text-left text-base text-pixelText border-collapse">
+                            <thead class="bg-slate-900/90 text-pixelGold text-base font-black font-heading uppercase tracking-wider border-b border-white/20">
                                 <tr>
                                     <th class="py-4 px-5">Rank</th>
                                     <th class="py-4 px-5">Angler Name</th>
@@ -1925,7 +1922,7 @@
         }
 
         // ===================================================================
-        // LUXURIOUS RECTANGULAR BEACH LEGEND
+        // VIBRANT RECTANGULAR BEACH LEGEND
         // ===================================================================
         function renderVisualBeachLegend() {
             const containerD1 = document.getElementById('beachLegendDay1');
@@ -1965,17 +1962,17 @@
                     }).map(d => d.peg);
 
                     const mobBadges = mobilityPegNums.length > 0
-                        ? mobilityPegNums.map(p => `<span class="bg-pixelGold/30 text-pixelGold border border-pixelGold/60 font-mono-tabular font-black px-3 py-1 rounded-full text-xs">[A] Peg ${p}</span>`).join(' ')
-                        : '<span class="text-pixelMuted italic text-xs font-bold">None</span>';
+                        ? mobilityPegNums.map(p => `<span class="bg-pixelGold/40 text-pixelGold border border-pixelGold/80 font-mono-tabular font-black px-3 py-1 rounded-full text-xs shadow-sm">[A] Peg ${p}</span>`).join(' ')
+                        : '<span class="text-white/80 italic text-xs font-bold">None</span>';
 
                     return `
-                        <div class="zone-block-${color} rounded-2xl px-5 py-4 flex flex-col justify-between space-y-2 shadow-md">
+                        <div class="zone-block-${color} rounded-2xl px-5 py-4 flex flex-col justify-between space-y-2 shadow-lg">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-black font-heading uppercase tracking-wider">${color} Zone</span>
-                                <span class="text-xs font-black font-mono-tabular bg-slate-900/80 px-3.5 py-1 rounded-full border border-white/20">${rangeStr}</span>
+                                <span class="text-base font-black font-heading uppercase tracking-wider text-white drop-shadow">${color} Zone</span>
+                                <span class="text-xs font-black font-mono-tabular bg-slate-900/80 px-3.5 py-1 rounded-full border border-white/30 text-white">${rangeStr}</span>
                             </div>
-                            <div class="flex items-center justify-between pt-1 border-t border-white/15 text-xs font-bold">
-                                <span class="uppercase tracking-wider opacity-90 font-heading">Mobility:</span>
+                            <div class="flex items-center justify-between pt-1 border-t border-white/20 text-xs font-bold">
+                                <span class="uppercase tracking-wider font-heading text-white">Mobility:</span>
                                 <div class="flex items-center gap-1.5">
                                     ${mobBadges}
                                 </div>
@@ -2375,7 +2372,7 @@
             const searchVal = (document.getElementById('scoreSearchInput').value || '').toLowerCase();
 
             if (!appState.draw.generated) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-pixelMuted font-bold uppercase tracking-wider text-base">Make draw first.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-pixelMuted font-bold uppercase tracking-wider text-lg">Make draw first.</td></tr>`;
                 return;
             }
 
@@ -2402,20 +2399,20 @@
                 return `
                     <tr class="hover:bg-white/10 transition-colors">
                         <td class="py-4 px-5 text-center">
-                            <span class="glass-pill text-pixelText font-mono-tabular font-black px-4 py-1.5 text-sm border border-white/25 shadow-sm">
+                            <span class="glass-pill text-pixelText font-mono-tabular font-black px-4 py-1.5 text-base border border-white/25 shadow-sm">
                                 ${peg}
                             </span>
                         </td>
-                        <td class="py-4 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-base">${(a.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed</em>'}</td>
-                        <td class="py-4 px-5 text-sm text-pixelMuted font-bold uppercase tracking-wider font-heading">${team ? team.name.toUpperCase() : 'INDIVIDUAL'}</td>
+                        <td class="py-4 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-lg">${(a.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed</em>'}</td>
+                        <td class="py-4 px-5 text-base text-pixelMuted font-bold uppercase tracking-wider font-heading">${team ? team.name.toUpperCase() : 'INDIVIDUAL'}</td>
                         <td class="py-4 px-5 text-center">
-                            <input type="number" step="0.1" min="0" value="${score.totalMetric}" onchange="updateScoreField('${a.id}', 'totalMetric', this.value)" class="w-36 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
+                            <input type="number" step="0.1" min="0" value="${score.totalMetric}" onchange="updateScoreField('${a.id}', 'totalMetric', this.value)" class="w-36 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-base text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
                         </td>
                         <td class="py-4 px-5 text-center">
-                            <input type="number" min="0" value="${score.fishCount}" onchange="updateScoreField('${a.id}', 'fishCount', this.value)" class="w-32 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
+                            <input type="number" min="0" value="${score.fishCount}" onchange="updateScoreField('${a.id}', 'fishCount', this.value)" class="w-32 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-base text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
                         </td>
                         <td class="py-4 px-5 text-center">
-                            <input type="number" step="0.1" min="0" value="${score.bestFish}" onchange="updateScoreField('${a.id}', 'bestFish', this.value)" onkeydown="handleScoreInputKeydown(event, '${a.id}')" class="w-32 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
+                            <input type="number" step="0.1" min="0" value="${score.bestFish}" onchange="updateScoreField('${a.id}', 'bestFish', this.value)" onkeydown="handleScoreInputKeydown(event, '${a.id}')" class="w-32 bg-slate-900/90 border border-white/25 rounded-xl px-4 py-2.5 text-pixelText font-mono-tabular font-black text-base text-center focus:outline-none focus:border-pixelBlue" placeholder="0">
                         </td>
                     </tr>
                 `;
@@ -2543,7 +2540,7 @@
         function renderIndividualLeaderboard() {
             const tbody = document.getElementById('individualResultsBody');
             if (!appState.draw.generated) {
-                tbody.innerHTML = `<tr><td colspan="15" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-base">Make draw first.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="15" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-lg">Make draw first.</td></tr>`;
                 return;
             }
 
@@ -2592,25 +2589,25 @@
             });
 
             tbody.innerHTML = indSummary.map((res, idx) => `
-                <tr class="hover:bg-white/10 transition-colors font-mono-tabular">
-                    <td class="py-4 px-3 font-black text-center text-pixelBlue border-r border-white/20 text-base">#${idx+1}</td>
-                    <td class="py-4 px-3 font-black uppercase tracking-wider text-pixelText font-heading text-sm border-r border-white/20">${res.name.toUpperCase()}</td>
-                    <td class="py-4 px-3 text-sm text-pixelMuted font-bold uppercase tracking-wider font-heading border-r border-white/20">${res.teamName.toUpperCase()}</td>
+                <tr class="hover:bg-white/10 transition-colors font-mono-tabular text-base">
+                    <td class="py-4.5 px-3 font-black text-center text-pixelBlue border-r border-white/20 text-lg">#${idx+1}</td>
+                    <td class="py-4.5 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-base border-r border-white/20">${res.name.toUpperCase()}</td>
+                    <td class="py-4.5 px-5 text-base text-pixelMuted font-bold uppercase tracking-wider font-heading border-r border-white/20">${res.teamName.toUpperCase()}</td>
                     
-                    <td class="py-4 px-2 text-center bg-white/10 font-black text-pixelText"><span class="bg-pixelBlue text-slate-950 font-black px-3.5 py-1 rounded-full text-sm shadow-md">${res.totalZonePts}</span></td>
-                    <td class="py-4 px-2 text-center bg-white/10 font-black text-pixelEmerald text-base">${res.totalMetric}</td>
-                    <td class="py-4 px-2 text-center bg-white/10 font-black text-pixelText text-base">${res.totalFish}</td>
-                    <td class="py-4 px-2 text-center bg-white/10 font-black text-pixelGold text-base border-r border-white/20">${res.overallBestFish}</td>
+                    <td class="py-4.5 px-2 text-center bg-white/10 font-black text-pixelText"><span class="bg-pixelBlue text-slate-950 font-black px-4 py-1 rounded-full text-base shadow-md">${res.totalZonePts}</span></td>
+                    <td class="py-4.5 px-2 text-center bg-white/10 font-black text-pixelEmerald text-lg">${res.totalMetric}</td>
+                    <td class="py-4.5 px-2 text-center bg-white/10 font-black text-pixelText text-lg">${res.totalFish}</td>
+                    <td class="py-4.5 px-2 text-center bg-white/10 font-black text-pixelGold text-lg border-r border-white/20">${res.overallBestFish}</td>
 
-                    <td class="py-4 px-2 text-center bg-pixelBlue/10 font-black text-pixelBlue"><span class="glass-pill px-3 py-1 border border-pixelBlue/40 text-sm">${res.d1Pts}</span></td>
-                    <td class="py-4 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-sm">${res.d1Metric}</td>
-                    <td class="py-4 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-sm">${res.d1Fish}</td>
-                    <td class="py-4 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-sm border-r border-white/20">${res.d1Best}</td>
+                    <td class="py-4.5 px-2 text-center bg-pixelBlue/10 font-black text-pixelBlue"><span class="glass-pill px-3.5 py-1 border border-pixelBlue/40 text-base">${res.d1Pts}</span></td>
+                    <td class="py-4.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-base">${res.d1Metric}</td>
+                    <td class="py-4.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-base">${res.d1Fish}</td>
+                    <td class="py-4.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-base border-r border-white/20">${res.d1Best}</td>
 
-                    <td class="py-4 px-2 text-center bg-pixelGold/10 font-black text-pixelGold"><span class="glass-pill px-3 py-1 border border-pixelGold/40 text-sm">${appState.config.duration === 2 ? res.d2Pts : '-'}</span></td>
-                    <td class="py-4 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-sm">${appState.config.duration === 2 ? res.d2Metric : '-'}</td>
-                    <td class="py-4 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-sm">${appState.config.duration === 2 ? res.d2Fish : '-'}</td>
-                    <td class="py-4 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-sm">${appState.config.duration === 2 ? res.d2Best : '-'}</td>
+                    <td class="py-4.5 px-2 text-center bg-pixelGold/10 font-black text-pixelGold"><span class="glass-pill px-3.5 py-1 border border-pixelGold/40 text-base">${appState.config.duration === 2 ? res.d2Pts : '-'}</span></td>
+                    <td class="py-4.5 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-base">${appState.config.duration === 2 ? res.d2Metric : '-'}</td>
+                    <td class="py-4.5 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-base">${appState.config.duration === 2 ? res.d2Fish : '-'}</td>
+                    <td class="py-4.5 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-base">${appState.config.duration === 2 ? res.d2Best : '-'}</td>
                 </tr>
             `).join('');
         }
@@ -2618,7 +2615,7 @@
         function renderTeamLeaderboard() {
             const container = document.getElementById('teamResultsContainer');
             if (appState.teams.length === 0) {
-                container.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-base">No 4-person teams registered.</td></tr>`;
+                container.innerHTML = `<tr><td colspan="5" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-lg">No 4-person teams registered.</td></tr>`;
                 return;
             }
 
@@ -2669,18 +2666,18 @@
                     <td class="py-4 px-5 text-center">
                         <div class="flex items-center justify-center gap-3">
                             <span class="text-pixelGold font-mono-tabular font-black text-xl">#${idx+1}</span>
-                            <span class="font-black font-heading text-pixelText uppercase tracking-wider text-lg">${t.teamName.toUpperCase()}</span>
+                            <span class="font-black font-heading text-pixelText uppercase tracking-wider text-xl">${t.teamName.toUpperCase()}</span>
                         </div>
                     </td>
-                    <td class="py-4 px-4 text-center font-black text-pixelBlue font-mono-tabular text-lg bg-white/10">${t.totalTeamZonePts}</td>
-                    <td class="py-4 px-4 text-center font-black text-pixelEmerald font-mono-tabular text-lg bg-white/10">${t.totalTeamMetric}</td>
-                    <td class="py-4 px-4 text-center font-black text-pixelGold font-mono-tabular text-lg bg-white/10">${t.totalTeamFish}</td>
+                    <td class="py-4 px-4 text-center font-black text-pixelBlue font-mono-tabular text-xl bg-white/10">${t.totalTeamZonePts}</td>
+                    <td class="py-4 px-4 text-center font-black text-pixelEmerald font-mono-tabular text-xl bg-white/10">${t.totalTeamMetric}</td>
+                    <td class="py-4 px-4 text-center font-black text-pixelGold font-mono-tabular text-xl bg-white/10">${t.totalTeamFish}</td>
                     <td class="py-3 px-5">
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                             ${t.memberBreakdown.map(m => `
-                                <div class="glass-card-sm p-3 text-center space-y-1 border border-white/20">
-                                    <div class="font-black text-pixelText text-sm truncate uppercase tracking-wider font-heading">${m.name.toUpperCase()}</div>
-                                    <div class="text-xs font-bold text-pixelMuted font-mono-tabular">
+                                <div class="glass-card-sm p-3.5 text-center space-y-1 border border-white/20">
+                                    <div class="font-black text-pixelText text-base truncate uppercase tracking-wider font-heading">${m.name.toUpperCase()}</div>
+                                    <div class="text-sm font-bold text-pixelMuted font-mono-tabular">
                                         <span class="text-pixelBlue font-black">${m.zPts}PTS</span> / <span class="text-pixelEmerald font-black">${m.metric}CM</span> / <span class="text-pixelGold font-black">${m.fish}F</span>
                                     </div>
                                 </div>
@@ -2692,7 +2689,7 @@
         }
 
         // ===================================================================
-        // LUXURIOUS ZONE CARDS
+        // VIBRANT ZONE CARDS
         // ===================================================================
         function renderStackedZoneResults(day, containerId) {
             const container = document.getElementById(containerId);
@@ -2704,31 +2701,31 @@
                 const rows = items.map(item => `
                     <tr class="hover:bg-white/10 transition-colors font-mono-tabular">
                         <td class="py-3 px-1 text-center font-black shrink-0">
-                            <span class="bg-slate-900/90 text-pixelText font-black px-3 py-1 rounded-md text-xs border border-white/20 shadow-sm">${item.zonePoints}</span>
+                            <span class="bg-slate-900/90 text-pixelText font-black px-3 py-1 rounded-md text-sm border border-white/20 shadow-sm">${item.zonePoints}</span>
                         </td>
-                        <td class="py-3 px-2 font-black uppercase tracking-wider text-pixelText text-sm font-heading leading-tight">${item.anglerName.toUpperCase()}</td>
-                        <td class="py-3 px-1 font-black text-center text-pixelEmerald text-sm">${item.totalMetric}</td>
-                        <td class="py-3 px-1 font-black text-center text-pixelText text-sm">${item.fishCount}</td>
-                        <td class="py-3 px-1 font-black text-center text-pixelGold text-sm">${item.bestFish}</td>
+                        <td class="py-3 px-2 font-black uppercase tracking-wider text-pixelText text-base font-heading leading-tight">${item.anglerName.toUpperCase()}</td>
+                        <td class="py-3 px-1 font-black text-center text-pixelEmerald text-base">${item.totalMetric}</td>
+                        <td class="py-3 px-1 font-black text-center text-pixelText text-base">${item.fishCount}</td>
+                        <td class="py-3 px-1 font-black text-center text-pixelGold text-base">${item.bestFish}</td>
                     </tr>
                 `).join('');
 
                 return `
-                    <div class="glass-card p-5 shadow-lg zone-card-${color} flex flex-col justify-between space-y-3">
+                    <div class="glass-card p-5 shadow-xl zone-card-${color} flex flex-col justify-between space-y-3">
                         <div>
-                            <h4 class="text-sm font-black font-heading text-pixelText mb-3 flex items-center justify-between uppercase tracking-wider pb-3 border-b border-white/20">
-                                <span>${color} Zone</span>
-                                <span class="text-xs font-black glass-pill px-3.5 py-1 border border-white/25">Day ${day}</span>
+                            <h4 class="text-base font-black font-heading text-pixelText mb-3 flex items-center justify-between uppercase tracking-wider pb-3 border-b border-white/25">
+                                <span class="text-white drop-shadow">${color} Zone</span>
+                                <span class="text-xs font-black glass-pill px-3.5 py-1 border border-white/30 text-white">Day ${day}</span>
                             </h4>
                             <div class="w-full">
                                 <table class="w-full text-left text-sm text-pixelText border-collapse">
                                     <thead class="bg-slate-900/80 text-pixelMuted text-xs font-black font-heading uppercase tracking-wider border-b border-white/20">
                                         <tr>
-                                            <th class="py-2.5 px-1 text-center w-[50px]">PTS</th>
+                                            <th class="py-2.5 px-1 text-center w-[55px]">PTS</th>
                                             <th class="py-2.5 px-2">Angler</th>
-                                            <th class="py-2.5 px-1 text-center w-[45px]">CM</th>
-                                            <th class="py-2.5 px-1 text-center w-[45px]">FISH</th>
-                                            <th class="py-2.5 px-1 text-center w-[45px]">BIG</th>
+                                            <th class="py-2.5 px-1 text-center w-[50px]">CM</th>
+                                            <th class="py-2.5 px-1 text-center w-[50px]">FISH</th>
+                                            <th class="py-2.5 px-1 text-center w-[50px]">BIG</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-white/15">
@@ -2779,12 +2776,12 @@
 
             tbody.innerHTML = top5.map((f, idx) => `
                 <tr class="hover:bg-white/10 font-mono-tabular">
-                    <td class="py-4 px-5 font-black text-pixelGold text-base">#${idx+1}</td>
-                    <td class="py-4 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-sm">${f.anglerName.toUpperCase()}</td>
-                    <td class="py-4 px-5"><span class="zone-badge-${f.zone} px-4 py-1.5 rounded-full text-sm font-black">${f.zone} • Peg ${f.peg}</span></td>
-                    <td class="py-4 px-5 text-center font-black text-pixelEmerald text-base">${f.bestFish} CM</td>
-                    <td class="py-4 px-5 text-center text-sm font-bold uppercase tracking-wider text-pixelMuted font-heading">Day ${f.day}</td>
-                    <td class="py-4 px-5 text-sm font-bold uppercase tracking-wider text-pixelGold font-heading">Official Catch Record</td>
+                    <td class="py-4 px-5 font-black text-pixelGold text-lg">#${idx+1}</td>
+                    <td class="py-4 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-base">${f.anglerName.toUpperCase()}</td>
+                    <td class="py-4 px-5"><span class="zone-badge-${f.zone} px-4 py-1.5 rounded-full text-base font-black">${f.zone} • Peg ${f.peg}</span></td>
+                    <td class="py-4 px-5 text-center font-black text-pixelEmerald text-lg">${f.bestFish} CM</td>
+                    <td class="py-4 px-5 text-center text-base font-bold uppercase tracking-wider text-pixelMuted font-heading">Day ${f.day}</td>
+                    <td class="py-4 px-5 text-base font-bold uppercase tracking-wider text-pixelGold font-heading">Official Catch Record</td>
                 </tr>
             `).join('');
         }
