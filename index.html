@@ -139,9 +139,7 @@
 
     <input type="file" id="restoreFileInput" accept=".json" onchange="handleRestoreFileSelected(event)" class="hidden">
 
-    <!-- =================================================================== -->
-    <!-- CUSTOM DEMO GENERATOR MODAL                                         -->
-    <!-- =================================================================== -->
+    <!-- CUSTOM DEMO GENERATOR MODAL -->
     <div id="demoModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-xl z-50 flex items-center justify-center p-4 hidden">
         <div class="glass-card p-8 max-w-lg w-full space-y-6 shadow-2xl text-pixelText">
             <div class="flex items-center justify-between border-b border-white/20 pb-4">
@@ -257,11 +255,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Day 1 Mobility [A] Pegs</label>
-                            <input type="text" id="modalAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3,4,5,6">
+                            <input type="text" id="modalAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5,6,7,8">
                         </div>
                         <div id="modalD2MobilityContainer">
                             <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Day 2 Mobility [A] Pegs</label>
-                            <input type="text" id="modalAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 3-6 or 3,4,5,6">
+                            <input type="text" id="modalAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5,6,7,8">
                         </div>
                     </div>
                 </div>
@@ -313,11 +311,11 @@
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Teams of 4</label>
-                        <input type="number" id="inputNumTeams" min="0" value="7" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
+                        <input type="number" id="inputNumTeams" min="0" value="7" oninput="updateMobilityAdvisor()" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Solo Competitors</label>
-                        <input type="number" id="inputNumSolos" min="0" value="4" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
+                        <input type="number" id="inputNumSolos" min="0" value="4" oninput="updateMobilityAdvisor()" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
                     </div>
                 </div>
 
@@ -327,52 +325,90 @@
                         <span class="text-sm sm:text-base font-black text-pixelText uppercase tracking-wider font-heading">Require Accessible / Mobility [A] Peg Allocations?</span>
                     </label>
 
-                    <div id="mobilityExpandedPanel" class="hidden pt-5 border-t border-white/20 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-white/20">
-                            <span class="text-sm font-black text-pixelBlue block uppercase tracking-wider font-heading">Day 1 [A] Mobility Assignment</span>
-                            <div class="flex items-center gap-6 text-sm font-bold text-pixelMuted">
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="d1MobType" value="specific" checked onchange="toggleMobilityInputType(1)" class="text-pixelBlue w-4 h-4"> Specific Pegs
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="d1MobType" value="zone" onchange="toggleMobilityInputType(1)" class="text-pixelBlue w-4 h-4"> Dedicated Zone
-                                </label>
+                    <div id="mobilityExpandedPanel" class="hidden pt-5 border-t border-white/20 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-white/20">
+                                <span class="text-sm font-black text-pixelBlue block uppercase tracking-wider font-heading">Day 1 [A] Mobility Assignment</span>
+                                <div class="flex items-center gap-6 text-sm font-bold text-pixelMuted">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="d1MobType" value="specific" checked onchange="toggleMobilityInputType(1)" class="text-pixelBlue w-4 h-4"> Specific Pegs
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="d1MobType" value="zone" onchange="toggleMobilityInputType(1)" class="text-pixelBlue w-4 h-4"> Dedicated Zone
+                                    </label>
+                                </div>
+                                <div id="d1MobInputSpecific">
+                                    <input type="text" id="cfgAccessPegsD1" oninput="updateMobilityAdvisor()" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5, 6, 7, 8">
+                                </div>
+                                <div id="d1MobInputZone" class="hidden">
+                                    <select id="cfgAccessZoneD1" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
+                                        <option value="Red">Red Zone</option>
+                                        <option value="Yellow">Yellow Zone</option>
+                                        <option value="Green">Green Zone</option>
+                                        <option value="Blue">Blue Zone</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div id="d1MobInputSpecific">
-                                <input type="text" id="cfgAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5, 6, 7, 8">
-                            </div>
-                            <div id="d1MobInputZone" class="hidden">
-                                <select id="cfgAccessZoneD1" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
-                                    <option value="Red">Red Zone</option>
-                                    <option value="Yellow">Yellow Zone</option>
-                                    <option value="Green">Green Zone</option>
-                                    <option value="Blue">Blue Zone</option>
-                                </select>
+
+                            <div id="d2MobilitySetupContainer" class="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-white/20">
+                                <span class="text-sm font-black text-pixelBlue block uppercase tracking-wider font-heading">Day 2 [A] Mobility Assignment</span>
+                                <div class="flex items-center gap-6 text-sm font-bold text-pixelMuted">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="d2MobType" value="specific" checked onchange="toggleMobilityInputType(2)" class="text-pixelBlue w-4 h-4"> Specific Pegs
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="d2MobType" value="zone" onchange="toggleMobilityInputType(2)" class="text-pixelBlue w-4 h-4"> Dedicated Zone
+                                    </label>
+                                </div>
+                                <div id="d2MobInputSpecific">
+                                    <input type="text" id="cfgAccessPegsD2" oninput="updateMobilityAdvisor()" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5, 6, 7, 8">
+                                </div>
+                                <div id="d2MobInputZone" class="hidden">
+                                    <select id="cfgAccessZoneD2" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
+                                        <option value="Yellow">Yellow Zone</option>
+                                        <option value="Red">Red Zone</option>
+                                        <option value="Green">Green Zone</option>
+                                        <option value="Blue">Blue Zone</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
-                        <div id="d2MobilitySetupContainer" class="space-y-4 bg-slate-900/60 p-5 rounded-2xl border border-white/20">
-                            <span class="text-sm font-black text-pixelBlue block uppercase tracking-wider font-heading">Day 2 [A] Mobility Assignment</span>
-                            <div class="flex items-center gap-6 text-sm font-bold text-pixelMuted">
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="d2MobType" value="specific" checked onchange="toggleMobilityInputType(2)" class="text-pixelBlue w-4 h-4"> Specific Pegs
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="d2MobType" value="zone" onchange="toggleMobilityInputType(2)" class="text-pixelBlue w-4 h-4"> Dedicated Zone
-                                </label>
+                        <!-- LIVE PRE-DRAW MOBILITY ALLOCATION ADVISOR PANEL -->
+                        <div id="mobilityAdvisorPanel" class="bg-slate-950/80 p-5 rounded-2xl border border-white/20 space-y-4">
+                            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/15 pb-3">
+                                <div class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-calculator text-pixelCyan text-base"></i>
+                                    <span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider">Mobility Allocation Advisor & Capacity Meter</span>
+                                </div>
+                                <span id="advisorOverallBadge" class="text-xs font-black glass-pill px-4 py-1 border border-pixelEmerald/50 text-pixelEmerald font-mono-tabular">
+                                    <i class="fa-solid fa-circle-check mr-1"></i> OPTIMAL CAPACITY
+                                </span>
                             </div>
-                            <div id="d2MobInputSpecific">
-                                <input type="text" id="cfgAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5, 6, 7, 8">
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-bold text-pixelMuted">
+                                <div class="bg-slate-900/90 p-3.5 rounded-xl border border-white/15">
+                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Total [A] Competitors</span>
+                                    <span class="text-xl font-black text-pixelGold font-mono-tabular" id="advCountMobility">0</span>
+                                </div>
+                                <div class="bg-slate-900/90 p-3.5 rounded-xl border border-white/15">
+                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Recommended per Zone</span>
+                                    <span class="text-xl font-black text-pixelCyan font-mono-tabular" id="advRecPerZone">0 Pegs</span>
+                                </div>
+                                <div class="bg-slate-900/90 p-3.5 rounded-xl border border-white/15">
+                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Allocated Peg Count</span>
+                                    <span class="text-xl font-black text-pixelEmerald font-mono-tabular" id="advTotalAllocated">0 Pegs</span>
+                                </div>
                             </div>
-                            <div id="d2MobInputZone" class="hidden">
-                                <select id="cfgAccessZoneD2" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
-                                    <option value="Yellow">Yellow Zone</option>
-                                    <option value="Red">Red Zone</option>
-                                    <option value="Green">Green Zone</option>
-                                    <option value="Blue">Blue Zone</option>
-                                </select>
+
+                            <div class="space-y-2">
+                                <span class="text-xs font-black uppercase tracking-wider text-pixelMuted font-heading block">Zone Density Assessment:</span>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs" id="advZoneDensityGrid">
+                                    <!-- Dynamic zone badges injected here -->
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -829,6 +865,7 @@
             if (appState.draw.generated) {
                 showMainWorkspace();
             }
+            updateMobilityAdvisor();
         };
 
         function triggerHaptic() {
@@ -843,6 +880,62 @@
             const data = localStorage.getItem(STORAGE_KEY);
             if (data) {
                 try { appState = JSON.parse(data); } catch(e) { console.error("Error loading state", e); }
+            }
+        }
+
+        // ===================================================================
+        // PRE-DRAW MOBILITY ALLOCATION ADVISOR LOGIC
+        // ===================================================================
+        function updateMobilityAdvisor() {
+            const totalAnglers = appState.anglers.length > 0 ? appState.anglers.length : (parseInt(document.getElementById('inputNumTeams').value || 0) * 4 + parseInt(document.getElementById('inputNumSolos').value || 0));
+            const mobAnglersCount = appState.anglers.filter(a => a.mobility).length;
+
+            document.getElementById('advCountMobility').innerText = mobAnglersCount;
+
+            if (totalAnglers === 0) return;
+
+            const bounds = getZoneBoundsForN(totalAnglers);
+            const recPerZone = mobAnglersCount > 0 ? Math.ceil(mobAnglersCount / 4) + 2 : 0;
+            document.getElementById('advRecPerZone').innerText = `${recPerZone} Pegs`;
+
+            const pegInputD1 = document.getElementById('cfgAccessPegsD1').value || '';
+            const allocatedPegsD1 = parsePegList(pegInputD1);
+            document.getElementById('advTotalAllocated').innerText = `${allocatedPegsD1.length} Pegs`;
+
+            let zoneCounts = { 'Red': 0, 'Yellow': 0, 'Green': 0, 'Blue': 0 };
+            allocatedPegsD1.forEach(peg => {
+                const z = bounds.getZoneForPeg(peg);
+                if (zoneCounts[z] !== undefined) zoneCounts[z]++;
+            });
+
+            const gridContainer = document.getElementById('advZoneDensityGrid');
+            let isDeficient = false;
+
+            gridContainer.innerHTML = ZONE_COLORS.map(c => {
+                const count = zoneCounts[c];
+                const satisfies = count >= (recPerZone > 0 ? (recPerZone - 1) : 0);
+                if (mobAnglersCount > 0 && count < (recPerZone - 1)) isDeficient = true;
+
+                const badgeColor = satisfies ? 'bg-pixelEmerald/20 border-pixelEmerald/50 text-pixelEmerald' : 'bg-pixelCoral/20 border-pixelCoral/60 text-pixelCoral';
+
+                return `
+                    <div class="p-3 rounded-xl border font-mono-tabular ${badgeColor} flex flex-col justify-between">
+                        <span class="font-heading uppercase tracking-wider block font-bold text-[11px]">${c} Zone</span>
+                        <span class="text-base font-black">${count} / ${recPerZone} Pegs</span>
+                    </div>
+                `;
+            }).join('');
+
+            const overallBadge = document.getElementById('advisorOverallBadge');
+            if (mobAnglersCount === 0) {
+                overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-white/20 text-pixelMuted font-mono-tabular";
+                overallBadge.innerHTML = `<i class="fa-solid fa-circle-info mr-1"></i> NO MOBILITY ANGLERS`;
+            } else if (isDeficient) {
+                overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-pixelCoral/60 text-pixelCoral font-mono-tabular animate-pulse";
+                overallBadge.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> INSUFFICIENT PEG CAPACITY`;
+            } else {
+                overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-pixelEmerald/50 text-pixelEmerald font-mono-tabular";
+                overallBadge.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> OPTIMAL CAPACITY`;
             }
         }
 
@@ -899,7 +992,6 @@
                 });
             }
 
-            // Flag mobility anglers
             for (let i = 0; i < Math.min(numMobility, newAnglers.length); i++) {
                 newAnglers[i].mobility = true;
             }
@@ -917,6 +1009,7 @@
             closeDemoModal();
             renderBatchEntryFields();
             document.getElementById('rosterFieldsForm').classList.remove('hidden');
+            updateMobilityAdvisor();
         }
 
         function executeFactoryResetWithBackup() {
@@ -1122,6 +1215,7 @@
             const panel = document.getElementById('mobilityExpandedPanel');
             if (checked) panel.classList.remove('hidden');
             else panel.classList.add('hidden');
+            updateMobilityAdvisor();
         }
 
         function toggleMobilityInputType(day) {
@@ -1154,6 +1248,7 @@
                 }
             }
             inputEl.value = formattedRanges.join(', ');
+            updateMobilityAdvisor();
         }
 
         function parsePegList(inputStr) {
@@ -1214,6 +1309,7 @@
 
             renderBatchEntryFields();
             document.getElementById('rosterFieldsForm').classList.remove('hidden');
+            updateMobilityAdvisor();
         }
 
         function splitTeamInSetup(teamId) {
@@ -1226,6 +1322,7 @@
                 document.getElementById('inputNumTeams').value = appState.teams.length;
                 document.getElementById('inputNumSolos').value = appState.anglers.filter(a => a.teamId === null).length;
                 renderBatchEntryFields();
+                updateMobilityAdvisor();
             }
         }
 
@@ -1281,11 +1378,16 @@
 
             container.innerHTML = html;
             document.getElementById('setupTotalCountLabel').innerText = `Total: ${appState.anglers.length} Anglers`;
+            updateMobilityAdvisor();
         }
 
         function updateSetupAnglerName(id, val) { let a = appState.anglers.find(x => x.id === id); if (a) a.name = val.trim(); }
         function updateSetupTeamName(teamId, val) { let t = appState.teams.find(x => x.id === teamId); if (t) t.name = val.trim(); }
-        function toggleSetupAnglerMobility(id, checked) { let a = appState.anglers.find(x => x.id === id); if (a) a.mobility = checked; }
+        function toggleSetupAnglerMobility(id, checked) { 
+            let a = appState.anglers.find(x => x.id === id); 
+            if (a) a.mobility = checked; 
+            updateMobilityAdvisor();
+        }
 
         function handleCreateTheDraw(e) {
             e.preventDefault();
