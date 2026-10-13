@@ -2043,12 +2043,12 @@ const bounds = getZoneBoundsForN(N);
             }
 
             let html = '';
-            const dayHeadersHTML = `
-                <div class="flex items-center gap-2 shrink-0 font-heading font-black text-sm uppercase tracking-wider text-pixelMuted">
-                    <span class="w-10 sm:w-12 text-center">D1</span>
-                    ${appState.config.duration === 2 ? '<span class="w-10 sm:w-12 text-center">D2</span>' : ''}
-                </div>
-            `;
+          const memberHeaderHTML = `
+    <div class="flex items-center justify-end gap-2 px-3.5 pb-1 font-heading font-black text-xs uppercase tracking-wider text-pixelMuted">
+        <span class="w-10 sm:w-12 text-center">D1</span>
+        ${appState.config.duration === 2 ? '<span class="w-10 sm:w-12 text-center">D2</span>' : ''}
+    </div>
+`;
 
             appState.teams.forEach(t => {
                 const members = appState.anglers.filter(a => a.teamId === t.id);
@@ -2061,7 +2061,11 @@ const bounds = getZoneBoundsForN(N);
                     const isD2Selected = swapFirstSelection && swapFirstSelection.anglerId === m.id && swapFirstSelection.day === 2;
 
                     const deleteBtn = isDeleteModeActive ? `<button onclick="triggerHaptic(); confirmDeleteAngler('${m.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-base touch-elastic"><i class="fa-solid fa-circle-xmark"></i></button>` : '';
-                    const nameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">` : `<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate max-w-[130px] sm:max-w-none font-heading">${(m.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed member</em>'}</span>`;
+                    const mobNameBadge = m.mobility ? '<span class="absolute -top-1.5 -left-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : '';
+
+const nameDisplay = isAmendNamesModeActive 
+    ? `<div class="relative flex-grow"><input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">${mobNameBadge}</div>` 
+    : `<div class="relative flex-grow min-w-0">${mobNameBadge}<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate block font-heading">${(m.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed member</em>'}</span></div>`;
 
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
@@ -2095,21 +2099,23 @@ const bounds = getZoneBoundsForN(N);
                 const teamNameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(t.name || '').toUpperCase()}" onchange="updateLiveTeamName('${t.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="TEAM NAME">` : `<span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider truncate">${(t.name || '').toUpperCase() || 'UNNAMED TEAM'}</span>`;
                 const splitBtnLive = isAmendToolbarOpen ? `<button onclick="triggerHaptic(); splitTeamInLiveWorkspace('${t.id}')" class="bg-pixelCoral/25 hover:bg-pixelCoral/35 text-pixelCoral border border-pixelCoral/50 font-black text-xs uppercase tracking-wider px-3 py-1 rounded-xl transition-all shrink-0 flex items-center gap-1 touch-elastic" title="Split team into solo anglers"><i class="fa-solid fa-scissors"></i> Split</button>` : '';
 
-                html += `
-                    <div class="glass-card-sm p-6 space-y-4 hover:border-pixelBlue/60 transition-all">
-                        <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
-                            <div class="flex items-center gap-2 min-w-0 flex-grow">
-                                <i class="fa-solid fa-users text-pixelBlue text-sm shrink-0"></i>
-                                ${teamNameDisplay}
-                            </div>
-                            <div class="flex items-center gap-3 shrink-0">
-                                ${splitBtnLive}
-                                ${dayHeadersHTML}
-                            </div>
-                        </div>
-                        <div class="space-y-2.5">${memberRows}</div>
-                    </div>
-                `;
+              html += `
+    <div class="glass-card-sm p-6 space-y-4 hover:border-pixelBlue/60 transition-all">
+        <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
+            <div class="flex items-center gap-2 min-w-0 flex-grow">
+                <i class="fa-solid fa-users text-pixelBlue text-sm shrink-0"></i>
+                ${teamNameDisplay}
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                ${splitBtnLive}
+            </div>
+        </div>
+        <div class="space-y-2.5">
+            ${memberHeaderHTML}
+            ${memberRows}
+        </div>
+    </div>
+`;
             });
 
             const solos = appState.anglers.filter(a => a.teamId === null);
@@ -2122,7 +2128,12 @@ const bounds = getZoneBoundsForN(N);
                     const isD2Selected = swapFirstSelection && swapFirstSelection.anglerId === s.id && swapFirstSelection.day === 2;
 
                     const deleteBtn = isDeleteModeActive ? `<button onclick="triggerHaptic(); confirmDeleteAngler('${s.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-base touch-elastic"><i class="fa-solid fa-circle-xmark"></i></button>` : '';
-                    const nameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(s.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${s.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="SOLO ANGLER NAME">` : `<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate max-w-[130px] sm:max-w-none font-heading">${(s.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed angler</em>'}</span>`;
+
+const mobSoloBadge = s.mobility ? '<span class="absolute -top-1.5 -left-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : '';
+
+const nameDisplay = isAmendNamesModeActive 
+    ? `<div class="relative flex-grow"><input type="text" value="${(s.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${s.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="SOLO ANGLER NAME">${mobSoloBadge}</div>` 
+    : `<div class="relative flex-grow min-w-0">${mobSoloBadge}<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate block font-heading">${(s.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed angler</em>'}</span></div>`;
 
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
@@ -2130,17 +2141,16 @@ const bounds = getZoneBoundsForN(N);
                     const d2SelectedClass = isD2Selected ? 'swap-peg-selected' : '';
 
                     html += `
-                        <div class="glass-card-sm p-6 space-y-4 hover:border-pixelCyan/60 transition-all">
-                            <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
-                                <div class="flex items-center gap-2 min-w-0 flex-grow">
-                                    <i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i>
-                                    <span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider">Solo Competitor</span>
-                                </div>
-                                <div class="flex items-center gap-3 shrink-0">
-                                    ${dayHeadersHTML}
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
+    <div class="glass-card-sm p-6 space-y-4 hover:border-pixelCyan/60 transition-all">
+        <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
+            <div class="flex items-center gap-2 min-w-0 flex-grow">
+                <i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i>
+                <span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider">Solo Competitor</span>
+            </div>
+        </div>
+        <div class="space-y-2.5">
+            ${memberHeaderHTML}
+            <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
                                 <div class="flex items-center gap-2 min-w-0">
                                     ${deleteBtn}
                                     ${nameDisplay}
