@@ -1577,21 +1577,49 @@
             else container.classList.remove('hidden');
         }
 
-        function generateRosterFieldsFromParameters() {
-            const numTeams = parseInt(document.getElementById('inputNumTeams').value) || 0;
-            const numSolos = parseInt(document.getElementById('inputNumSolos').value) || 0;
+       function generateRosterFieldsFromParameters() {
+    const numTeams = parseInt(document.getElementById('inputNumTeams').value) || 0;
+    const numSolos = parseInt(document.getElementById('inputNumSolos').value) || 0;
 
-            generateUniqueDemoRoster(numTeams, numSolos, 0);
+    // Clear any previous data in appState
+    appState.teams = [];
+    appState.anglers = [];
 
-            renderBatchEntryFields();
-            const formEl = document.getElementById('rosterFieldsForm');
-            formEl.classList.remove('hidden');
-            updateMobilityAdvisor();
-
-            setTimeout(() => {
-                formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
+    // Create blank teams
+    for (let t = 1; t <= numTeams; t++) {
+        appState.teams.push({
+            id: `team_${t}`,
+            name: `Team ${t}`
+        });
+        for (let m = 1; m <= 4; m++) {
+            appState.anglers.push({
+                id: `ang_${t}_${m}`,
+                name: '',
+                teamId: `team_${t}`,
+                mobility: false
+            });
         }
+    }
+
+    // Create blank solos
+    for (let s = 1; s <= numSolos; s++) {
+        appState.anglers.push({
+            id: `solo_${s}`,
+            name: '',
+            teamId: null,
+            mobility: false
+        });
+    }
+
+    renderBatchEntryFields();
+    const formEl = document.getElementById('rosterFieldsForm');
+    formEl.classList.remove('hidden');
+    updateMobilityAdvisor();
+
+    setTimeout(() => {
+        formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+}
 
         function splitTeamInSetup(teamId) {
             const team = appState.teams.find(t => t.id === teamId);
