@@ -1952,8 +1952,18 @@ const d2PegText = d2 ? d2.peg : '';
                                 ${m.mobility ? '<span class="text-pixelGold bg-pixelGold/20 text-xs font-black px-2.5 py-0.5 rounded-full border border-pixelGold/50 shrink-0">[A]</span>' : ''}
                             </div>
                             <div class="flex items-center gap-2 shrink-0 ml-1 font-mono-tabular">
-                                ${d1 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 1)" class="zone-badge-${d1.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">${d1PegText}</span>` : ''}
-                                ${appState.config.duration === 2 && d2 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 2)" class="zone-badge-${d2.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">${d2PegText}</span>` : ''}
+                               ${d1 ? `
+    <span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 1)" class="relative zone-badge-${d1.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
+        ${m.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+        ${d1.peg}
+    </span>
+` : ''}
+${appState.config.duration === 2 && d2 ? `
+    <span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 2)" class="relative zone-badge-${d2.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
+        ${m.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+        ${d2.peg}
+    </span>
+` : ''}
                             </div>
                         </div>
                     `;
@@ -2006,8 +2016,18 @@ const d2PegText = d2 ? d2.peg : '';
                                     ${s.mobility ? '<span class="text-pixelGold bg-pixelGold/20 text-xs font-black px-2.5 py-0.5 rounded-full border border-pixelGold/50 shrink-0">[A]</span>' : ''}
                                 </div>
                                 <div class="flex items-center gap-2 shrink-0 ml-1 font-mono-tabular">
-                                    ${d1 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 1)" class="zone-badge-${d1.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">${d1PegText}</span>` : ''}
-                                    ${appState.config.duration === 2 && d2 ? `<span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 2)" class="zone-badge-${d2.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">${d2PegText}</span>` : ''}
+                                   ${d1 ? `
+    <span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 1)" class="relative zone-badge-${d1.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
+        ${s.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+        ${d1.peg}
+    </span>
+` : ''}
+${appState.config.duration === 2 && d2 ? `
+    <span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 2)" class="relative zone-badge-${d2.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
+        ${s.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+        ${d2.peg}
+    </span>
+` : ''}
                                 </div>
                             </div>
                         </div>
