@@ -377,13 +377,13 @@
                         </div>
 
                         <!-- LIVE PRE-DRAW MOBILITY ALLOCATION ADVISOR PANEL -->
-                        <div id="mobilityAdvisorPanel" class="bg-slate-950/80 p-5 rounded-2xl border border-white/20 space-y-4">
-                            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/15 pb-3">
+                        <div id="mobilityAdvisorPanel" class="bg-slate-950/80 p-5 sm:p-6 rounded-2xl border border-white/20 space-y-5">
+                            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/15 pb-4">
                                 <div class="flex items-center gap-2.5">
-                                    <i class="fa-solid fa-calculator text-pixelCyan text-base"></i>
-                                    <span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider">Mobility Allocation Advisor & Capacity Meter</span>
+                                    <i class="fa-solid fa-map-location-dot text-pixelCyan text-lg"></i>
+                                    <span class="text-base font-black font-heading text-pixelText uppercase tracking-wider">Interactive Live Zone Map & Capacity Meter</span>
                                 </div>
-                                <span id="advisorOverallBadge" class="text-xs font-black glass-pill px-4 py-1 border border-pixelEmerald/50 text-pixelEmerald font-mono-tabular">
+                                <span id="advisorOverallBadge" class="text-xs font-black glass-pill px-4 py-1.5 border border-pixelEmerald/50 text-pixelEmerald font-mono-tabular">
                                     <i class="fa-solid fa-circle-check mr-1"></i> OPTIMAL CAPACITY
                                 </span>
                             </div>
@@ -394,19 +394,24 @@
                                     <span class="text-xl font-black text-pixelGold font-mono-tabular" id="advCountMobility">0</span>
                                 </div>
                                 <div class="bg-slate-900/90 p-3.5 rounded-xl border border-white/15">
-                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Recommended per Zone</span>
+                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Target per Zone</span>
                                     <span class="text-xl font-black text-pixelCyan font-mono-tabular" id="advRecPerZone">0 Pegs</span>
                                 </div>
                                 <div class="bg-slate-900/90 p-3.5 rounded-xl border border-white/15">
-                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Allocated Peg Count</span>
+                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Total Mobility Pegs Typed</span>
                                     <span class="text-xl font-black text-pixelEmerald font-mono-tabular" id="advTotalAllocated">0 Pegs</span>
                                 </div>
                             </div>
 
-                            <div class="space-y-2">
-                                <span class="text-xs font-black uppercase tracking-wider text-pixelMuted font-heading block">Zone Density Assessment:</span>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs" id="advZoneDensityGrid">
-                                    <!-- Dynamic zone badges injected here -->
+                            <!-- INTERACTIVE LIVE MINI-ZONE MAP PREVIEW -->
+                            <div class="space-y-3 pt-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-black uppercase tracking-wider text-pixelMuted font-heading block">Live Venue Zone Breakdown:</span>
+                                    <span class="text-xs font-mono-tabular font-bold text-pixelBlue" id="miniMapTotalFieldLabel">Field Size: 0 Anglers</span>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="interactiveMiniZoneGrid">
+                                    <!-- Dynamic Mini Zone Maps injected here -->
                                 </div>
                             </div>
                         </div>
@@ -840,8 +845,8 @@
                 mobilityRequired: false,
                 d1MobType: "specific",
                 d2MobType: "specific",
-                accessPegsD1: "5-12",
-                accessPegsD2: "5-12",
+                accessPegsD1: "19-25, 44-50, 69-75, 94-100",
+                accessPegsD2: "19-25, 44-50, 69-75, 94-100",
                 accessZoneD1: "Red",
                 accessZoneD2: "Yellow"
             },
@@ -886,19 +891,18 @@
         }
 
         // ===================================================================
-        // STREAMLINED PRE-DRAW MOBILITY ALLOCATION ADVISOR LOGIC
+        // STREAMLINED PRE-DRAW MOBILITY ALLOCATION ADVISOR LOGIC + MINI-MAP
         // ===================================================================
         function updateMobilityAdvisor() {
             const numTeamsInput = parseInt(document.getElementById('inputNumTeams').value || 0);
             const numSolosInput = parseInt(document.getElementById('inputNumSolos').value || 0);
             const plannedTotalAnglers = (numTeamsInput * 4) + numSolosInput;
 
-            const totalAnglers = appState.anglers.length > 0 ? appState.anglers.length : plannedTotalAnglers;
+            const totalAnglers = appState.anglers.length > 0 ? appState.anglers.length : (plannedTotalAnglers > 0 ? plannedTotalAnglers : 32);
             const mobAnglersCount = appState.anglers.filter(a => a.mobility).length;
 
             document.getElementById('advCountMobility').innerText = mobAnglersCount;
-
-            if (totalAnglers === 0) return;
+            document.getElementById('miniMapTotalFieldLabel').innerText = `Field Size: ${totalAnglers} Anglers`;
 
             const bounds = getZoneBoundsForN(totalAnglers);
             const recPerZone = mobAnglersCount > 0 ? Math.ceil(mobAnglersCount / 4) + 2 : 0;
@@ -928,39 +932,71 @@
                 }
             }
 
-            let zoneCounts = { 'Red': 0, 'Yellow': 0, 'Green': 0, 'Blue': 0 };
+            let zonePegLists = { 'Red': [], 'Yellow': [], 'Green': [], 'Blue': [] };
             allocatedPegsD1.forEach(peg => {
                 const z = bounds.getZoneForPeg(peg);
-                if (zoneCounts[z] !== undefined) zoneCounts[z]++;
+                if (zonePegLists[z] !== undefined) zonePegLists[z].push(peg);
             });
 
-            const gridContainer = document.getElementById('advZoneDensityGrid');
+            const miniGridContainer = document.getElementById('interactiveMiniZoneGrid');
             let isDeficient = false;
 
-            gridContainer.innerHTML = ZONE_COLORS.map(c => {
-                const count = zoneCounts[c];
+            const zoneRanges = {
+                'Red': `Pegs 1–${bounds.redEnd}`,
+                'Yellow': `Pegs ${bounds.redEnd + 1}–${bounds.yellowEnd}`,
+                'Green': `Pegs ${bounds.yellowEnd + 1}–${bounds.greenEnd}`,
+                'Blue': `Pegs ${bounds.greenEnd + 1}–${bounds.blueEnd}`
+            };
+
+            miniGridContainer.innerHTML = ZONE_COLORS.map(c => {
+                const pegsInZone = zonePegLists[c];
+                const count = pegsInZone.length;
                 const satisfies = count >= (recPerZone > 0 ? (recPerZone - 1) : 0);
                 if (mobAnglersCount > 0 && count < (recPerZone - 1)) isDeficient = true;
 
-                const badgeColor = satisfies ? 'bg-pixelEmerald/20 border-pixelEmerald/50 text-pixelEmerald' : 'bg-pixelCoral/20 border-pixelCoral/60 text-pixelCoral';
+                const cardStyle = satisfies ? 'zone-card-' + c : 'bg-pixelCoral/20 border-2 border-pixelCoral text-pixelCoral';
+
+                const pegBadgesHTML = pegsInZone.length > 0 
+                    ? pegsInZone.map(p => `<span class="bg-slate-900/90 text-pixelText border border-white/30 font-mono-tabular font-black px-2 py-0.5 rounded-md text-xs shadow-sm">${p}</span>`).join(' ')
+                    : `<span class="text-pixelMuted italic text-xs font-bold">No typed pegs fall here</span>`;
 
                 return `
-                    <div class="p-3 rounded-xl border font-mono-tabular ${badgeColor} flex flex-col justify-between transition-all">
-                        <span class="font-heading uppercase tracking-wider block font-bold text-[11px]">${c} Zone</span>
-                        <span class="text-base font-black">${count} / ${recPerZone} Pegs</span>
+                    <div class="glass-card-sm p-4 rounded-2xl border transition-all flex flex-col justify-between space-y-3 ${cardStyle}">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-white/20 pb-2 mb-2">
+                                <span class="font-heading uppercase tracking-wider font-black text-sm text-white drop-shadow">${c} Zone</span>
+                                <span class="text-xs font-mono-tabular font-black glass-pill px-2.5 py-0.5 border border-white/30 text-white">${zoneRanges[c]}</span>
+                            </div>
+
+                            <div class="space-y-1.5 text-xs font-bold text-pixelMuted">
+                                <div class="flex justify-between items-center font-mono-tabular">
+                                    <span>Allocated Pegs:</span>
+                                    <span class="text-sm font-black ${satisfies ? 'text-pixelEmerald' : 'text-pixelCoral'}">${count} Pegs</span>
+                                </div>
+                                <div class="flex justify-between items-center font-mono-tabular text-[11px] text-pixelMuted">
+                                    <span>Target Capacity:</span>
+                                    <span>Min ${Math.max(0, recPerZone - 1)} Pegs</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 border-t border-white/15 space-y-1">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-pixelMuted font-heading block">Recognized Pegs:</span>
+                            <div class="flex flex-wrap gap-1 max-h-16 overflow-y-auto custom-scrollbar">${pegBadgesHTML}</div>
+                        </div>
                     </div>
                 `;
             }).join('');
 
             const overallBadge = document.getElementById('advisorOverallBadge');
             if (mobAnglersCount === 0) {
-                overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-white/20 text-pixelMuted font-mono-tabular";
+                overallBadge.className = "text-xs font-black glass-pill px-4 py-1.5 border border-white/20 text-pixelMuted font-mono-tabular";
                 overallBadge.innerHTML = `<i class="fa-solid fa-circle-info mr-1"></i> NO MOBILITY ANGLERS`;
             } else if (isDeficient) {
-                overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-pixelCoral/60 text-pixelCoral font-mono-tabular animate-pulse";
+                overallBadge.className = "text-xs font-black glass-pill px-4 py-1.5 border border-pixelCoral/60 text-pixelCoral font-mono-tabular animate-pulse bg-pixelCoral/10";
                 overallBadge.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> INSUFFICIENT PEG CAPACITY`;
             } else {
-                overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-pixelEmerald/60 text-pixelEmerald font-mono-tabular bg-pixelEmerald/10 shadow-lg shadow-pixelEmerald/10 animate-pulse";
+                overallBadge.className = "text-xs font-black glass-pill px-4 py-1.5 border border-pixelEmerald/60 text-pixelEmerald font-mono-tabular bg-pixelEmerald/10 shadow-lg shadow-pixelEmerald/10 animate-pulse";
                 overallBadge.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> OPTIMAL DRAW CAPACITY`;
             }
         }
@@ -1073,7 +1109,7 @@
             localStorage.removeItem(STORAGE_KEY);
 
             appState = {
-                config: { title: "2026 Shore Sea Fishing Championship", duration: 2, mobilityRequired: false, d1MobType: "specific", d2MobType: "specific", accessPegsD1: "5-12", accessPegsD2: "5-12", accessZoneD1: "Red", accessZoneD2: "Yellow" },
+                config: { title: "2026 Shore Sea Fishing Championship", duration: 2, mobilityRequired: false, d1MobType: "specific", d2MobType: "specific", accessPegsD1: "19-25, 44-50, 69-75, 94-100", accessPegsD2: "19-25, 44-50, 69-75, 94-100", accessZoneD1: "Red", accessZoneD2: "Yellow" },
                 anglers: [], teams: [], draw: { generated: false, day1: [], day2: [] }, scores: { day1: {}, day2: {} }
             };
 
@@ -1168,8 +1204,8 @@
         }
 
         function openRedrawConfigModal() {
-            document.getElementById('modalAccessPegsD1').value = appState.config.accessPegsD1 || "5-12";
-            document.getElementById('modalAccessPegsD2').value = appState.config.accessPegsD2 || "5-12";
+            document.getElementById('modalAccessPegsD1').value = appState.config.accessPegsD1 || "19-25, 44-50, 69-75, 94-100";
+            document.getElementById('modalAccessPegsD2').value = appState.config.accessPegsD2 || "19-25, 44-50, 69-75, 94-100";
             const d2Container = document.getElementById('modalD2MobilityContainer');
             if (appState.config.duration === 1) d2Container.classList.add('hidden');
             else d2Container.classList.remove('hidden');
@@ -1231,8 +1267,8 @@
         }
 
         function confirmExecuteFullRedraw() {
-            appState.config.accessPegsD1 = document.getElementById('modalAccessPegsD1').value || "5-12";
-            appState.config.accessPegsD2 = document.getElementById('modalAccessPegsD2').value || "5-12";
+            appState.config.accessPegsD1 = document.getElementById('modalAccessPegsD1').value || "19-25, 44-50, 69-75, 94-100";
+            appState.config.accessPegsD2 = document.getElementById('modalAccessPegsD2').value || "19-25, 44-50, 69-75, 94-100";
 
             document.querySelectorAll('.modal-team-name-input').forEach(input => {
                 const team = appState.teams.find(t => t.id === input.getAttribute('data-team-id'));
