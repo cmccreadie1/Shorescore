@@ -2142,15 +2142,17 @@ const nameDisplay = isAmendNamesModeActive
 
                     html += `
     <div class="glass-card-sm p-6 space-y-4 hover:border-pixelCyan/60 transition-all">
-        <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
-            <div class="flex items-center gap-2 min-w-0 flex-grow">
-                <i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i>
-                <span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider">Solo Competitor</span>
-            </div>
-        </div>
-        <div class="space-y-2.5">
-            ${memberHeaderHTML}
-            <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
+    <div class="flex items-center justify-between pb-2 border-b border-white/20 gap-2">
+                            <div class="flex items-center gap-2 min-w-0 flex-grow">
+                                <i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i>
+                                <span class="text-xs font-black font-heading text-pixelCyan uppercase tracking-wider">Solo Competitor</span>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0 font-heading font-black text-xs uppercase tracking-wider text-pixelMuted">
+                                <span class="w-10 sm:w-12 text-center">D1</span>
+                                ${appState.config.duration === 2 ? '<span class="w-10 sm:w-12 text-center">D2</span>' : ''}
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
                                 <div class="flex items-center gap-2 min-w-0">
                                     ${deleteBtn}
                                     ${nameDisplay}
