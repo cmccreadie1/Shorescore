@@ -2102,7 +2102,12 @@ const d2PegText = d2 ? d2.peg : '';
                     }).map(d => d.peg);
 
                   const mobBadges = mobilityPegNums.length > 0
-    ? mobilityPegNums.map(p => `<span class="bg-slate-900/90 text-white border border-white/30 font-mono-tabular font-black px-2 py-0.5 rounded-md text-xs shadow-sm inline-flex items-center gap-1"><span class="text-pixelGold font-black">[A]</span> ${p}</span>`).join(' ')
+    ? mobilityPegNums.map(p => `
+        <span class="relative inline-flex items-center justify-center bg-slate-900/90 text-white border border-white/30 font-mono-tabular font-black px-3 py-1 rounded-xl text-xs shadow-md mt-2">
+            <span class="absolute -top-2 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>
+            Peg ${p}
+        </span>
+      `).join(' ')
     : '<span class="text-white/70 italic text-xs font-bold">None</span>';
 
                     return `
