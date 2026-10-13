@@ -337,8 +337,9 @@
                                         <input type="radio" name="d1MobType" value="zone" onchange="toggleMobilityInputType(1)" class="text-pixelBlue w-4 h-4"> Dedicated Zone
                                     </label>
                                 </div>
-                                <div id="d1MobInputSpecific">
+                                <div id="d1MobInputSpecific" class="space-y-2">
                                     <input type="text" id="cfgAccessPegsD1" oninput="updateMobilityAdvisor()" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5, 6, 7, 8">
+                                    <div id="d1PegsFeedbackChip" class="text-xs font-mono-tabular font-bold text-pixelCyan flex items-center gap-1.5 px-2"></div>
                                 </div>
                                 <div id="d1MobInputZone" class="hidden">
                                     <select id="cfgAccessZoneD1" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
@@ -360,8 +361,9 @@
                                         <input type="radio" name="d2MobType" value="zone" onchange="toggleMobilityInputType(2)" class="text-pixelBlue w-4 h-4"> Dedicated Zone
                                     </label>
                                 </div>
-                                <div id="d2MobInputSpecific">
+                                <div id="d2MobInputSpecific" class="space-y-2">
                                     <input type="text" id="cfgAccessPegsD2" oninput="updateMobilityAdvisor()" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5, 6, 7, 8">
+                                    <div id="d2PegsFeedbackChip" class="text-xs font-mono-tabular font-bold text-pixelCyan flex items-center gap-1.5 px-2"></div>
                                 </div>
                                 <div id="d2MobInputZone" class="hidden">
                                     <select id="cfgAccessZoneD2" class="w-full bg-slate-900/90 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none">
@@ -884,10 +886,14 @@
         }
 
         // ===================================================================
-        // PRE-DRAW MOBILITY ALLOCATION ADVISOR LOGIC
+        // STREAMLINED PRE-DRAW MOBILITY ALLOCATION ADVISOR LOGIC
         // ===================================================================
         function updateMobilityAdvisor() {
-            const totalAnglers = appState.anglers.length > 0 ? appState.anglers.length : (parseInt(document.getElementById('inputNumTeams').value || 0) * 4 + parseInt(document.getElementById('inputNumSolos').value || 0));
+            const numTeamsInput = parseInt(document.getElementById('inputNumTeams').value || 0);
+            const numSolosInput = parseInt(document.getElementById('inputNumSolos').value || 0);
+            const plannedTotalAnglers = (numTeamsInput * 4) + numSolosInput;
+
+            const totalAnglers = appState.anglers.length > 0 ? appState.anglers.length : plannedTotalAnglers;
             const mobAnglersCount = appState.anglers.filter(a => a.mobility).length;
 
             document.getElementById('advCountMobility').innerText = mobAnglersCount;
@@ -901,6 +907,26 @@
             const pegInputD1 = document.getElementById('cfgAccessPegsD1').value || '';
             const allocatedPegsD1 = parsePegList(pegInputD1);
             document.getElementById('advTotalAllocated').innerText = `${allocatedPegsD1.length} Pegs`;
+
+            const chipD1 = document.getElementById('d1PegsFeedbackChip');
+            if (chipD1) {
+                if (allocatedPegsD1.length > 0) {
+                    chipD1.innerHTML = `<i class="fa-solid fa-circle-check text-pixelEmerald"></i> <span class="text-pixelEmerald font-bold font-mono-tabular">Recognized: ${allocatedPegsD1.length} Pegs</span> <span class="text-pixelMuted font-mono-tabular">(${formatParsedRanges(allocatedPegsD1)})</span>`;
+                } else {
+                    chipD1.innerHTML = `<span class="text-pixelMuted italic font-mono-tabular">No valid pegs entered yet</span>`;
+                }
+            }
+
+            const pegInputD2 = document.getElementById('cfgAccessPegsD2').value || '';
+            const allocatedPegsD2 = parsePegList(pegInputD2);
+            const chipD2 = document.getElementById('d2PegsFeedbackChip');
+            if (chipD2) {
+                if (allocatedPegsD2.length > 0) {
+                    chipD2.innerHTML = `<i class="fa-solid fa-circle-check text-pixelEmerald"></i> <span class="text-pixelEmerald font-bold font-mono-tabular">Recognized: ${allocatedPegsD2.length} Pegs</span> <span class="text-pixelMuted font-mono-tabular">(${formatParsedRanges(allocatedPegsD2)})</span>`;
+                } else {
+                    chipD2.innerHTML = `<span class="text-pixelMuted italic font-mono-tabular">No valid pegs entered yet</span>`;
+                }
+            }
 
             let zoneCounts = { 'Red': 0, 'Yellow': 0, 'Green': 0, 'Blue': 0 };
             allocatedPegsD1.forEach(peg => {
@@ -919,7 +945,7 @@
                 const badgeColor = satisfies ? 'bg-pixelEmerald/20 border-pixelEmerald/50 text-pixelEmerald' : 'bg-pixelCoral/20 border-pixelCoral/60 text-pixelCoral';
 
                 return `
-                    <div class="p-3 rounded-xl border font-mono-tabular ${badgeColor} flex flex-col justify-between">
+                    <div class="p-3 rounded-xl border font-mono-tabular ${badgeColor} flex flex-col justify-between transition-all">
                         <span class="font-heading uppercase tracking-wider block font-bold text-[11px]">${c} Zone</span>
                         <span class="text-base font-black">${count} / ${recPerZone} Pegs</span>
                     </div>
@@ -934,9 +960,27 @@
                 overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-pixelCoral/60 text-pixelCoral font-mono-tabular animate-pulse";
                 overallBadge.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> INSUFFICIENT PEG CAPACITY`;
             } else {
-                overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-pixelEmerald/50 text-pixelEmerald font-mono-tabular";
-                overallBadge.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> OPTIMAL CAPACITY`;
+                overallBadge.className = "text-xs font-black glass-pill px-4 py-1 border border-pixelEmerald/60 text-pixelEmerald font-mono-tabular bg-pixelEmerald/10 shadow-lg shadow-pixelEmerald/10 animate-pulse";
+                overallBadge.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> OPTIMAL DRAW CAPACITY`;
             }
+        }
+
+        function formatParsedRanges(parsed) {
+            if (!parsed || parsed.length === 0) return '';
+            let formattedRanges = [];
+            let start = parsed[0];
+            let prev = parsed[0];
+
+            for (let i = 1; i <= parsed.length; i++) {
+                if (i < parsed.length && parsed[i] === prev + 1) { prev = parsed[i]; }
+                else {
+                    if (start === prev) formattedRanges.push(`${start}`);
+                    else if (prev === start + 1) formattedRanges.push(`${start}, ${prev}`);
+                    else formattedRanges.push(`${start}-${prev}`);
+                    if (i < parsed.length) { start = parsed[i]; prev = parsed[i]; }
+                }
+            }
+            return formattedRanges.join(', ');
         }
 
         function openDemoModal() {
@@ -1308,8 +1352,14 @@
             appState.anglers = newAnglers;
 
             renderBatchEntryFields();
-            document.getElementById('rosterFieldsForm').classList.remove('hidden');
+            const formEl = document.getElementById('rosterFieldsForm');
+            formEl.classList.remove('hidden');
             updateMobilityAdvisor();
+
+            // Smooth scroll down to roster entry form
+            setTimeout(() => {
+                formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
         function splitTeamInSetup(teamId) {
@@ -1674,11 +1724,15 @@
 
         function showMainWorkspace() {
             document.getElementById('setup-splash-page').classList.add('hidden');
-            document.getElementById('main-app-workspace').classList.remove('hidden');
-            document.getElementById('main-app-workspace').classList.add('flex');
+            const workspace = document.getElementById('main-app-workspace');
+            workspace.classList.remove('hidden');
+            workspace.classList.add('flex');
             document.getElementById('headerAppTitle').innerText = appState.config.title;
             document.getElementById('headerDaysBadge').innerText = appState.config.duration === 1 ? '1-Day Competition' : '2-Day Competition';
             switchTab('tab-draw');
+
+            // Automatically scroll window to top of workspace
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function splitTeamInLiveWorkspace(teamId) {
