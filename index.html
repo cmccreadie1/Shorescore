@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Barlow Condensed, Inter, Google Sans, JetBrains Mono -->
+    <!-- Google Fonts: Barlow Condensed, Inter, Google Sans, Roboto Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@500;700;800&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@
                     fontFamily: {
                         heading: ['Barlow Condensed', 'sans-serif'],
                         sans: ['Inter', 'Google Sans', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
+                        mono: ['Roboto Mono', 'monospace']
                     }
                 }
             }
@@ -1342,7 +1342,7 @@
         }
 
         // ===================================================================
-        // MONTE CARLO DRAW ENGINE
+        // MONTE CARLO DRAW ENGINE (UPDATED WITH SINGLE-ZONE MOBILITY EXEMPTION)
         // ===================================================================
         function handleCreateTheDraw(e) {
             e.preventDefault();
@@ -1609,6 +1609,7 @@
         function validateDrawRules(drawObj) {
             let errors = [];
 
+            // 1. Team Collisions Check
             [1, 2].forEach(day => {
                 if (day === 2 && appState.config.duration === 1) return;
                 const list = day === 1 ? drawObj.day1 : drawObj.day2;
@@ -1626,6 +1627,7 @@
                 });
             });
 
+            // 2. Mobility Peg Range Check
             if (appState.config.mobilityRequired) {
                 const mobAnglerIds = appState.anglers.filter(a => a.mobility).map(a => a.id);
                 const allowedPegsD1 = parsePegList(appState.config.accessPegsD1);
@@ -1644,12 +1646,30 @@
                 });
             }
 
+            // 3. Zone Rotation Check (Exempts Mobility Anglers if mobility pegs force a single-zone assignment)
             if (appState.config.duration === 2) {
+                const bounds = getZoneBoundsForN(appState.anglers.length);
+                const reqPegsD1 = appState.config.mobilityRequired ? parsePegList(appState.config.accessPegsD1) : [];
+                const reqPegsD2 = appState.config.mobilityRequired ? parsePegList(appState.config.accessPegsD2) : [];
+
+                const d1MobZones = [...new Set(reqPegsD1.map(p => bounds.getZoneForPeg(p)))];
+                const d2MobZones = [...new Set(reqPegsD2.map(p => bounds.getZoneForPeg(p)))];
+
+                // Check if mobility pegs force a single overlapping zone on both days
+                const isForcedSingleMobilityZone = appState.config.mobilityRequired && 
+                                                   d1MobZones.length === 1 && 
+                                                   d2MobZones.length === 1 && 
+                                                   d1MobZones[0] === d2MobZones[0];
+
                 appState.anglers.forEach(a => {
-                    if (!a.mobility) {
-                        const d1 = drawObj.day1.find(d => d.anglerId === a.id);
-                        const d2 = drawObj.day2.find(d => d.anglerId === a.id);
-                        if (d1 && d2 && d1.zone === d2.zone) {
+                    const d1 = drawObj.day1.find(d => d.anglerId === a.id);
+                    const d2 = drawObj.day2.find(d => d.anglerId === a.id);
+
+                    if (d1 && d2 && d1.zone === d2.zone) {
+                        // Exempt mobility anglers ONLY IF forced into a single mobility zone by venue parameters
+                        if (a.mobility && isForcedSingleMobilityZone) {
+                            // Allowed exemption for mobility constraint
+                        } else {
                             errors.push(`Angler ${a.name} is in ${d1.zone} Zone on both Day 1 and Day 2.`);
                         }
                     }
