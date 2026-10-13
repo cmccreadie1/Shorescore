@@ -1698,10 +1698,14 @@
 
         function handleCreateTheDraw(e) {
             e.preventDefault();
-            if (!isPreDrawVerifiedValid) {
-                alert("Pre-Draw Verification Engine has blocked this draw setup. Please fix the highlighted mobility peg deficits.");
-                return;
-            }
+           // Flexible validation: Ensure total designated pegs cover at least the total checked mobility anglers
+        const checkedMobilityCount = document.querySelectorAll('input[id^="angler_mob_"]:checked').length;
+        const totalPegsSet = (document.getElementById('cfgAccessPegsD1').value.match(/\d+/g) || []).length;
+
+        if (appState.config.mobilityRequired && totalPegsSet < checkedMobilityCount) {
+            alert(`Mobility Deficit: You have ${checkedMobilityCount} mobility anglers checked, but only ${totalPegsSet} designated mobility pegs specified. Please add more pegs or uncheck some mobility anglers.`);
+            return;
+        }
 
             appState.config.title = document.getElementById('cfgTitle').value || "Shore Fishing Match";
             appState.config.duration = parseInt(document.getElementById('cfgDuration').value);
