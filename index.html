@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@500;700;800&display=swap" rel="stylesheet">
     <script>
         /* 
-           CHANGEs LOG / VERSIONING NOTES:
+           CHANGE LOG / VERSIONING NOTES:
            - v7.4.0 REWRITE REQUIREMENT:
              Must implement the "Single Source of Truth" versioning strategy for the app, 
              ensuring that the app version shown on the Netlify deployment page strictly 
@@ -156,7 +156,7 @@
                     </div>
                     <div>
                         <h3 class="text-2xl font-black font-heading text-pixelText tracking-wider">Load Custom Demo Dataset</h3>
-                        <p class="text-sm text-pixelMuted">Configure size parameters for testing</p>
+                        <p class="text-sm text-pixelMuted">Configure size parameters or load 120-angler beta test</p>
                     </div>
                 </div>
                 <button onclick="triggerHaptic(); closeDemoModal()" class="w-12 h-12 rounded-full glass-pill flex items-center justify-center text-pixelMuted hover:text-white font-bold text-3xl touch-elastic">&times;</button>
@@ -177,7 +177,13 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-end gap-4 pt-4 border-t border-white/20">
+            <div class="pt-2 border-t border-white/20 space-y-3">
+                <button onclick="triggerHaptic(); load120AnglerBetaStressTest()" class="w-full bg-pixelGold/25 hover:bg-pixelGold/35 text-pixelGold border border-pixelGold/60 font-black py-3 rounded-2xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 touch-elastic">
+                    <i class="fa-solid fa-vial-circle-check text-base"></i> Load 120-Angler Beta Stress Test Dataset
+                </button>
+            </div>
+
+            <div class="flex items-center justify-end gap-4 pt-2 border-t border-white/20">
                 <button onclick="triggerHaptic(); closeDemoModal()" class="glass-pill text-pixelMuted hover:text-white font-bold px-6 py-3.5 rounded-2xl text-sm uppercase tracking-wider touch-elastic">Cancel</button>
                 <button onclick="triggerHaptic(); confirmGenerateCustomDemo()" class="bg-pixelCyan hover:bg-cyan-300 text-slate-950 font-black px-8 py-3.5 rounded-2xl text-sm flex items-center gap-2 shadow-lg uppercase tracking-wider touch-elastic">
                     <i class="fa-solid fa-check"></i> Generate Dataset
@@ -262,11 +268,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Day 1 Mobility [A] Pegs</label>
-                            <input type="text" id="modalAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5,6,7,8">
+                            <input type="text" id="modalAccessPegsD1" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 15-21, 36-42, 57-63, 78-84">
                         </div>
                         <div id="modalD2MobilityContainer">
                             <label class="block text-xs font-black uppercase tracking-wider text-pixelMuted mb-2 font-heading">Day 2 Mobility [A] Pegs</label>
-                            <input type="text" id="modalAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 5-12 or 5,6,7,8">
+                            <input type="text" id="modalAccessPegsD2" onblur="validateAndFormatPegInput(this)" class="w-full bg-slate-900/80 border border-white/20 rounded-xl px-4 py-3 text-sm font-bold text-pixelText focus:border-pixelBlue focus:outline-none font-mono-tabular" placeholder="e.g. 15-21, 36-42, 57-63, 78-84">
                         </div>
                     </div>
                 </div>
@@ -884,6 +890,30 @@
 
         let isPreDrawVerifiedValid = false;
 
+        const EXPANDED_TEAM_NAMES = [
+            "Atlantic Raiders", "Solway Casters", "Marine Predators", "Clyde Anglers", "Forth Force",
+            "Solway Apex", "Pentland Harpooners", "Hebridean Wave", "Mull Sea Anglers", "Moray Harpooners",
+            "Orkney Tide", "Whitby Casters", "Shetland Breakers", "Tay Angling Club", "Argyll Coast",
+            "Minch Marauders", "Firth Casters", "Galloway Anglers", "Solway Drift", "Highland Sea Anglers",
+            "Skye Rock Anglers", "Lorne Predators", "Dunoon Tide", "Kintyre Casters", "Lochfyne Anglers",
+            "Solway Spitfires", "Celtic Sea Anglers", "Brodick Breakers", "Tarbert Tides", "Buchan Anglers",
+            "Eriskay Edge", "Lewis Lines", "Harris Harpooners", "Uist Waves", "Barra Breakers"
+        ];
+
+        const EXPANDED_FIRST_NAMES = [
+            "John", "Stephen", "David", "Callum", "Alan", "Mark", "Gordon", "James", "Robert", "Ian",
+            "Craig", "Gary", "Ross", "Paul", "Brian", "Scott", "Andrew", "Colin", "Derek", "Euan",
+            "Fraser", "Gavin", "Iain", "Keith", "Liam", "Malcolm", "Neil", "Peter", "Richard", "Stuart",
+            "Thomas", "William", "Alasdair", "Blair", "Cameron", "Douglas", "Finlay", "Hamish", "Kieran", "Lachlan"
+        ];
+
+        const EXPANDED_LAST_NAMES = [
+            "McCreadie", "Miller", "Wilson", "Robertson", "Thomson", "Campbell", "Smith", "Paterson", "Stewart", "Henderson",
+            "Davidson", "Hamilton", "Johnston", "Graham", "Wallace", "Morrison", "MacLeod", "MacDonald", "Ferguson", "Ramsay",
+            "Kerr", "Duncan", "Hunter", "McIntyre", "Sinclair", "Boyd", "Gunn", "MacLean", "Cullen", "Brodie",
+            "McLeod", "Aitken", "Buchanan", "Cunningham", "Dunbar", "Erskine", "Forbes", "Gibson", "Innes", "Logan"
+        ];
+
         window.onload = function() {
             loadState();
             if (appState.draw.generated) {
@@ -908,9 +938,6 @@
             }
         }
 
-        // ===================================================================
-        // REAL-TIME PRE-DRAW VERIFICATION ENGINE & DIAGNOSTIC MAP LOGIC
-        // ===================================================================
         function updateMobilityAdvisor() {
             const numTeamsInput = parseInt(document.getElementById('inputNumTeams').value || 0);
             const numSolosInput = parseInt(document.getElementById('inputNumSolos').value || 0);
@@ -958,7 +985,6 @@
                 if (zonePegLists[z] !== undefined) zonePegLists[z].push(peg);
             });
 
-            // Fast Pre-Verification Engine Simulation Test (200 Iterations)
             let verificationResult = testPreDrawVerificationSimulation(200);
             isPreDrawVerifiedValid = verificationResult.isValid;
 
@@ -1138,52 +1164,7 @@
             const numSolos = parseInt(document.getElementById('demoNumSolos').value) || 0;
             const numMobility = parseInt(document.getElementById('demoNumMobility').value) || 0;
 
-            const sampleTeamNames = ["Atlantic Raiders", "Solway Casters", "Marine Predators", "Clyde Anglers", "Forth Force", "Solway Apex", "Pentland Harpooners", "Hebridean Wave"];
-            const sampleFirstNames = ["John", "Stephen", "David", "Callum", "Alan", "Mark", "Gordon", "James", "Robert", "Ian", "Craig", "Gary", "Ross", "Paul", "Brian", "Scott"];
-            const sampleLastNames = ["McCreadie", "Miller", "Wilson", "Robertson", "Thomson", "Campbell", "Smith", "Paterson", "Stewart", "Henderson", "Davidson", "Hamilton", "Johnston", "Graham", "Wallace", "Morrison"];
-
-            let newTeams = [];
-            for (let t = 1; t <= numTeams; t++) {
-                let nameStr = sampleTeamNames[(t - 1) % sampleTeamNames.length];
-                if (t > sampleTeamNames.length) nameStr += ` #${t}`;
-                newTeams.push({ id: 'team_' + t, name: nameStr });
-            }
-
-            let newAnglers = [];
-            let nameIdx = 0;
-
-            for (let t = 1; t <= numTeams; t++) {
-                for (let m = 1; m <= 4; m++) {
-                    const fn = sampleFirstNames[nameIdx % sampleFirstNames.length];
-                    const ln = sampleLastNames[(nameIdx + t) % sampleLastNames.length];
-                    nameIdx++;
-                    newAnglers.push({
-                        id: `angler_t${t}_m${m}`,
-                        name: `${fn} ${ln}`,
-                        teamId: 'team_' + t,
-                        mobility: false
-                    });
-                }
-            }
-
-            for (let s = 1; s <= numSolos; s++) {
-                const fn = sampleFirstNames[nameIdx % sampleFirstNames.length];
-                const ln = sampleLastNames[nameIdx % sampleLastNames.length];
-                nameIdx++;
-                newAnglers.push({
-                    id: `angler_solo_${s}`,
-                    name: `${fn} ${ln}`,
-                    teamId: null,
-                    mobility: false
-                });
-            }
-
-            for (let i = 0; i < Math.min(numMobility, newAnglers.length); i++) {
-                newAnglers[i].mobility = true;
-            }
-
-            appState.teams = newTeams;
-            appState.anglers = newAnglers;
+            generateUniqueDemoRoster(numTeams, numSolos, numMobility);
 
             document.getElementById('inputNumTeams').value = numTeams;
             document.getElementById('inputNumSolos').value = numSolos;
@@ -1196,6 +1177,130 @@
             renderBatchEntryFields();
             document.getElementById('rosterFieldsForm').classList.remove('hidden');
             updateMobilityAdvisor();
+        }
+
+        function generateUniqueDemoRoster(numTeams, numSolos, numMobility) {
+            let newTeams = [];
+            let usedTeamNames = new Set();
+
+            for (let t = 1; t <= numTeams; t++) {
+                let baseName = EXPANDED_TEAM_NAMES[(t - 1) % EXPANDED_TEAM_NAMES.length];
+                let teamName = baseName;
+                let dupCounter = 1;
+
+                while (usedTeamNames.has(teamName)) {
+                    dupCounter++;
+                    teamName = `${baseName} ${dupCounter}`;
+                }
+                usedTeamNames.add(teamName);
+                newTeams.push({ id: 'team_' + t, name: teamName });
+            }
+
+            let newAnglers = [];
+            let usedFullNames = new Set();
+            let nameIdx = 0;
+
+            const generateUniqueFullName = () => {
+                let fn = EXPANDED_FIRST_NAMES[nameIdx % EXPANDED_FIRST_NAMES.length];
+                let ln = EXPANDED_LAST_NAMES[(Math.floor(nameIdx / EXPANDED_FIRST_NAMES.length) + nameIdx) % EXPANDED_LAST_NAMES.length];
+                nameIdx++;
+                let fullName = `${fn} ${ln}`;
+                let suf = 1;
+                while (usedFullNames.has(fullName)) {
+                    suf++;
+                    fullName = `${fn} ${ln} ${suf}`;
+                }
+                usedFullNames.add(fullName);
+                return fullName;
+            };
+
+            for (let t = 1; t <= numTeams; t++) {
+                for (let m = 1; m <= 4; m++) {
+                    newAnglers.push({
+                        id: `angler_t${t}_m${m}`,
+                        name: generateUniqueFullName(),
+                        teamId: 'team_' + t,
+                        mobility: false
+                    });
+                }
+            }
+
+            for (let s = 1; s <= numSolos; s++) {
+                newAnglers.push({
+                    id: `angler_solo_${s}`,
+                    name: generateUniqueFullName(),
+                    teamId: null,
+                    mobility: false
+                });
+            }
+
+            for (let i = 0; i < Math.min(numMobility, newAnglers.length); i++) {
+                newAnglers[i].mobility = true;
+            }
+
+            appState.teams = newTeams;
+            appState.anglers = newAnglers;
+        }
+
+        function load120AnglerBetaStressTest() {
+            closeDemoModal();
+
+            document.getElementById('cfgTitle').value = "2026 Scottish Shore Championship (120-Angler Stress Test)";
+            document.getElementById('cfgDuration').value = "2";
+            document.getElementById('inputNumTeams').value = 30;
+            document.getElementById('inputNumSolos').value = 0;
+
+            document.getElementById('chkMobilityRequired').checked = true;
+            toggleMobilityOptions(true);
+
+            document.getElementById('cfgAccessPegsD1').value = "20-30, 50-60, 80-90, 110-120";
+            document.getElementById('cfgAccessPegsD2').value = "20-30, 50-60, 80-90, 110-120";
+
+            generateUniqueDemoRoster(30, 0, 12);
+            renderBatchEntryFields();
+
+            let simDraw = runMonteCarloDrawSimulation();
+            if (simDraw) {
+                appState.draw = simDraw;
+                appState.draw.generated = true;
+
+                let day1Scores = {};
+                let day2Scores = {};
+
+                appState.anglers.forEach((a, idx) => {
+                    let d1Sc = { totalMetric: 0, fishCount: 0, bestFish: 0 };
+                    let d2Sc = { totalMetric: 0, fishCount: 0, bestFish: 0 };
+
+                    if (idx % 15 === 0) {
+                        d1Sc = { totalMetric: 0, fishCount: 0, bestFish: 0 };
+                        d2Sc = { totalMetric: 0, fishCount: 0, bestFish: 0 };
+                    } else if (idx % 4 === 0) {
+                        d1Sc = { totalMetric: 185.0, fishCount: 6, bestFish: 34.5 };
+                        d2Sc = { totalMetric: 192.5, fishCount: 7, bestFish: 36.0 };
+                    } else if (idx % 3 === 0) {
+                        d1Sc = { totalMetric: 185.0, fishCount: 8, bestFish: 29.0 };
+                        d2Sc = { totalMetric: 185.0, fishCount: 5, bestFish: 41.5 };
+                    } else if (idx % 2 === 0) {
+                        d1Sc = { totalMetric: 142.0, fishCount: 5, bestFish: 38.0 };
+                        d2Sc = { totalMetric: 120.5, fishCount: 4, bestFish: 32.0 };
+                    } else {
+                        d1Sc = { totalMetric: 98.0 + (idx % 10), fishCount: 3, bestFish: 28.0 };
+                        d2Sc = { totalMetric: 110.0 + (idx % 10), fishCount: 4, bestFish: 30.5 };
+                    }
+
+                    day1Scores[a.id] = d1Sc;
+                    day2Scores[a.id] = d2Sc;
+                });
+
+                appState.scores.day1 = day1Scores;
+                appState.scores.day2 = day2Scores;
+
+                saveState();
+                showMainWorkspace();
+                alert("120-Angler Beta Stress Test Dataset Loaded Successfully!");
+            } else {
+                alert("Failed to pre-generate 120-angler draw simulation.");
+            }
         }
 
         function executeFactoryResetWithBackup() {
@@ -1476,22 +1581,7 @@
             const numTeams = parseInt(document.getElementById('inputNumTeams').value) || 0;
             const numSolos = parseInt(document.getElementById('inputNumSolos').value) || 0;
 
-            let newTeams = [];
-            for (let t = 1; t <= numTeams; t++) newTeams.push({ id: 'team_' + t, name: `Team ${t}` });
-
-            let newAnglers = [];
-            for (let t = 1; t <= numTeams; t++) {
-                for (let m = 1; m <= 4; m++) {
-                    newAnglers.push({ id: `angler_t${t}_m${m}`, name: '', teamId: 'team_' + t, mobility: false });
-                }
-            }
-
-            for (let s = 1; s <= numSolos; s++) {
-                newAnglers.push({ id: `angler_solo_${s}`, name: '', teamId: null, mobility: false });
-            }
-
-            appState.teams = newTeams;
-            appState.anglers = newAnglers;
+            generateUniqueDemoRoster(numTeams, numSolos, 0);
 
             renderBatchEntryFields();
             const formEl = document.getElementById('rosterFieldsForm');
@@ -1869,7 +1959,6 @@
         }
 
         function showMainWorkspace() {
-            // Completely hide setup view for dedicated full-page render
             document.getElementById('setup-splash-page').classList.add('hidden');
             const workspace = document.getElementById('main-app-workspace');
             workspace.classList.remove('hidden');
@@ -1921,7 +2010,12 @@
             }
 
             let html = '';
-            const dayHeadersHTML = `<div class="flex items-center gap-2 shrink-0 ml-1 font-heading font-black text-sm uppercase tracking-wider text-pixelMuted"><span class="w-14 text-center">D1</span>${appState.config.duration === 2 ? '<span class="w-14 text-center">D2</span>' : ''}</div>`;
+            const dayHeadersHTML = `
+                <div class="flex items-center gap-2 shrink-0 font-heading font-black text-sm uppercase tracking-wider text-pixelMuted">
+                    <span class="w-10 sm:w-12 text-center">D1</span>
+                    ${appState.config.duration === 2 ? '<span class="w-10 sm:w-12 text-center">D2</span>' : ''}
+                </div>
+            `;
 
             appState.teams.forEach(t => {
                 const members = appState.anglers.filter(a => a.teamId === t.id);
@@ -1934,49 +2028,51 @@
                     const isD2Selected = swapFirstSelection && swapFirstSelection.anglerId === m.id && swapFirstSelection.day === 2;
 
                     const deleteBtn = isDeleteModeActive ? `<button onclick="triggerHaptic(); confirmDeleteAngler('${m.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-base touch-elastic"><i class="fa-solid fa-circle-xmark"></i></button>` : '';
-                    const nameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">` : `<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate max-w-[140px] sm:max-w-none font-heading">${(m.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed member</em>'}</span>`;
+                    const nameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">` : `<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate max-w-[130px] sm:max-w-none font-heading">${(m.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed member</em>'}</span>`;
 
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
                     const d2BadgeClass = isSwapModeActive && activeSwapDay === 2 ? 'swap-peg-active' : '';
                     const d2SelectedClass = isD2Selected ? 'swap-peg-selected' : '';
 
-                    const d1PegText = d1.peg;
-const d2PegText = d2 ? d2.peg : '';
-
                     return `
                         <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
                             <div class="flex items-center gap-2 min-w-0">
                                 ${deleteBtn}
                                 ${nameDisplay}
-                                ${m.mobility ? '<span class="text-pixelGold bg-pixelGold/20 text-xs font-black px-2.5 py-0.5 rounded-full border border-pixelGold/50 shrink-0">[A]</span>' : ''}
                             </div>
                             <div class="flex items-center gap-2 shrink-0 ml-1 font-mono-tabular">
-                               ${d1 ? `
-    <span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 1)" class="relative zone-badge-${d1.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
-        ${m.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
-        ${d1.peg}
-    </span>
-` : ''}
-${appState.config.duration === 2 && d2 ? `
-    <span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 2)" class="relative zone-badge-${d2.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
-        ${m.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
-        ${d2.peg}
-    </span>
-` : ''}
+                                ${d1 ? `
+                                    <span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 1)" class="relative zone-badge-${d1.zone} w-10 sm:w-12 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
+                                        ${m.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+                                        ${d1.peg}
+                                    </span>
+                                ` : ''}
+                                ${appState.config.duration === 2 && d2 ? `
+                                    <span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 2)" class="relative zone-badge-${d2.zone} w-10 sm:w-12 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
+                                        ${m.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+                                        ${d2.peg}
+                                    </span>
+                                ` : ''}
                             </div>
                         </div>
                     `;
                 }).join('');
 
-                const teamNameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(t.name || '').toUpperCase()}" onchange="updateLiveTeamName('${t.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue" placeholder="TEAM NAME">` : `<span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider truncate">${(t.name || '').toUpperCase() || 'UNNAMED TEAM'}</span>`;
+                const teamNameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(t.name || '').toUpperCase()}" onchange="updateLiveTeamName('${t.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="TEAM NAME">` : `<span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider truncate">${(t.name || '').toUpperCase() || 'UNNAMED TEAM'}</span>`;
                 const splitBtnLive = isAmendToolbarOpen ? `<button onclick="triggerHaptic(); splitTeamInLiveWorkspace('${t.id}')" class="bg-pixelCoral/25 hover:bg-pixelCoral/35 text-pixelCoral border border-pixelCoral/50 font-black text-xs uppercase tracking-wider px-3 py-1 rounded-xl transition-all shrink-0 flex items-center gap-1 touch-elastic" title="Split team into solo anglers"><i class="fa-solid fa-scissors"></i> Split</button>` : '';
 
                 html += `
                     <div class="glass-card-sm p-6 space-y-4 hover:border-pixelBlue/60 transition-all">
-                        <div class="flex items-center justify-between pb-3 border-b border-white/20">
-                            <div class="flex items-center gap-2.5 min-w-0"><i class="fa-solid fa-users text-pixelBlue text-sm shrink-0"></i>${teamNameDisplay}</div>
-                            <div class="flex items-center gap-2">${splitBtnLive}${dayHeadersHTML}</div>
+                        <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
+                            <div class="flex items-center gap-2 min-w-0 flex-grow">
+                                <i class="fa-solid fa-users text-pixelBlue text-sm shrink-0"></i>
+                                ${teamNameDisplay}
+                            </div>
+                            <div class="flex items-center gap-3 shrink-0">
+                                ${splitBtnLive}
+                                ${dayHeadersHTML}
+                            </div>
                         </div>
                         <div class="space-y-2.5">${memberRows}</div>
                     </div>
@@ -1993,41 +2089,42 @@ ${appState.config.duration === 2 && d2 ? `
                     const isD2Selected = swapFirstSelection && swapFirstSelection.anglerId === s.id && swapFirstSelection.day === 2;
 
                     const deleteBtn = isDeleteModeActive ? `<button onclick="triggerHaptic(); confirmDeleteAngler('${s.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-base touch-elastic"><i class="fa-solid fa-circle-xmark"></i></button>` : '';
-                    const nameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(s.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${s.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="SOLO ANGLER NAME">` : `<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate max-w-[140px] sm:max-w-none font-heading">${(s.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed angler</em>'}</span>`;
+                    const nameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(s.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${s.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="SOLO ANGLER NAME">` : `<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate max-w-[130px] sm:max-w-none font-heading">${(s.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed angler</em>'}</span>`;
 
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
                     const d2BadgeClass = isSwapModeActive && activeSwapDay === 2 ? 'swap-peg-active' : '';
                     const d2SelectedClass = isD2Selected ? 'swap-peg-selected' : '';
 
-                    const d1PegText = s.mobility ? `[A] ${d1.peg}` : d1.peg;
-                    const d2PegText = (s.mobility && d2) ? `[A] ${d2.peg}` : (d2 ? d2.peg : '');
-
                     html += `
                         <div class="glass-card-sm p-6 space-y-4 hover:border-pixelCyan/60 transition-all">
-                            <div class="flex items-center justify-between pb-3 border-b border-white/20">
-                                <div class="flex items-center gap-2.5 min-w-0"><i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i><span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider">Solo Competitor</span></div>
-                                ${dayHeadersHTML}
+                            <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
+                                <div class="flex items-center gap-2 min-w-0 flex-grow">
+                                    <i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i>
+                                    <span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider">Solo Competitor</span>
+                                </div>
+                                <div class="flex items-center gap-3 shrink-0">
+                                    ${dayHeadersHTML}
+                                </div>
                             </div>
                             <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
                                 <div class="flex items-center gap-2 min-w-0">
                                     ${deleteBtn}
                                     ${nameDisplay}
-                                    ${s.mobility ? '<span class="text-pixelGold bg-pixelGold/20 text-xs font-black px-2.5 py-0.5 rounded-full border border-pixelGold/50 shrink-0">[A]</span>' : ''}
                                 </div>
                                 <div class="flex items-center gap-2 shrink-0 ml-1 font-mono-tabular">
-                                   ${d1 ? `
-    <span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 1)" class="relative zone-badge-${d1.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
-        ${s.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
-        ${d1.peg}
-    </span>
-` : ''}
-${appState.config.duration === 2 && d2 ? `
-    <span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 2)" class="relative zone-badge-${d2.zone} px-2.5 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
-        ${s.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
-        ${d2.peg}
-    </span>
-` : ''}
+                                    ${d1 ? `
+                                        <span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 1)" class="relative zone-badge-${d1.zone} w-10 sm:w-12 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
+                                            ${s.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+                                            ${d1.peg}
+                                        </span>
+                                    ` : ''}
+                                    ${appState.config.duration === 2 && d2 ? `
+                                        <span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 2)" class="relative zone-badge-${d2.zone} w-10 sm:w-12 h-8 flex items-center justify-center rounded-lg text-xs sm:text-sm font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
+                                            ${s.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+                                            ${d2.peg}
+                                        </span>
+                                    ` : ''}
                                 </div>
                             </div>
                         </div>
@@ -2121,14 +2218,14 @@ ${appState.config.duration === 2 && d2 ? `
                         return angler && angler.mobility;
                     }).map(d => d.peg);
 
-                  const mobBadges = mobilityPegNums.length > 0
-    ? mobilityPegNums.map(p => `
-        <span class="relative inline-flex items-center justify-center bg-slate-900/90 text-white border border-white/30 font-mono-tabular font-black px-3 py-1 rounded-xl text-xs shadow-md mt-2">
-            <span class="absolute -top-2 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>
-            Peg ${p}
-        </span>
-      `).join(' ')
-    : '<span class="text-white/70 italic text-xs font-bold">None</span>';
+                    const mobBadges = mobilityPegNums.length > 0
+                        ? mobilityPegNums.map(p => `
+                            <span class="relative inline-flex items-center justify-center bg-slate-900/90 text-white border border-white/30 font-mono-tabular font-black px-3 py-1 rounded-xl text-xs shadow-md mt-2">
+                                <span class="absolute -top-2 -right-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>
+                                Peg ${p}
+                            </span>
+                          `).join(' ')
+                        : '<span class="text-white/70 italic text-xs font-bold">None</span>';
 
                     return `
                         <div class="zone-block-${color} rounded-2xl px-5 py-4 flex flex-col justify-between space-y-2 shadow-lg">
@@ -2138,7 +2235,7 @@ ${appState.config.duration === 2 && d2 ? `
                             </div>
                             <div class="flex items-center justify-between pt-1 border-t border-white/20 text-xs font-bold">
                                 <span class="uppercase tracking-wider font-heading text-white">Mobility:</span>
-                               <div class="flex flex-wrap items-center gap-1.5 max-h-20 overflow-y-auto custom-scrollbar">${mobBadges}</div>
+                                <div class="flex flex-wrap items-center gap-1.5 max-h-20 overflow-y-auto custom-scrollbar">${mobBadges}</div>
                             </div>
                         </div>
                     `;
@@ -2593,6 +2690,7 @@ ${appState.config.duration === 2 && d2 ? `
 
                 let items = zonePegs.map(d => {
                     const angler = appState.anglers.find(a => a.id === d.anglerId);
+                    const team = angler ? appState.teams.find(t => t.id === angler.teamId) : null;
                     const sc = dayScores[d.anglerId] || { totalMetric: 0, fishCount: 0, bestFish: 0 };
                     const metric = parseFloat(sc.totalMetric) || 0;
                     const fish = parseInt(sc.fishCount) || 0;
@@ -2601,6 +2699,7 @@ ${appState.config.duration === 2 && d2 ? `
                     return {
                         anglerId: d.anglerId,
                         anglerName: angler && angler.name ? angler.name : 'Unnamed',
+                        teamName: team ? team.name : 'Individual',
                         teamId: angler ? angler.teamId : null,
                         peg: d.peg, zone: color,
                         totalMetric: metric, fishCount: fish, bestFish: best,
@@ -2798,34 +2897,37 @@ ${appState.config.duration === 2 && d2 ? `
                 const items = zoneRes[color];
 
                 const rows = items.map(item => `
-                    <tr class="hover:bg-white/10 transition-colors font-mono-tabular">
-                        <td class="py-3 px-1 text-center font-black shrink-0"><span class="bg-slate-900/90 text-pixelText font-black px-3 py-1 rounded-md text-sm border border-white/20 shadow-sm">${item.zonePoints}</span></td>
-                        <td class="py-3 px-2 font-black uppercase tracking-wider text-pixelText text-base font-heading leading-tight">${item.anglerName.toUpperCase()}</td>
-                        <td class="py-3 px-1 font-black text-center text-pixelEmerald text-base">${item.totalMetric}</td>
-                        <td class="py-3 px-1 font-black text-center text-pixelText text-base">${item.fishCount}</td>
-                        <td class="py-3 px-1 font-black text-center text-pixelGold text-base">${item.bestFish}</td>
+                    <tr class="hover:bg-white/10 transition-colors font-mono-tabular border-b border-white/10">
+                        <td class="py-2.5 px-1 text-center font-black shrink-0 w-[42px]"><span class="bg-slate-900/90 text-pixelText font-black px-2 py-0.5 rounded text-xs border border-white/20 shadow-sm">${item.zonePoints}</span></td>
+                        <td class="py-2.5 px-2 min-w-0">
+                            <div class="font-black uppercase tracking-wider text-pixelText text-xs sm:text-sm font-heading leading-tight truncate">${item.anglerName.toUpperCase()}</div>
+                            <div class="text-[10px] font-bold text-pixelMuted uppercase tracking-wider truncate">${item.teamName.toUpperCase()}</div>
+                        </td>
+                        <td class="py-2.5 px-1 font-black text-center text-pixelEmerald text-xs sm:text-sm w-[40px] shrink-0">${item.totalMetric}</td>
+                        <td class="py-2.5 px-1 font-black text-center text-pixelText text-xs sm:text-sm w-[36px] shrink-0">${item.fishCount}</td>
+                        <td class="py-2.5 px-1 font-black text-center text-pixelGold text-xs sm:text-sm w-[38px] shrink-0">${item.bestFish}</td>
                     </tr>
                 `).join('');
 
                 return `
-                    <div class="glass-card p-5 shadow-xl zone-card-${color} flex flex-col justify-between space-y-3">
+                    <div class="glass-card p-4 sm:p-5 shadow-xl zone-card-${color} flex flex-col justify-between space-y-3">
                         <div>
                             <h4 class="text-base font-black font-heading text-pixelText mb-3 flex items-center justify-between uppercase tracking-wider pb-3 border-b border-white/25">
                                 <span class="text-white drop-shadow">${color} Zone</span>
                                 <span class="text-xs font-black glass-pill px-3.5 py-1 border border-white/30 text-white">Day ${day}</span>
                             </h4>
                             <div class="w-full">
-                                <table class="w-full text-left text-sm text-pixelText border-collapse">
-                                    <thead class="bg-slate-900/80 text-pixelMuted text-xs font-black font-heading uppercase tracking-wider border-b border-white/20">
+                                <table class="w-full text-left text-xs sm:text-sm text-pixelText border-collapse">
+                                    <thead class="bg-slate-900/80 text-pixelMuted text-[11px] font-black font-heading uppercase tracking-wider border-b border-white/20">
                                         <tr>
-                                            <th class="py-2.5 px-1 text-center w-[55px]">PTS</th>
-                                            <th class="py-2.5 px-2">Angler</th>
-                                            <th class="py-2.5 px-1 text-center w-[50px]">CM</th>
-                                            <th class="py-2.5 px-1 text-center w-[50px]">FISH</th>
-                                            <th class="py-2.5 px-1 text-center w-[50px]">BIG</th>
+                                            <th class="py-2 px-1 text-center w-[42px]">PTS</th>
+                                            <th class="py-2 px-2">Angler & Team</th>
+                                            <th class="py-2 px-1 text-center w-[40px]">CM</th>
+                                            <th class="py-2 px-1 text-center w-[36px]">CT</th>
+                                            <th class="py-2 px-1 text-center w-[38px]">BIG</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="divide-y divide-white/15">${rows || '<tr><td colspan="5" class="text-center py-6 text-pixelMuted font-black uppercase tracking-wider">No results.</td></tr>'}</tbody>
+                                    <tbody class="divide-y divide-white/10">${rows || '<tr><td colspan="5" class="text-center py-6 text-pixelMuted font-black uppercase tracking-wider">No results.</td></tr>'}</tbody>
                                 </table>
                             </div>
                         </div>
