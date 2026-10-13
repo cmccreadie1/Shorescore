@@ -1879,19 +1879,35 @@
             });
 
             const unassignedSolos = appState.anglers.filter(a => !day1Draw.some(d => d.anglerId === a.id));
-            unassignedSolos.forEach(solo => {
-                let pD1 = openPegsD1.shift();
-                let zD1 = bounds.getZoneForPeg(pD1);
+unassignedSolos.forEach(solo => {
+    // Pick open D1 peg from zones that haven't hit their capacity target
+    let validPegsD1 = openPegsD1.filter(p => {
+        let z = bounds.getZoneForPeg(p);
+        let currentInZone = day1Draw.filter(d => d.zone === z).length;
+        let maxTarget = (z === 'Red' ? bounds.sizeRed : z === 'Yellow' ? bounds.sizeYellow : z === 'Green' ? bounds.sizeGreen : bounds.sizeBlue);
+        return currentInZone < maxTarget;
+    });
 
-                let prefZD2 = jumpMapPrimaryD2[zD1];
-                let openInZD2 = openPegsD2.filter(p => bounds.getZoneForPeg(p) === prefZD2);
-                let pD2 = openInZD2.length > 0 ? openInZD2.shift() : openPegsD2.shift();
-                openPegsD2 = openPegsD2.filter(p => p !== pD2);
-                let zD2 = bounds.getZoneForPeg(pD2);
+    let pD1 = validPegsD1.length > 0 ? validPegsD1[0] : openPegsD1[0];
+    openPegsD1 = openPegsD1.filter(p => p !== pD1);
+    let zD1 = bounds.getZoneForPeg(pD1);
 
-                day1Draw.push({ anglerId: solo.id, zone: zD1, peg: String(pD1) });
-                if (appState.config.duration === 2) day2Draw.push({ anglerId: solo.id, zone: zD2, peg: String(pD2) });
-            });
+    // Pick open D2 peg respecting zone targets
+    let prefZD2 = jumpMapPrimaryD2[zD1];
+    let validPegsD2 = openPegsD2.filter(p => {
+        let z = bounds.getZoneForPeg(p);
+        let currentInZone = day2Draw.filter(d => d.zone === z).length;
+        let maxTarget = (z === 'Red' ? bounds.sizeRed : z === 'Yellow' ? bounds.sizeYellow : z === 'Green' ? bounds.sizeGreen : bounds.sizeBlue);
+        return currentInZone < maxTarget && z !== zD1;
+    });
+
+    let pD2 = validPegsD2.length > 0 ? validPegsD2[0] : openPegsD2.find(p => bounds.getZoneForPeg(p) !== zD1) || openPegsD2[0];
+    openPegsD2 = openPegsD2.filter(p => p !== pD2);
+    let zD2 = bounds.getZoneForPeg(pD2);
+
+    day1Draw.push({ anglerId: solo.id, zone: zD1, peg: String(pD1) });
+    if (appState.config.duration === 2) day2Draw.push({ anglerId: solo.id, zone: zD2, peg: String(pD2) });
+});
 
             return { day1: day1Draw, day2: day2Draw };
         }
@@ -1904,6 +1920,23 @@
 
         function validateDrawRules(drawObj) {
             let errors = [];
+            
+            const N = appState.anglers.length;
+const bounds = getZoneBoundsForN(N);
+
+[1, 2].forEach(day => {
+    if (day === 2 && appState.config.duration === 1) return;
+    const list = day === 1 ? drawObj.day1 : drawObj.day2;
+
+    const countRed = list.filter(d => d.zone === 'Red').length;
+    const countYellow = list.filter(d => d.zone === 'Yellow').length;
+    const countGreen = list.filter(d => d.zone === 'Green').length;
+    const countBlue = list.filter(d => d.zone === 'Blue').length;
+
+    if (countRed !== bounds.sizeRed || countYellow !== bounds.sizeYellow || countGreen !== bounds.sizeGreen || countBlue !== bounds.sizeBlue) {
+        errors.push(`Day ${day} Zone Imbalance: Red=${countRed} (target ${bounds.sizeRed}), Yellow=${countYellow} (target ${bounds.sizeYellow}), Green=${countGreen} (target ${bounds.sizeGreen}), Blue=${countBlue} (target ${bounds.sizeBlue})`);
+    }
+});
 
             [1, 2].forEach(day => {
                 if (day === 2 && appState.config.duration === 1) return;
