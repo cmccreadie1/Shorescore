@@ -1941,8 +1941,8 @@
                     const d2BadgeClass = isSwapModeActive && activeSwapDay === 2 ? 'swap-peg-active' : '';
                     const d2SelectedClass = isD2Selected ? 'swap-peg-selected' : '';
 
-                    const d1PegText = m.mobility ? `[A] ${d1.peg}` : d1.peg;
-                    const d2PegText = (m.mobility && d2) ? `[A] ${d2.peg}` : (d2 ? d2.peg : '');
+                    const d1PegText = d1.peg;
+const d2PegText = d2 ? d2.peg : '';
 
                     return `
                         <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
@@ -2101,9 +2101,9 @@
                         return angler && angler.mobility;
                     }).map(d => d.peg);
 
-                    const mobBadges = mobilityPegNums.length > 0
-                        ? mobilityPegNums.map(p => `<span class="bg-pixelGold/40 text-pixelGold border border-pixelGold/80 font-mono-tabular font-black px-3 py-1 rounded-full text-xs shadow-sm">[A] Peg ${p}</span>`).join(' ')
-                        : '<span class="text-white/80 italic text-xs font-bold">None</span>';
+                   const mobBadges = mobilityPegNums.length > 0
+    ? mobilityPegNums.map(p => `<span class="bg-slate-900/80 text-white border border-white/30 font-mono-tabular font-black px-2.5 py-1 rounded-lg text-xs shadow-sm">Peg ${p}</span>`).join(' ')
+    : '<span class="text-white/70 italic text-xs font-bold">None</span>';
 
                     return `
                         <div class="zone-block-${color} rounded-2xl px-5 py-4 flex flex-col justify-between space-y-2 shadow-lg">
@@ -2113,7 +2113,7 @@
                             </div>
                             <div class="flex items-center justify-between pt-1 border-t border-white/20 text-xs font-bold">
                                 <span class="uppercase tracking-wider font-heading text-white">Mobility:</span>
-                                <div class="flex items-center gap-1.5">${mobBadges}</div>
+                               <div class="flex flex-wrap items-center gap-1.5 max-h-20 overflow-y-auto custom-scrollbar">${mobBadges}</div>
                             </div>
                         </div>
                     `;
