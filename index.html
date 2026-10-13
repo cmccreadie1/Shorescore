@@ -1713,7 +1713,24 @@
                 appState.config.accessPegsD2 = document.getElementById('cfgAccessPegsD2').value;
             }
 
-            appState.anglers = appState.anglers.filter(a => a.name.trim() !== '');
+           // Harvest typed values directly from on-screen inputs
+const anglerInputs = document.querySelectorAll('input[id^="angler_name_"]');
+if (anglerInputs.length > 0) {
+    appState.anglers = Array.from(anglerInputs).map((input) => {
+        const id = input.id.replace('angler_name_', '');
+        const mobCheckbox = document.getElementById(`angler_mob_${id}`);
+        const nameVal = input.value.trim() || input.placeholder || `Angler ${id}`;
+        
+        return {
+            id: `ang_${id}`,
+            name: nameVal,
+            teamId: input.dataset.teamId || null,
+            mobility: mobCheckbox ? mobCheckbox.checked : false
+        };
+    });
+}
+
+appState.anglers = appState.anglers.filter(a => a.name.trim() !== '');
             if (appState.anglers.length === 0) { alert("Please enter at least 1 angler."); return; }
             showTransitionOverlay();
         }
