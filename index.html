@@ -389,8 +389,8 @@
                             </div>
                         </div>
 
-                        <!-- LIVE PRE-DRAW VERIFICATION PANEL -->
-                        <div id="mobilityAdvisorPanel" class="bg-slate-950/80 p-5 sm:p-6 rounded-2xl border border-white/20 space-y-5">
+                        <!-- FLOATING STICKY PRE-DRAW HUD BAR & ADVISOR PANEL -->
+                        <div id="mobilityAdvisorPanel" class="bg-slate-950/80 p-5 sm:p-6 rounded-2xl border border-white/20 space-y-5 sticky top-4 z-30 backdrop-blur-2xl shadow-2xl">
                             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/15 pb-4">
                                 <div class="flex items-center gap-2.5">
                                     <i class="fa-solid fa-shield-check text-pixelCyan text-lg"></i>
@@ -442,7 +442,7 @@
 
                 <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
                     <div class="flex items-center gap-4">
-                       
+                        
                         <button onclick="triggerHaptic(); triggerRestoreFileInput()" type="button" class="glass-pill text-pixelText font-bold px-6 py-3.5 text-sm transition-all uppercase tracking-wider touch-elastic">
                             <i class="fa-solid fa-file-import mr-2 text-pixelBlue"></i> Restore File
                         </button>
@@ -643,6 +643,7 @@
                     </div>
                 </div>
 
+                <!-- 4-ZONE GRAPHICAL CARD CONTAINER -->
                 <div id="teamCardsDrawContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
 
             </div>
@@ -1575,49 +1576,33 @@
             else container.classList.remove('hidden');
         }
 
-       function generateRosterFieldsFromParameters() {
-    const numTeams = parseInt(document.getElementById('inputNumTeams').value) || 0;
-    const numSolos = parseInt(document.getElementById('inputNumSolos').value) || 0;
+        function generateRosterFieldsFromParameters() {
+            const numTeams = parseInt(document.getElementById('inputNumTeams').value) || 0;
+            const numSolos = parseInt(document.getElementById('inputNumSolos').value) || 0;
 
-    // Clear any previous data in appState
-    appState.teams = [];
-    appState.anglers = [];
+            appState.teams = [];
+            appState.anglers = [];
 
-    // Create blank teams
-    for (let t = 1; t <= numTeams; t++) {
-        appState.teams.push({
-            id: `team_${t}`,
-            name: `Team ${t}`
-        });
-        for (let m = 1; m <= 4; m++) {
-            appState.anglers.push({
-                id: `ang_${t}_${m}`,
-                name: '',
-                teamId: `team_${t}`,
-                mobility: false
-            });
+            for (let t = 1; t <= numTeams; t++) {
+                appState.teams.push({ id: `team_${t}`, name: `Team ${t}` });
+                for (let m = 1; m <= 4; m++) {
+                    appState.anglers.push({ id: `ang_${t}_${m}`, name: '', teamId: `team_${t}`, mobility: false });
+                }
+            }
+
+            for (let s = 1; s <= numSolos; s++) {
+                appState.anglers.push({ id: `solo_${s}`, name: '', teamId: null, mobility: false });
+            }
+
+            renderBatchEntryFields();
+            const formEl = document.getElementById('rosterFieldsForm');
+            formEl.classList.remove('hidden');
+            updateMobilityAdvisor();
+
+            setTimeout(() => {
+                formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
-    }
-
-    // Create blank solos
-    for (let s = 1; s <= numSolos; s++) {
-        appState.anglers.push({
-            id: `solo_${s}`,
-            name: '',
-            teamId: null,
-            mobility: false
-        });
-    }
-
-    renderBatchEntryFields();
-    const formEl = document.getElementById('rosterFieldsForm');
-    formEl.classList.remove('hidden');
-    updateMobilityAdvisor();
-
-    setTimeout(() => {
-        formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-}
 
         function splitTeamInSetup(teamId) {
             const team = appState.teams.find(t => t.id === teamId);
@@ -1698,14 +1683,13 @@
 
         function handleCreateTheDraw(e) {
             e.preventDefault();
-           // Flexible validation: Ensure total designated pegs cover at least the total checked mobility anglers
-        const checkedMobilityCount = document.querySelectorAll('input[id^="angler_mob_"]:checked').length;
-        const totalPegsSet = (document.getElementById('cfgAccessPegsD1').value.match(/\d+/g) || []).length;
+            const checkedMobilityCount = document.querySelectorAll('input[id^="angler_mob_"]:checked').length;
+            const totalPegsSet = (document.getElementById('cfgAccessPegsD1').value.match(/\d+/g) || []).length;
 
-        if (appState.config.mobilityRequired && totalPegsSet < checkedMobilityCount) {
-            alert(`Mobility Deficit: You have ${checkedMobilityCount} mobility anglers checked, but only ${totalPegsSet} designated mobility pegs specified. Please add more pegs or uncheck some mobility anglers.`);
-            return;
-        }
+            if (appState.config.mobilityRequired && totalPegsSet < checkedMobilityCount) {
+                alert(`Mobility Deficit: You have ${checkedMobilityCount} mobility anglers checked, but only ${totalPegsSet} designated mobility pegs specified. Please add more pegs or uncheck some mobility anglers.`);
+                return;
+            }
 
             appState.config.title = document.getElementById('cfgTitle').value || "Shore Fishing Match";
             appState.config.duration = parseInt(document.getElementById('cfgDuration').value);
@@ -1717,24 +1701,23 @@
                 appState.config.accessPegsD2 = document.getElementById('cfgAccessPegsD2').value;
             }
 
-           // Harvest typed values directly from on-screen inputs
-const anglerInputs = document.querySelectorAll('input[id^="angler_name_"]');
-if (anglerInputs.length > 0) {
-    appState.anglers = Array.from(anglerInputs).map((input) => {
-        const id = input.id.replace('angler_name_', '');
-        const mobCheckbox = document.getElementById(`angler_mob_${id}`);
-        const nameVal = input.value.trim() || input.placeholder || `Angler ${id}`;
-        
-        return {
-            id: `ang_${id}`,
-            name: nameVal,
-            teamId: input.dataset.teamId || null,
-            mobility: mobCheckbox ? mobCheckbox.checked : false
-        };
-    });
-}
+            const anglerInputs = document.querySelectorAll('input[id^="angler_name_"]');
+            if (anglerInputs.length > 0) {
+                appState.anglers = Array.from(anglerInputs).map((input) => {
+                    const id = input.id.replace('angler_name_', '');
+                    const mobCheckbox = document.getElementById(`angler_mob_${id}`);
+                    const nameVal = input.value.trim() || input.placeholder || `Angler ${id}`;
+                    
+                    return {
+                        id: `ang_${id}`,
+                        name: nameVal,
+                        teamId: input.dataset.teamId || null,
+                        mobility: mobCheckbox ? mobCheckbox.checked : false
+                    };
+                });
+            }
 
-appState.anglers = appState.anglers.filter(a => a.name.trim() !== '');
+            appState.anglers = appState.anglers.filter(a => a.name.trim() !== '');
             if (appState.anglers.length === 0) { alert("Please enter at least 1 angler."); return; }
             showTransitionOverlay();
         }
@@ -1926,35 +1909,33 @@ appState.anglers = appState.anglers.filter(a => a.name.trim() !== '');
             });
 
             const unassignedSolos = appState.anglers.filter(a => !day1Draw.some(d => d.anglerId === a.id));
-unassignedSolos.forEach(solo => {
-    // Pick open D1 peg from zones that haven't hit their capacity target
-    let validPegsD1 = openPegsD1.filter(p => {
-        let z = bounds.getZoneForPeg(p);
-        let currentInZone = day1Draw.filter(d => d.zone === z).length;
-        let maxTarget = (z === 'Red' ? bounds.sizeRed : z === 'Yellow' ? bounds.sizeYellow : z === 'Green' ? bounds.sizeGreen : bounds.sizeBlue);
-        return currentInZone < maxTarget;
-    });
+            unassignedSolos.forEach(solo => {
+                let validPegsD1 = openPegsD1.filter(p => {
+                    let z = bounds.getZoneForPeg(p);
+                    let currentInZone = day1Draw.filter(d => d.zone === z).length;
+                    let maxTarget = (z === 'Red' ? bounds.sizeRed : z === 'Yellow' ? bounds.sizeYellow : z === 'Green' ? bounds.sizeGreen : bounds.sizeBlue);
+                    return currentInZone < maxTarget;
+                });
 
-    let pD1 = validPegsD1.length > 0 ? validPegsD1[0] : openPegsD1[0];
-    openPegsD1 = openPegsD1.filter(p => p !== pD1);
-    let zD1 = bounds.getZoneForPeg(pD1);
+                let pD1 = validPegsD1.length > 0 ? validPegsD1[0] : openPegsD1[0];
+                openPegsD1 = openPegsD1.filter(p => p !== pD1);
+                let zD1 = bounds.getZoneForPeg(pD1);
 
-    // Pick open D2 peg respecting zone targets
-    let prefZD2 = jumpMapPrimaryD2[zD1];
-    let validPegsD2 = openPegsD2.filter(p => {
-        let z = bounds.getZoneForPeg(p);
-        let currentInZone = day2Draw.filter(d => d.zone === z).length;
-        let maxTarget = (z === 'Red' ? bounds.sizeRed : z === 'Yellow' ? bounds.sizeYellow : z === 'Green' ? bounds.sizeGreen : bounds.sizeBlue);
-        return currentInZone < maxTarget && z !== zD1;
-    });
+                let prefZD2 = jumpMapPrimaryD2[zD1];
+                let validPegsD2 = openPegsD2.filter(p => {
+                    let z = bounds.getZoneForPeg(p);
+                    let currentInZone = day2Draw.filter(d => d.zone === z).length;
+                    let maxTarget = (z === 'Red' ? bounds.sizeRed : z === 'Yellow' ? bounds.sizeYellow : z === 'Green' ? bounds.sizeGreen : bounds.sizeBlue);
+                    return currentInZone < maxTarget && z !== zD1;
+                });
 
-    let pD2 = validPegsD2.length > 0 ? validPegsD2[0] : openPegsD2.find(p => bounds.getZoneForPeg(p) !== zD1) || openPegsD2[0];
-    openPegsD2 = openPegsD2.filter(p => p !== pD2);
-    let zD2 = bounds.getZoneForPeg(pD2);
+                let pD2 = validPegsD2.length > 0 ? validPegsD2[0] : openPegsD2.find(p => bounds.getZoneForPeg(p) !== zD1) || openPegsD2[0];
+                openPegsD2 = openPegsD2.filter(p => p !== pD2);
+                let zD2 = bounds.getZoneForPeg(pD2);
 
-    day1Draw.push({ anglerId: solo.id, zone: zD1, peg: String(pD1) });
-    if (appState.config.duration === 2) day2Draw.push({ anglerId: solo.id, zone: zD2, peg: String(pD2) });
-});
+                day1Draw.push({ anglerId: solo.id, zone: zD1, peg: String(pD1) });
+                if (appState.config.duration === 2) day2Draw.push({ anglerId: solo.id, zone: zD2, peg: String(pD2) });
+            });
 
             return { day1: day1Draw, day2: day2Draw };
         }
@@ -1969,21 +1950,21 @@ unassignedSolos.forEach(solo => {
             let errors = [];
             
             const N = appState.anglers.length;
-const bounds = getZoneBoundsForN(N);
+            const bounds = getZoneBoundsForN(N);
 
-[1, 2].forEach(day => {
-    if (day === 2 && appState.config.duration === 1) return;
-    const list = day === 1 ? drawObj.day1 : drawObj.day2;
+            [1, 2].forEach(day => {
+                if (day === 2 && appState.config.duration === 1) return;
+                const list = day === 1 ? drawObj.day1 : drawObj.day2;
 
-    const countRed = list.filter(d => d.zone === 'Red').length;
-    const countYellow = list.filter(d => d.zone === 'Yellow').length;
-    const countGreen = list.filter(d => d.zone === 'Green').length;
-    const countBlue = list.filter(d => d.zone === 'Blue').length;
+                const countRed = list.filter(d => d.zone === 'Red').length;
+                const countYellow = list.filter(d => d.zone === 'Yellow').length;
+                const countGreen = list.filter(d => d.zone === 'Green').length;
+                const countBlue = list.filter(d => d.zone === 'Blue').length;
 
-    if (countRed !== bounds.sizeRed || countYellow !== bounds.sizeYellow || countGreen !== bounds.sizeGreen || countBlue !== bounds.sizeBlue) {
-        errors.push(`Day ${day} Zone Imbalance: Red=${countRed} (target ${bounds.sizeRed}), Yellow=${countYellow} (target ${bounds.sizeYellow}), Green=${countGreen} (target ${bounds.sizeGreen}), Blue=${countBlue} (target ${bounds.sizeBlue})`);
-    }
-});
+                if (countRed !== bounds.sizeRed || countYellow !== bounds.sizeYellow || countGreen !== bounds.sizeGreen || countBlue !== bounds.sizeBlue) {
+                    errors.push(`Day ${day} Zone Imbalance: Red=${countRed} (target ${bounds.sizeRed}), Yellow=${countYellow} (target ${bounds.sizeYellow}), Green=${countGreen} (target ${bounds.sizeGreen}), Blue=${countBlue} (target ${bounds.sizeBlue})`);
+                }
+            });
 
             [1, 2].forEach(day => {
                 if (day === 2 && appState.config.duration === 1) return;
@@ -2090,12 +2071,12 @@ const bounds = getZoneBoundsForN(N);
             }
 
             let html = '';
-          const memberHeaderHTML = `
-    <div class="flex items-center justify-end gap-2 px-3.5 pb-1 font-heading font-black text-xs uppercase tracking-wider text-pixelMuted">
-        <span class="w-10 sm:w-12 text-center">D1</span>
-        ${appState.config.duration === 2 ? '<span class="w-10 sm:w-12 text-center">D2</span>' : ''}
-    </div>
-`;
+            const memberHeaderHTML = `
+                <div class="flex items-center justify-end gap-2 px-3.5 pb-1 font-heading font-black text-xs uppercase tracking-wider text-pixelMuted">
+                    <span class="w-10 sm:w-12 text-center">D1</span>
+                    ${appState.config.duration === 2 ? '<span class="w-10 sm:w-12 text-center">D2</span>' : ''}
+                </div>
+            `;
 
             appState.teams.forEach(t => {
                 const members = appState.anglers.filter(a => a.teamId === t.id);
@@ -2110,9 +2091,9 @@ const bounds = getZoneBoundsForN(N);
                     const deleteBtn = isDeleteModeActive ? `<button onclick="triggerHaptic(); confirmDeleteAngler('${m.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-base touch-elastic"><i class="fa-solid fa-circle-xmark"></i></button>` : '';
                     const mobNameBadge = m.mobility ? '<span class="absolute -top-1.5 -left-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : '';
 
-const nameDisplay = isAmendNamesModeActive 
-    ? `<div class="relative flex-grow"><input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">${mobNameBadge}</div>` 
-    : `<div class="relative flex-grow min-w-0">${mobNameBadge}<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate block font-heading">${(m.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed member</em>'}</span></div>`;
+                    const nameDisplay = isAmendNamesModeActive 
+                        ? `<div class="relative flex-grow"><input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">${mobNameBadge}</div>` 
+                        : `<div class="relative flex-grow min-w-0">${mobNameBadge}<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate block font-heading">${(m.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed member</em>'}</span></div>`;
 
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
@@ -2146,23 +2127,23 @@ const nameDisplay = isAmendNamesModeActive
                 const teamNameDisplay = isAmendNamesModeActive ? `<input type="text" value="${(t.name || '').toUpperCase()}" onchange="updateLiveTeamName('${t.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="TEAM NAME">` : `<span class="text-sm font-black font-heading text-pixelText uppercase tracking-wider truncate">${(t.name || '').toUpperCase() || 'UNNAMED TEAM'}</span>`;
                 const splitBtnLive = isAmendToolbarOpen ? `<button onclick="triggerHaptic(); splitTeamInLiveWorkspace('${t.id}')" class="bg-pixelCoral/25 hover:bg-pixelCoral/35 text-pixelCoral border border-pixelCoral/50 font-black text-xs uppercase tracking-wider px-3 py-1 rounded-xl transition-all shrink-0 flex items-center gap-1 touch-elastic" title="Split team into solo anglers"><i class="fa-solid fa-scissors"></i> Split</button>` : '';
 
-              html += `
-    <div class="glass-card-sm p-6 space-y-4 hover:border-pixelBlue/60 transition-all">
-        <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
-            <div class="flex items-center gap-2 min-w-0 flex-grow">
-                <i class="fa-solid fa-users text-pixelBlue text-sm shrink-0"></i>
-                ${teamNameDisplay}
-            </div>
-            <div class="flex items-center gap-2 shrink-0">
-                ${splitBtnLive}
-            </div>
-        </div>
-        <div class="space-y-2.5">
-            ${memberHeaderHTML}
-            ${memberRows}
-        </div>
-    </div>
-`;
+                html += `
+                    <div class="glass-card-sm p-6 space-y-4 hover:border-pixelBlue/60 transition-all">
+                        <div class="flex items-center justify-between pb-3 border-b border-white/20 gap-2">
+                            <div class="flex items-center gap-2 min-w-0 flex-grow">
+                                <i class="fa-solid fa-users text-pixelBlue text-sm shrink-0"></i>
+                                ${teamNameDisplay}
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0">
+                                ${splitBtnLive}
+                            </div>
+                        </div>
+                        <div class="space-y-2.5">
+                            ${memberHeaderHTML}
+                            ${memberRows}
+                        </div>
+                    </div>
+                `;
             });
 
             const solos = appState.anglers.filter(a => a.teamId === null);
@@ -2176,11 +2157,11 @@ const nameDisplay = isAmendNamesModeActive
 
                     const deleteBtn = isDeleteModeActive ? `<button onclick="triggerHaptic(); confirmDeleteAngler('${s.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-base touch-elastic"><i class="fa-solid fa-circle-xmark"></i></button>` : '';
 
-const mobSoloBadge = s.mobility ? '<span class="absolute -top-1.5 -left-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : '';
+                    const mobSoloBadge = s.mobility ? '<span class="absolute -top-1.5 -left-1.5 bg-pixelGold text-slate-950 font-black text-[9px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : '';
 
-const nameDisplay = isAmendNamesModeActive 
-    ? `<div class="relative flex-grow"><input type="text" value="${(s.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${s.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="SOLO ANGLER NAME">${mobSoloBadge}</div>` 
-    : `<div class="relative flex-grow min-w-0">${mobSoloBadge}<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate block font-heading">${(s.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed angler</em>'}</span></div>`;
+                    const nameDisplay = isAmendNamesModeActive 
+                        ? `<div class="relative flex-grow"><input type="text" value="${(s.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${s.id}', this.value)" class="bg-slate-900/90 border border-white/25 rounded-lg px-3 py-1.5 text-sm font-black uppercase tracking-wider text-pixelText focus:outline-none focus:border-pixelBlue w-full" placeholder="SOLO ANGLER NAME">${mobSoloBadge}</div>` 
+                        : `<div class="relative flex-grow min-w-0">${mobSoloBadge}<span class="text-sm font-black uppercase tracking-wider text-pixelText truncate block font-heading">${(s.name || '').toUpperCase() || '<em class="text-pixelMuted lowercase italic">unnamed angler</em>'}</span></div>`;
 
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
@@ -2188,18 +2169,18 @@ const nameDisplay = isAmendNamesModeActive
                     const d2SelectedClass = isD2Selected ? 'swap-peg-selected' : '';
 
                     html += `
-    <div class="glass-card-sm p-6 space-y-4 hover:border-pixelCyan/60 transition-all">
-    <div class="flex items-center justify-between pb-2 border-b border-white/20 gap-2">
-                            <div class="flex items-center gap-2 min-w-0 flex-grow">
-                                <i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i>
-                                <span class="text-xs font-black font-heading text-pixelCyan uppercase tracking-wider">Solo Competitor</span>
+                        <div class="glass-card-sm p-6 space-y-4 hover:border-pixelCyan/60 transition-all">
+                            <div class="flex items-center justify-between pb-2 border-b border-white/20 gap-2">
+                                <div class="flex items-center gap-2 min-w-0 flex-grow">
+                                    <i class="fa-solid fa-user text-pixelCyan text-sm shrink-0"></i>
+                                    <span class="text-xs font-black font-heading text-pixelCyan uppercase tracking-wider">Solo Competitor</span>
+                                </div>
+                                <div class="flex items-center gap-2 shrink-0 font-heading font-black text-xs uppercase tracking-wider text-pixelMuted">
+                                    <span class="w-10 sm:w-12 text-center">D1</span>
+                                    ${appState.config.duration === 2 ? '<span class="w-10 sm:w-12 text-center">D2</span>' : ''}
+                                </div>
                             </div>
-                            <div class="flex items-center gap-2 shrink-0 font-heading font-black text-xs uppercase tracking-wider text-pixelMuted">
-                                <span class="w-10 sm:w-12 text-center">D1</span>
-                                ${appState.config.duration === 2 ? '<span class="w-10 sm:w-12 text-center">D2</span>' : ''}
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
+                            <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900/60 border border-white/15 transition-all">
                                 <div class="flex items-center gap-2 min-w-0">
                                     ${deleteBtn}
                                     ${nameDisplay}
