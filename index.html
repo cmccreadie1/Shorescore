@@ -135,6 +135,14 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(168, 199, 250, 0.5); border-radius: 9999px; }
 
+        /* Remove HTML5 Number Spinner Arrows for smooth manual stepper */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] { -moz-appearance: textfield; }
+
         @media print {
             .no-print { display: none !important; }
             body { background: white !important; color: black !important; }
@@ -310,7 +318,8 @@
 
             <div class="glass-card p-8 sm:p-12 space-y-8">
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 5-COLUMN SETUP PARAMETERS GRID -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     <div class="space-y-2">
                         <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Competition Title</label>
                         <input type="text" id="cfgTitle" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-bold focus:outline-none focus:border-pixelBlue text-sm" placeholder="e.g. 2026 Open Championship">
@@ -324,11 +333,24 @@
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Teams of 4</label>
-                        <input type="number" id="inputNumTeams" min="0" value="7" oninput="updateMobilityAdvisor()" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
+                        <input type="number" id="inputNumTeams" min="0" value="" placeholder="e.g. 7" oninput="updateMobilityAdvisor()" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-black uppercase tracking-wider text-pixelMuted font-heading">Solo Competitors</label>
-                        <input type="number" id="inputNumSolos" min="0" value="4" oninput="updateMobilityAdvisor()" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
+                        <input type="number" id="inputNumSolos" min="0" value="" placeholder="e.g. 4" oninput="updateMobilityAdvisor()" class="w-full bg-slate-900/80 border border-white/20 rounded-2xl px-5 py-4 text-pixelText font-black text-sm text-center focus:outline-none focus:border-pixelBlue font-mono-tabular">
+                    </div>
+                    
+                    <!-- MANUAL STEPPER FOR EXPECTED [A] ANGLERS -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-black uppercase tracking-wider text-pixelGold font-heading flex items-center justify-between">
+                            <span>Expected [A] Anglers</span>
+                            <i class="fa-solid fa-wheelchair text-xs text-pixelGold"></i>
+                        </label>
+                        <div class="flex items-center bg-slate-900/80 border border-pixelGold/40 rounded-2xl overflow-hidden focus-within:border-pixelGold">
+                            <button type="button" onclick="triggerHaptic(); adjustMobilityCount(-1)" class="w-12 py-4 bg-slate-800/80 hover:bg-slate-700/80 text-pixelGold font-black text-lg transition-all border-r border-white/10 touch-elastic">-</button>
+                            <input type="number" id="inputNumMobility" min="0" value="" placeholder="0" oninput="updateMobilityAdvisor()" class="w-full bg-transparent px-3 py-4 text-pixelGold font-black text-sm text-center focus:outline-none font-mono-tabular">
+                            <button type="button" onclick="triggerHaptic(); adjustMobilityCount(1)" class="w-12 py-4 bg-slate-800/80 hover:bg-slate-700/80 text-pixelGold font-black text-lg transition-all border-l border-white/10 touch-elastic">+</button>
+                        </div>
                     </div>
                 </div>
 
@@ -411,7 +433,7 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-bold text-pixelMuted">
                                 <div class="bg-slate-900/90 p-3.5 rounded-xl border border-white/15">
-                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Total [A] Competitors</span>
+                                    <span class="block text-pixelMuted uppercase tracking-wider font-heading mb-1">Expected [A] Competitors</span>
                                     <span class="text-xl font-black text-pixelGold font-mono-tabular" id="advCountMobility">0</span>
                                 </div>
                                 <div class="bg-slate-900/90 p-3.5 rounded-xl border border-white/15">
@@ -442,7 +464,6 @@
 
                 <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
                     <div class="flex items-center gap-4">
-                        
                         <button onclick="triggerHaptic(); triggerRestoreFileInput()" type="button" class="glass-pill text-pixelText font-bold px-6 py-3.5 text-sm transition-all uppercase tracking-wider touch-elastic">
                             <i class="fa-solid fa-file-import mr-2 text-pixelBlue"></i> Restore File
                         </button>
@@ -461,7 +482,7 @@
                         <h3 class="text-xl font-black font-heading text-pixelText flex items-center gap-3 uppercase tracking-wider">
                             <i class="fa-solid fa-users text-pixelBlue"></i> Competitor Roster Entry
                         </h3>
-                        <span class="text-sm font-black text-pixelBlue glass-pill px-5 py-2 border border-pixelBlue/40 uppercase tracking-wider font-mono-tabular" id="setupTotalCountLabel">Total: 32 Anglers</span>
+                        <span class="text-sm font-black text-pixelBlue glass-pill px-5 py-2 border border-pixelBlue/40 uppercase tracking-wider font-mono-tabular" id="setupTotalCountLabel">Total: 0 Anglers</span>
                     </div>
 
                     <div id="batchEntryContainer" class="space-y-6"></div>
@@ -860,7 +881,7 @@
 
         let appState = {
             config: {
-                title: "2026 Shore Sea Fishing Championship",
+                title: "",
                 duration: 2,
                 mobilityRequired: false,
                 d1MobType: "specific",
@@ -937,20 +958,40 @@
             }
         }
 
+        function adjustMobilityCount(delta) {
+            const inputEl = document.getElementById('inputNumMobility');
+            let currentVal = parseInt(inputEl.value) || 0;
+            let newVal = Math.max(0, currentVal + delta);
+            inputEl.value = newVal > 0 ? newVal : '';
+
+            if (newVal > 0) {
+                const mobChk = document.getElementById('chkMobilityRequired');
+                if (mobChk && !mobChk.checked) {
+                    mobChk.checked = true;
+                    toggleMobilityOptions(true);
+                }
+            }
+
+            updateMobilityAdvisor();
+        }
+
         function updateMobilityAdvisor() {
             const numTeamsInput = parseInt(document.getElementById('inputNumTeams').value || 0);
             const numSolosInput = parseInt(document.getElementById('inputNumSolos').value || 0);
+            const numMobilityInput = parseInt(document.getElementById('inputNumMobility').value || 0);
+
             const plannedTotalAnglers = (numTeamsInput * 4) + numSolosInput;
 
-            const totalAnglers = appState.anglers.length > 0 ? appState.anglers.length : (plannedTotalAnglers > 0 ? plannedTotalAnglers : 32);
+            const totalAnglers = appState.anglers.length > 0 ? appState.anglers.length : plannedTotalAnglers;
             const mobAnglersCount = appState.anglers.length > 0 
                 ? appState.anglers.filter(a => a.mobility).length
-                : Math.min(3, plannedTotalAnglers);
+                : numMobilityInput;
 
             document.getElementById('advCountMobility').innerText = mobAnglersCount;
             document.getElementById('miniMapTotalFieldLabel').innerText = `Field Size: ${totalAnglers} Anglers`;
 
-            const bounds = getZoneBoundsForN(totalAnglers);
+            const effectiveN = totalAnglers > 0 ? totalAnglers : 32;
+            const bounds = getZoneBoundsForN(effectiveN);
             const recPerZone = mobAnglersCount > 0 ? Math.ceil(mobAnglersCount / 4) + 2 : 0;
             document.getElementById('advRecPerZone').innerText = `${recPerZone} Pegs`;
 
@@ -1167,6 +1208,7 @@
 
             document.getElementById('inputNumTeams').value = numTeams;
             document.getElementById('inputNumSolos').value = numSolos;
+            document.getElementById('inputNumMobility').value = numMobility;
             if (numMobility > 0) {
                 document.getElementById('chkMobilityRequired').checked = true;
                 toggleMobilityOptions(true);
@@ -1248,6 +1290,7 @@
             document.getElementById('cfgDuration').value = "2";
             document.getElementById('inputNumTeams').value = 30;
             document.getElementById('inputNumSolos').value = 0;
+            document.getElementById('inputNumMobility').value = 12;
 
             document.getElementById('chkMobilityRequired').checked = true;
             toggleMobilityOptions(true);
@@ -1319,15 +1362,23 @@
             localStorage.removeItem(STORAGE_KEY);
 
             appState = {
-                config: { title: "2026 Shore Sea Fishing Championship", duration: 2, mobilityRequired: false, d1MobType: "specific", d2MobType: "specific", accessPegsD1: "15-21, 36-42, 57-63, 78-84", accessPegsD2: "15-21, 36-42, 57-63, 78-84", accessZoneD1: "Red", accessZoneD2: "Yellow" },
+                config: { title: "", duration: 2, mobilityRequired: false, d1MobType: "specific", d2MobType: "specific", accessPegsD1: "15-21, 36-42, 57-63, 78-84", accessPegsD2: "15-21, 36-42, 57-63, 78-84", accessZoneD1: "Red", accessZoneD2: "Yellow" },
                 anglers: [], teams: [], draw: { generated: false, day1: [], day2: [] }, scores: { day1: {}, day2: {} }
             };
+
+            document.getElementById('inputNumTeams').value = "";
+            document.getElementById('inputNumSolos').value = "";
+            document.getElementById('inputNumMobility').value = "";
+            document.getElementById('cfgTitle').value = "";
+            document.getElementById('chkMobilityRequired').checked = false;
+            toggleMobilityOptions(false);
 
             document.getElementById('main-app-workspace').classList.add('hidden');
             document.getElementById('main-app-workspace').classList.remove('flex');
             document.getElementById('setup-splash-page').classList.remove('hidden');
             document.getElementById('rosterFieldsForm').classList.add('hidden');
 
+            updateMobilityAdvisor();
             alert("Backup downloaded and app returned to initial Setup screen!");
         }
 
@@ -1579,19 +1630,39 @@
         function generateRosterFieldsFromParameters() {
             const numTeams = parseInt(document.getElementById('inputNumTeams').value) || 0;
             const numSolos = parseInt(document.getElementById('inputNumSolos').value) || 0;
+            const numMobilityExpected = parseInt(document.getElementById('inputNumMobility').value) || 0;
+
+            if (numTeams === 0 && numSolos === 0) {
+                alert("Please enter either Teams of 4 or Solo Competitors to generate input fields.");
+                return;
+            }
 
             appState.teams = [];
             appState.anglers = [];
 
+            let globalAnglerCount = 0;
+
             for (let t = 1; t <= numTeams; t++) {
                 appState.teams.push({ id: `team_${t}`, name: `Team ${t}` });
                 for (let m = 1; m <= 4; m++) {
-                    appState.anglers.push({ id: `ang_${t}_${m}`, name: '', teamId: `team_${t}`, mobility: false });
+                    globalAnglerCount++;
+                    appState.anglers.push({ 
+                        id: `ang_${t}_${m}`, 
+                        name: '', 
+                        teamId: `team_${t}`, 
+                        mobility: globalAnglerCount <= numMobilityExpected 
+                    });
                 }
             }
 
             for (let s = 1; s <= numSolos; s++) {
-                appState.anglers.push({ id: `solo_${s}`, name: '', teamId: null, mobility: false });
+                globalAnglerCount++;
+                appState.anglers.push({ 
+                    id: `solo_${s}`, 
+                    name: '', 
+                    teamId: null, 
+                    mobility: globalAnglerCount <= numMobilityExpected 
+                });
             }
 
             renderBatchEntryFields();
@@ -1611,8 +1682,8 @@
             if (confirm(`Are you sure you want to split "${team.name}" into 4 solo anglers?`)) {
                 appState.anglers.filter(a => a.teamId === teamId).forEach(a => { a.teamId = null; });
                 appState.teams = appState.teams.filter(t => t.id !== teamId);
-                document.getElementById('inputNumTeams').value = appState.teams.length;
-                document.getElementById('inputNumSolos').value = appState.anglers.filter(a => a.teamId === null).length;
+                document.getElementById('inputNumTeams').value = appState.teams.length || '';
+                document.getElementById('inputNumSolos').value = appState.anglers.filter(a => a.teamId === null).length || '';
                 renderBatchEntryFields();
                 updateMobilityAdvisor();
             }
@@ -1683,7 +1754,7 @@
 
         function handleCreateTheDraw(e) {
             e.preventDefault();
-            const checkedMobilityCount = document.querySelectorAll('input[id^="angler_mob_"]:checked').length;
+            const checkedMobilityCount = appState.anglers.filter(a => a.mobility).length;
             const totalPegsSet = (document.getElementById('cfgAccessPegsD1').value.match(/\d+/g) || []).length;
 
             if (appState.config.mobilityRequired && totalPegsSet < checkedMobilityCount) {
@@ -1691,7 +1762,7 @@
                 return;
             }
 
-            appState.config.title = document.getElementById('cfgTitle').value || "Shore Fishing Match";
+            appState.config.title = document.getElementById('cfgTitle').value.trim() || "Shore Fishing Match";
             appState.config.duration = parseInt(document.getElementById('cfgDuration').value);
             appState.config.mobilityRequired = document.getElementById('chkMobilityRequired').checked;
             if (appState.config.mobilityRequired) {
@@ -1699,22 +1770,6 @@
                 appState.config.d2MobType = document.querySelector('input[name="d2MobType"]:checked').value;
                 appState.config.accessPegsD1 = document.getElementById('cfgAccessPegsD1').value;
                 appState.config.accessPegsD2 = document.getElementById('cfgAccessPegsD2').value;
-            }
-
-            const anglerInputs = document.querySelectorAll('input[id^="angler_name_"]');
-            if (anglerInputs.length > 0) {
-                appState.anglers = Array.from(anglerInputs).map((input) => {
-                    const id = input.id.replace('angler_name_', '');
-                    const mobCheckbox = document.getElementById(`angler_mob_${id}`);
-                    const nameVal = input.value.trim() || input.placeholder || `Angler ${id}`;
-                    
-                    return {
-                        id: `ang_${id}`,
-                        name: nameVal,
-                        teamId: input.dataset.teamId || null,
-                        mobility: mobCheckbox ? mobCheckbox.checked : false
-                    };
-                });
             }
 
             appState.anglers = appState.anglers.filter(a => a.name.trim() !== '');
@@ -2024,7 +2079,7 @@
             const workspace = document.getElementById('main-app-workspace');
             workspace.classList.remove('hidden');
             workspace.classList.add('flex');
-            document.getElementById('headerAppTitle').innerText = appState.config.title;
+            document.getElementById('headerAppTitle').innerText = appState.config.title || "Shore Fishing Competition Manager";
             document.getElementById('headerDaysBadge').innerText = appState.config.duration === 1 ? '1-Day Competition' : '2-Day Competition';
             switchTab('tab-draw');
 
