@@ -628,9 +628,9 @@
                     <div id="printOutputToolbar" class="hidden glass-card-sm p-5 flex flex-wrap items-center gap-3 text-sm">
                         <span class="font-black text-pixelMuted mr-2 uppercase tracking-wider text-sm font-heading">Output Actions:</span>
 
-                        <button onclick="triggerHaptic(); generateViewerURL()" type="button" class="bg-pixelCyan hover:bg-cyan-300 text-slate-950 font-black uppercase tracking-wider px-6 py-3 rounded-full transition-all flex items-center gap-2 shadow-md touch-elastic font-heading">
-                            <i class="fa-solid fa-link text-lg"></i> Copy Viewer Link
-                        </button>
+                        <button onclick="triggerHaptic(); exportViewerJSON()" class="bg-pixelCyan hover:bg-cyan-300 text-slate-950 font-black uppercase tracking-wider px-6 py-3 rounded-full transition-all flex items-center gap-2 shadow-md touch-elastic font-heading">
+    <i class="fa-solid fa-file-export text-lg"></i> Export Viewer JSON
+</button>
 
                         <button onclick="triggerHaptic(); copyWhatsAppDraw()" type="button" class="bg-pixelEmerald hover:bg-emerald-400 text-slate-950 font-black uppercase tracking-wider px-6 py-3 rounded-full transition-all flex items-center gap-2 shadow-md touch-elastic font-heading">
                             <i class="fa-brands fa-whatsapp text-lg"></i> Share Draw
@@ -2629,40 +2629,34 @@
             alert("Draw sheet copied to Clipboard!");
         }
 
-        function generateViewerURL() {
-            if (!appState.draw.generated) { 
-                alert("Please generate the draw first."); 
-                return; 
-            }
+        function exportViewerJSON() {
+    if (!appState.draw.generated) { 
+        alert("Please generate the draw first."); 
+        return; 
+    }
 
-            const minifiedPayload = {
-                t: appState.config.title || "Shore Competition",
-                d: appState.config.duration,
-                teams: appState.teams.map(t => ({ id: t.id, name: t.name })),
-                anglers: appState.anglers.map(a => ({ id: a.id, name: a.name, teamId: a.teamId, mob: a.mobility ? 1 : 0 })),
-                draw: {
-                    day1: appState.draw.day1.map(d => ({ aId: d.anglerId, z: d.zone, p: d.peg })),
-                    day2: appState.config.duration === 2 ? appState.draw.day2.map(d => ({ aId: d.anglerId, z: d.zone, p: d.peg })) : []
-                }
-            };
-
-            const jsonString = JSON.stringify(minifiedPayload);
-            const encodedData = btoa(encodeURIComponent(jsonString).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-                return String.fromCharCode('0x' + p1);
-            }));
-
-            const viewerBaseURL = "https://cmccreadie1.github.io/Shorescore-Viewer/";
-            const fullShareURL = `${viewerBaseURL}#data=${encodedData}`;
-
-            const dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
-            dummy.value = fullShareURL;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-
-            alert("Viewer Link copied to Clipboard!\n\nPaste this link into WhatsApp or your group chat to give anglers instant access to their draws.");
+    // Prepare JSON payload for the Viewer repository
+    const viewerPayload = {
+        title: appState.config.title || "Shore Competition",
+        duration: appState.config.duration,
+        teams: appState.teams.map(t => ({ id: t.id, name: t.name })),
+        anglers: appState.anglers.map(a => ({ id: a.id, name: a.name, teamId: a.teamId, mobility: a.mobility ? true : false })),
+        draw: {
+            day1: appState.draw.day1.map(d => ({ anglerId: d.anglerId, zone: d.zone, peg: d.peg })),
+            day2: appState.config.duration === 2 ? appState.draw.day2.map(d => ({ anglerId: d.anglerId, zone: d.zone, peg: d.peg })) : []
         }
+    };
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(viewerPayload, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "live_draw.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+
+    alert("'live_draw.json' exported successfully!\n\nUpload this file to your 'Shorescore-Viewer' GitHub repository to update the angler website.");
+}
 
         function setScorecardDay(day) {
             activeScoreDay = day;
