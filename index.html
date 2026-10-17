@@ -2933,21 +2933,23 @@
                 return b.overallBestFish - a.overallBestFish;
             });
 
-            tbody.innerHTML = indSummary.map((res, idx) => `
-                <tr class="hover:bg-white/10 transition-colors font-mono-tabular text-base">
-                    <td class="py-4.5 px-3 font-black text-center text-pixelBlue border-r border-white/20 text-lg">#${idx+1}</td>
-                    <td class="py-4.5 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-base border-r border-white/20">${res.name.toUpperCase()}</td>
-                    <td class="py-4.5 px-5 text-base text-pixelMuted font-bold uppercase tracking-wider font-heading border-r border-white/20">${res.teamName.toUpperCase()}</td>
-                    
-                    <td class="py-4.5 px-2 text-center bg-white/10 font-black text-pixelText"><span class="bg-pixelBlue text-slate-950 font-black px-4 py-1 rounded-full text-base shadow-md">${res.totalZonePts}</span></td>
-                    <td class="py-4.5 px-2 text-center bg-white/10 font-black text-pixelEmerald text-lg">${res.totalMetric}</td>
-                    <td class="py-4.5 px-2 text-center bg-white/10 font-black text-pixelText text-lg">${res.totalFish}</td>
-                    <td class="py-4.5 px-2 text-center bg-white/10 font-black text-pixelGold text-lg border-r border-white/20">${res.overallBestFish}</td>
+            let lastPts = null;
+            tbody.innerHTML = indSummary.map((res, idx) => {
+                const showSeparator = lastPts !== null && lastPts !== res.totalZonePts;
+                lastPts = res.totalZonePts;
 
-                    <td class="py-4.5 px-2 text-center bg-pixelBlue/10 font-black text-pixelBlue"><span class="glass-pill px-3.5 py-1 border border-pixelBlue/40 text-base">${res.d1Pts}</span></td>
-                    <td class="py-4.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-base">${res.d1Metric}</td>
-                    <td class="py-4.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-base">${res.d1Fish}</td>
-                    <td class="py-4.5 px-2 text-center bg-pixelBlue/10 font-bold text-pixelText text-base border-r border-white/20">${res.d1Best}</td>
+                return `
+                    <tr class="hover:bg-white/10 transition-colors font-mono-tabular text-base ${showSeparator ? 'border-t-2 border-pixelGold/50' : ''}">
+                        <td class="py-3 px-3 font-black text-center text-pixelBlue border-r border-white/20 text-lg">#${idx+1}</td>
+                        <td class="py-3 px-4 font-black uppercase tracking-wider text-pixelText font-heading text-base border-r border-white/20">${res.name}</td>
+                        <td class="py-3 px-4 text-sm font-bold uppercase tracking-wider text-pixelMuted font-heading border-r border-white/20">${res.teamName || 'NO TEAM'}</td>
+                        <td class="py-3 px-2 text-center bg-white/10 font-black text-pixelText"><span class="bg-pixelBlue text-slate-950 px-2.5 py-1 rounded font-bold text-sm">${res.totalZonePts} PTS</span></td>
+                        <td class="py-3 px-2 text-center bg-white/10 font-black text-pixelEmerald text-lg">${res.totalMetric} CM</td>
+                        <td class="py-3 px-2 text-center bg-white/10 font-black text-pixelText text-lg">${res.totalFish}</td>
+                        <td class="py-3 px-2 text-center bg-white/10 font-black text-pixelGold text-lg border-r border-white/20">${res.overallBestFish} CM</td>
+                    </tr>
+                `;
+            }).join('');
 
                     <td class="py-4.5 px-2 text-center bg-pixelGold/10 font-black text-pixelGold"><span class="glass-pill px-3.5 py-1 border border-pixelGold/40 text-base">${appState.config.duration === 2 ? res.d2Pts : '-'}</span></td>
                     <td class="py-4.5 px-2 text-center bg-pixelGold/10 font-bold text-pixelText text-base">${appState.config.duration === 2 ? res.d2Metric : '-'}</td>
