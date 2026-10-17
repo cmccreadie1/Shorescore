@@ -3188,18 +3188,8 @@ const MysteryPairsModule = {
         }
 
         let ranked = eligibleAnglers.map(a => {
-            const anglerId = a.id || a.name;
-            let d1Length = 0;
-            if (appState.scores && appState.scores.day1 && appState.scores.day1[anglerId]) {
-                d1Length = appState.scores.day1[anglerId].length || 0;
-            } else if (appState.scorecards) {
-                const card = appState.scorecards.find(s => (s.anglerId === anglerId || s.angler === anglerId) && (s.day === 1 || s.matchDay === 1));
-                if (card) d1Length = card.totalLength || card.length || 0;
-            } else if (appState.catches) {
-                const catches = appState.catches.filter(c => (c.anglerId === anglerId || c.angler === anglerId) && (c.day === 1 || c.matchDay === 1));
-                d1Length = catches.reduce((sum, c) => sum + (c.length || 0), 0);
-            }
-            return { id: anglerId, name: a.name || anglerId, d1Length };
+            let d1 = (appState.scores && appState.scores.day1 && appState.scores.day1[a.id]) || { fish: 0, length: 0 };
+            return { id: a.id, name: a.name, d1Length: d1.length || 0 };
         });
 
         ranked.sort((a, b) => b.d1Length - a.d1Length);
@@ -3295,33 +3285,16 @@ const MysteryPairsModule = {
         tbody.innerHTML = "";
 
         if (!appState.mysteryPairs || appState.mysteryPairs.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="text-center p-4 text-gray-500">No Mystery Pairs generated yet.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-gray-500">No Mystery Pairs generated yet.</td></tr>`;
             return;
         }
 
         let d1FieldAvg = this.calculateFieldAverage("day1");
         let d2FieldAvg = this.calculateFieldAverage("day2");
 
-        // Helper function to pull angler score safely across all potential data structures
-        const getAnglerScore = (anglerId, dayKey) => {
-            const dayNum = dayKey === 'day1' ? 1 : 2;
-            let score = 0;
-
-            if (appState.scores && appState.scores[dayKey] && appState.scores[dayKey][anglerId]) {
-                score = appState.scores[dayKey][anglerId].length || 0;
-            } else if (appState.scorecards) {
-                const card = appState.scorecards.find(s => (s.anglerId === anglerId || s.angler === anglerId) && (s.day === dayNum || s.matchDay === dayNum));
-                if (card) score = card.totalLength || card.length || 0;
-            } else if (appState.catches) {
-                const catches = appState.catches.filter(c => (c.anglerId === anglerId || c.angler === anglerId) && (c.day === dayNum || c.matchDay === dayNum));
-                score = catches.reduce((sum, c) => sum + (c.length || 0), 0);
-            }
-            return score;
-        };
-
         let computed = appState.mysteryPairs.map(p => {
-            let a1D1Length = getAnglerScore(p.angler1Id, "day1");
-            let a1D2Length = getAnglerScore(p.angler1Id, "day2");
+            let a1D1 = (appState.scores && appState.scores.day1 && appState.scores.day1[p.angler1Id]) || { length: 0 };
+            let a1D2 = (appState.scores && appState.scores.day2 && appState.scores.day2[p.angler1Id]) || { length: 0 };
 
             let a2D1Length = 0;
             let a2D2Length = 0;
@@ -3330,12 +3303,14 @@ const MysteryPairsModule = {
                 a2D1Length = d1FieldAvg;
                 a2D2Length = d2FieldAvg;
             } else {
-                a2D1Length = getAnglerScore(p.angler2Id, "day1");
-                a2D2Length = getAnglerScore(p.angler2Id, "day2");
+                let a2D1 = (appState.scores && appState.scores.day1 && appState.scores.day1[p.angler2Id]) || { length: 0 };
+                let a2D2 = (appState.scores && appState.scores.day2 && appState.scores.day2[p.angler2Id]) || { length: 0 };
+                a2D1Length = a2D1.length || 0;
+                a2D2Length = a2D2.length || 0;
             }
 
-            let d1Total = a1D1Length + a2D1Length;
-            let d2Total = a1D2Length + a2D2Length;
+            let d1Total = (a1D1.length || 0) + a2D1Length;
+            let d2Total = (a1D2.length || 0) + a2D2Length;
             let combined = d1Total + d2Total;
 
             return {
@@ -3366,7 +3341,8 @@ const MysteryPairsModule = {
             `;
             tbody.appendChild(tr);
         });
-    },
+    }
+};
 
 window.addEventListener("DOMContentLoaded", () => {
     MysteryPairsModule.renderMatrix();
