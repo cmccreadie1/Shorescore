@@ -516,6 +516,9 @@
                         <button onclick="triggerHaptic(); switchTab('tab-results')" id="nav-tab-results" class="nav-btn px-7 py-3 rounded-full text-sm font-black uppercase tracking-wider transition-all flex items-center gap-2 text-pixelMuted hover:text-white">
                             <i class="fa-solid fa-trophy text-base"></i> Results
                         </button>
+                        <button onclick="triggerHaptic(); switchTab('tab-mystery-pairs')" id="nav-tab-mystery-pairs" class="nav-btn px-7 py-3 rounded-full">
+    <i class="fa-solid fa-handshake text-base"></i> Mystery Pairs
+</button>
                     </nav>
 
                     <div class="flex items-center gap-3">
@@ -866,6 +869,64 @@
 
         </main>
     </div>
+    <!-- MYSTERY PAIRS TAB -->
+<div id="tab-mystery-pairs" class="tab-content hidden space-y-6">
+    <div class="glass-panel p-6 rounded-2xl">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-user-check text-pixelGold"></i> Opt-In Registration Matrix
+            </h2>
+            <button class="btn-secondary text-xs px-3 py-1" onclick="MysteryPairsModule.selectAllOptIn(true)">Select All</button>
+        </div>
+        <p class="text-sm text-gray-400 mb-4">
+            Select competitors participating in the Mystery Pairs sweepstake. Only opted-in anglers will be included in the post-Day 1 draw.
+        </p>
+        <div id="mp-registration-matrix" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-3 bg-black/30 rounded-xl border border-white/10">
+            <!-- Populated via JavaScript -->
+        </div>
+    </div>
+
+    <div class="glass-panel p-6 rounded-2xl">
+        <h2 class="text-xl font-bold flex items-center gap-2 mb-2">
+            <i class="fa-solid fa-shuffle text-pixelGold"></i> Day 1 Automated Pairing Engine
+        </h2>
+        <p class="text-sm text-gray-400 mb-4">
+            Pairs the 1st placed Day 1 angler with the last placed angler down the field. If an odd number of competitors opt in, the middle-ranked angler is assigned a Ghost Partner based on the field average.
+        </p>
+        <div class="flex gap-3">
+            <button class="btn-primary text-sm px-4 py-2 flex items-center gap-2" onclick="MysteryPairsModule.generatePairs()">
+                <i class="fa-solid fa-dice"></i> Generate Day 1 Pairs
+            </button>
+            <button class="btn-danger text-sm px-4 py-2 flex items-center gap-2" onclick="MysteryPairsModule.clearPairs()">
+                <i class="fa-solid fa-trash-can"></i> Reset Pairs
+            </button>
+        </div>
+    </div>
+
+    <div class="glass-panel p-6 rounded-2xl">
+        <h2 class="text-xl font-bold flex items-center gap-2 mb-4">
+            <i class="fa-solid fa-trophy text-pixelGold"></i> Mystery Pairs Leaderboard
+        </h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm border-collapse">
+                <thead>
+                    <tr class="border-b border-white/10 text-gray-400 text-xs uppercase">
+                        <th class="p-3">Rank</th>
+                        <th class="p-3">Angler 1 (Day 1 Rank)</th>
+                        <th class="p-3">Angler 2 (Day 1 Rank)</th>
+                        <th class="p-3">Day 1 (cm)</th>
+                        <th class="p-3">Day 2 (cm)</th>
+                        <th class="p-3">Total Combined (cm)</th>
+                        <th class="p-3">Prize Status</th>
+                    </tr>
+                </thead>
+                <tbody id="mp-leaderboard-body">
+                    <tr><td colspan="7" class="text-center p-6 text-gray-500">No Mystery Pairs generated yet.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
     <!-- APPLICATION LOGIC SCRIPT -->
     <script>
@@ -3055,6 +3116,227 @@
                 </tr>
             `).join('');
         }
+        // ============================================================================
+// MYSTERY PAIRS EXTENSION MODULE
+// ============================================================================
+const MysteryPairsModule = {
+    getOptInList: function() {
+        if (!appState.mysteryPairsOptIn) appState.mysteryPairsOptIn = {};
+        return appState.mysteryPairsOptIn;
+    },
+
+    toggleOptIn: function(anglerId, isChecked) {
+        let optIns = this.getOptInList();
+        optIns[anglerId] = isChecked;
+        saveState();
+    },
+
+    selectAllOptIn: function(status) {
+        let optIns = this.getOptInList();
+        if (appState.anglers) {
+            appState.anglers.forEach(a => { optIns[a.id] = status; });
+        }
+        saveState();
+        this.renderMatrix();
+    },
+
+    renderMatrix: function() {
+        const container = document.getElementById("mp-registration-matrix");
+        if (!container) return;
+        container.innerHTML = "";
+
+        if (!appState.anglers || appState.anglers.length === 0) {
+            container.innerHTML = `<div class="text-gray-500 text-sm p-2">No registered anglers found.</div>`;
+            return;
+        }
+
+        let optIns = this.getOptInList();
+        appState.anglers.forEach(a => {
+            const isChecked = optIns[a.id] !== false;
+            optIns[a.id] = isChecked;
+
+            const div = document.createElement("div");
+            div.className = "flex items-center gap-2 text-sm text-gray-200 cursor-pointer";
+            div.innerHTML = `
+                <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input type="checkbox" class="accent-pixelGold w-4 h-4 rounded" ${isChecked ? "checked" : ""} onchange="MysteryPairsModule.toggleOptIn('${a.id}', this.checked)">
+                    <span>${a.name}</span>
+                </label>
+            `;
+            container.appendChild(div);
+        });
+    },
+
+    generatePairs: function() {
+        let optIns = this.getOptInList();
+        let eligibleAnglers = (appState.anglers || []).filter(a => optIns[a.id] === true);
+
+        if (eligibleAnglers.length < 2) {
+            alert("At least 2 opted-in anglers are required to generate Mystery Pairs.");
+            return;
+        }
+
+        let ranked = eligibleAnglers.map(a => {
+            let d1 = (appState.scores && appState.scores.day1 && appState.scores.day1[a.id]) || { fish: 0, length: 0 };
+            return { id: a.id, name: a.name, d1Length: d1.length || 0 };
+        });
+
+        ranked.sort((a, b) => b.d1Length - a.d1Length);
+
+        let pairs = [];
+        let total = ranked.length;
+        let isOdd = total % 2 !== 0;
+        let pairIndex = 1;
+
+        if (isOdd) {
+            let midIdx = Math.floor(total / 2);
+            let midAngler = ranked[midIdx];
+
+            let left = 0;
+            let right = total - 1;
+
+            while (left < right) {
+                if (left === midIdx) { left++; continue; }
+                if (right === midIdx) { right--; continue; }
+
+                pairs.push({
+                    id: "mp_pair_" + pairIndex++,
+                    angler1Id: ranked[left].id,
+                    angler1Name: ranked[left].name,
+                    angler1Rank: left + 1,
+                    angler2Id: ranked[right].id,
+                    angler2Name: ranked[right].name,
+                    angler2Rank: right + 1,
+                    isGhost: false
+                });
+                left++;
+                right--;
+            }
+
+            pairs.push({
+                id: "mp_pair_" + pairIndex++,
+                angler1Id: midAngler.id,
+                angler1Name: midAngler.name,
+                angler1Rank: midIdx + 1,
+                angler2Id: "GHOST_PARTNER",
+                angler2Name: "Ghost Partner (Field Avg)",
+                angler2Rank: "N/A",
+                isGhost: true
+            });
+        } else {
+            for (let i = 0; i < total / 2; i++) {
+                let high = ranked[i];
+                let low = ranked[total - 1 - i];
+                pairs.push({
+                    id: "mp_pair_" + pairIndex++,
+                    angler1Id: high.id,
+                    angler1Name: high.name,
+                    angler1Rank: i + 1,
+                    angler2Id: low.id,
+                    angler2Name: low.name,
+                    angler2Rank: total - i,
+                    isGhost: false
+                });
+            }
+        }
+
+        appState.mysteryPairs = pairs;
+        saveState();
+        this.renderLeaderboard();
+        alert(`Successfully generated ${pairs.length} Mystery Pairs!`);
+    },
+
+    clearPairs: function() {
+        if (confirm("Clear all generated Mystery Pairs?")) {
+            appState.mysteryPairs = [];
+            saveState();
+            this.renderLeaderboard();
+        }
+    },
+
+    calculateFieldAverage: function(dayKey) {
+        let optIns = this.getOptInList();
+        let eligible = (appState.anglers || []).filter(a => optIns[a.id] === true);
+        if (eligible.length === 0) return 0;
+
+        let totalLength = 0;
+        eligible.forEach(a => {
+            let s = (appState.scores && appState.scores[dayKey] && appState.scores[dayKey][a.id]) || { length: 0 };
+            totalLength += (s.length || 0);
+        });
+
+        return Math.round(totalLength / eligible.length);
+    },
+
+    renderLeaderboard: function() {
+        const tbody = document.getElementById("mp-leaderboard-body");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        if (!appState.mysteryPairs || appState.mysteryPairs.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-gray-500">No Mystery Pairs generated yet.</td></tr>`;
+            return;
+        }
+
+        let d1FieldAvg = this.calculateFieldAverage("day1");
+        let d2FieldAvg = this.calculateFieldAverage("day2");
+
+        let computed = appState.mysteryPairs.map(p => {
+            let a1D1 = (appState.scores && appState.scores.day1 && appState.scores.day1[p.angler1Id]) || { length: 0 };
+            let a1D2 = (appState.scores && appState.scores.day2 && appState.scores.day2[p.angler1Id]) || { length: 0 };
+
+            let a2D1Length = 0;
+            let a2D2Length = 0;
+
+            if (p.isGhost) {
+                a2D1Length = d1FieldAvg;
+                a2D2Length = d2FieldAvg;
+            } else {
+                let a2D1 = (appState.scores && appState.scores.day1 && appState.scores.day1[p.angler2Id]) || { length: 0 };
+                let a2D2 = (appState.scores && appState.scores.day2 && appState.scores.day2[p.angler2Id]) || { length: 0 };
+                a2D1Length = a2D1.length || 0;
+                a2D2Length = a2D2.length || 0;
+            }
+
+            let d1Total = (a1D1.length || 0) + a2D1Length;
+            let d2Total = (a1D2.length || 0) + a2D2Length;
+            let combined = d1Total + d2Total;
+
+            return {
+                ...p,
+                d1Total,
+                d2Total,
+                combined
+            };
+        });
+
+        computed.sort((a, b) => b.combined - a.combined);
+
+        computed.forEach((item, idx) => {
+            const tr = document.createElement("tr");
+            tr.className = "border-b border-white/5 hover:bg-white/5 transition-colors";
+            tr.innerHTML = `
+                <td class="p-3 font-bold text-pixelGold">#${idx + 1}</td>
+                <td class="p-3">${item.angler1Name} <span class="text-xs text-gray-500">(Rank ${item.angler1Rank})</span></td>
+                <td class="p-3">${item.angler2Name} ${item.isGhost ? '' : `<span class="text-xs text-gray-500">(Rank ${item.angler2Rank})</span>`}</td>
+                <td class="p-3">${item.d1Total} cm</td>
+                <td class="p-3">${item.d2Total} cm</td>
+                <td class="p-3 font-bold">${item.combined} cm</td>
+                <td class="p-3">
+                    ${item.isGhost 
+                        ? `<span class="px-2 py-1 bg-amber-500/20 text-amber-300 rounded text-xs font-semibold" title="Contains Ghost Partner - Cash prize rolls down to next human pair">Roll-Down Guard</span>` 
+                        : `<span class="px-2 py-1 bg-emerald-500/20 text-emerald-300 rounded text-xs font-semibold">Eligible</span>`}
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+    MysteryPairsModule.renderMatrix();
+    MysteryPairsModule.renderLeaderboard();
+});
     </script>
 </body>
 </html>
