@@ -866,67 +866,66 @@
                     </div>
                 </div>
             </div>
-
-        </main>
-    </div>
-    <!-- MYSTERY PAIRS TAB -->
 <!-- MYSTERY PAIRS TAB -->
-<div id="tab-mystery-pairs" class="tab-content hidden max-w-7xl mx-auto space-y-4 -mt-12 sm:-mt-16">
-    <!-- Registration Matrix Panel -->
-    <div class="glass-panel p-4 rounded-xl">
-        <div class="flex justify-between items-center mb-2">
-            <h2 class="text-base font-bold flex items-center gap-2">
-                <i class="fa-solid fa-user-check text-pixelGold"></i> Mystery Pairs Opt-In Matrix
-            </h2>
-            <span class="text-xs text-pixelMuted">Deselect any angler not participating</span>
-        </div>
-        <div id="mp-registration-matrix" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 p-2 bg-black/40 rounded-lg border border-white/10">
-            <!-- Populated via JavaScript -->
-        </div>
-    </div>
+        <div id="tab-mystery-pairs" class="tab-content hidden space-y-4">
+            <!-- Registration Matrix Panel -->
+            <div class="glass-panel p-4 rounded-xl">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 class="text-base font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-user-check text-pixelGold"></i> Mystery Pairs Opt-In Matrix
+                    </h2>
+                    <span class="text-xs text-pixelMuted">Deselect any angler not participating</span>
+                </div>
+                <div id="mp-registration-matrix" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 p-2 bg-black/40 rounded-lg border border-white/10">
+                    <!-- Populated via JavaScript -->
+                </div>
+            </div>
 
-    <!-- Controls Panel -->
-    <div class="glass-panel p-4 rounded-xl flex items-center justify-between gap-4">
-        <div>
-            <h3 class="text-sm font-bold flex items-center gap-2">
-                <i class="fa-solid fa-shuffle text-pixelGold"></i> Automated Day 1 Pairing
-            </h3>
-            <p class="text-xs text-gray-400">Pairs 1st with last based on Day 1 rankings. Odd field count assigns field average ghost partner.</p>
-        </div>
-        <div class="flex gap-2 shrink-0">
-            <button class="btn-primary text-xs px-3 py-2 flex items-center gap-1.5" onclick="MysteryPairsModule.generatePairs()">
-                <i class="fa-solid fa-dice"></i> Generate Pairs
-            </button>
-            <button class="btn-danger text-xs px-3 py-2 flex items-center gap-1.5" onclick="MysteryPairsModule.clearPairs()">
-                <i class="fa-solid fa-trash-can"></i> Reset
-            </button>
-        </div>
-    </div>
+            <!-- Controls Panel -->
+            <div class="glass-panel p-4 rounded-xl flex items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-sm font-bold flex items-center gap-2">
+                        <i class="fa-solid fa-shuffle text-pixelGold"></i> Automated Day 1 Pairing
+                    </h3>
+                    <p class="text-xs text-gray-400">Pairs 1st with last based on Day 1 rankings. Odd field count assigns field average ghost partner.</p>
+                </div>
+                <div class="flex gap-2 shrink-0">
+                    <button class="btn-primary text-xs px-3 py-2 flex items-center gap-1.5" onclick="MysteryPairsModule.generatePairs()">
+                        <i class="fa-solid fa-dice"></i> Generate Pairs
+                    </button>
+                    <button class="btn-danger text-xs px-3 py-2 flex items-center gap-1.5" onclick="MysteryPairsModule.clearPairs()">
+                        <i class="fa-solid fa-trash-can"></i> Reset
+                    </button>
+                </div>
+            </div>
 
-    <!-- Leaderboard Panel -->
-    <div class="glass-panel p-4 rounded-xl">
-        <h2 class="text-base font-bold flex items-center gap-2 mb-3">
-            <i class="fa-solid fa-trophy text-pixelGold"></i> Mystery Pairs Leaderboard
-        </h2>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
-                <thead>
-                    <tr class="border-b border-white/10 text-gray-400 uppercase">
-                        <th class="p-2">Rank</th>
-                        <th class="p-2">Angler 1 (Day 1 Rank)</th>
-                        <th class="p-2">Angler 2 (Day 1 Rank)</th>
-                        <th class="p-2">Day 1 (cm)</th>
-                        <th class="p-2">Day 2 (cm)</th>
-                        <th class="p-2">Total (cm)</th>
-                        <th class="p-2">Prize Status</th>
-                    </tr>
-                </thead>
-                <tbody id="mp-leaderboard-body">
-                    <tr><td colspan="7" class="text-center p-4 text-gray-500">No Mystery Pairs generated yet.</td></tr>
-                </tbody>
-            </table>
+            <!-- Leaderboard Panel -->
+            <div class="glass-panel p-4 rounded-xl">
+                <h2 class="text-base font-bold flex items-center gap-2 mb-3">
+                    <i class="fa-solid fa-trophy text-pixelGold"></i> Mystery Pairs Leaderboard
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-white/10 text-gray-400 uppercase">
+                                <th class="p-2">Rank</th>
+                                <th class="p-2">Angler 1 (Day 1 Rank)</th>
+                                <th class="p-2">Angler 2 (Day 1 Rank)</th>
+                                <th class="p-2">Day 1 (cm)</th>
+                                <th class="p-2">Day 2 (cm)</th>
+                                <th class="p-2">Total (cm)</th>
+                                <th class="p-2">Prize Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mp-leaderboard-body">
+                            <tr><td colspan="7" class="text-center p-4 text-gray-500">No Mystery Pairs generated yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
+
+    </main>
 </div>
     <!-- APPLICATION LOGIC SCRIPT -->
     <script>
