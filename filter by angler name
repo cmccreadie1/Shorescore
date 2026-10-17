@@ -687,7 +687,7 @@
 
                     <div class="relative z-20">
                         <i class="fa-solid fa-magnifying-glass absolute left-5 top-4.5 text-pixelMuted text-base"></i>
-                     <input type="text" id="scoreSearchInput" onkeyup="filterScorecardTable()" class="w-full bg-slate-900/80 border border-white/20 text-pixelText text-sm px-4 py-2.5 rounded-lg focus:outline-none focus:border-pixelGold placeholder:italic placeholder:text-white/40" placeholder="type here to search for angler">
+                        <input type="text" id="scoreSearchInput" onkeyup="filterScorecardTable()" class="w-full bg-slate-900/80 border border-white/25 rounded-2xl pl-14 pr-5 py-4 text-pixelText placeholder-pixelMuted focus:outline-none focus:border-pixelBlue text-base font-bold uppercase tracking-wider" placeholder="Filter by Angler Name or Peg Number (e.g. 'McCreadie' or '14')...">
                     </div>
                 </div>
 
