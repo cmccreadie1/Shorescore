@@ -3116,7 +3116,8 @@
                 </tr>
             `).join('');
         }
-        // ============================================================================
+        
+// ============================================================================
 // MYSTERY PAIRS EXTENSION MODULE
 // ============================================================================
 const MysteryPairsModule = {
@@ -3128,16 +3129,7 @@ const MysteryPairsModule = {
     toggleOptIn: function(anglerId, isChecked) {
         let optIns = this.getOptInList();
         optIns[anglerId] = isChecked;
-        saveState();
-    },
-
-    selectAllOptIn: function(status) {
-        let optIns = this.getOptInList();
-        if (appState.anglers) {
-            appState.anglers.forEach(a => { optIns[a.id] = status; });
-        }
-        saveState();
-        this.renderMatrix();
+        if (typeof saveState === 'function') saveState();
     },
 
     renderMatrix: function() {
@@ -3145,12 +3137,7 @@ const MysteryPairsModule = {
         if (!container) return;
         container.innerHTML = "";
 
-        // Safe fallback check for whatever name your app uses for anglers
-        let anglerList = [];
-        if (typeof appState !== 'undefined' && appState.anglers) anglerList = appState.anglers;
-        else if (typeof appState !== 'undefined' && appState.competitors) anglerList = appState.competitors;
-        else if (typeof appData !== 'undefined' && appData.anglers) anglerList = appData.anglers;
-        else if (typeof appData !== 'undefined' && appData.competitors) anglerList = appData.competitors;
+        let anglerList = (appState && appState.anglers) ? appState.anglers : [];
 
         if (!anglerList || anglerList.length === 0) {
             container.innerHTML = `<div class="col-span-full text-gray-500 text-xs p-2 text-center">No registered anglers found. Add anglers under the setup/competitors tab first.</div>`;
@@ -3159,23 +3146,33 @@ const MysteryPairsModule = {
 
         let optIns = this.getOptInList();
         anglerList.forEach(a => {
-            const anglerId = a.id || a.name;
-            const anglerName = a.name || a.id;
-
-            // Default to true (checked) unless explicitly unticked
-            const isChecked = optIns[anglerId] !== false;
-            optIns[anglerId] = isChecked;
+            const isChecked = optIns[a.id] !== false;
+            optIns[a.id] = isChecked;
 
             const div = document.createElement("div");
             div.className = "flex items-center gap-1.5 p-1.5 rounded bg-white/5 hover:bg-white/10 transition-colors text-xs text-gray-200 cursor-pointer overflow-hidden truncate";
             div.innerHTML = `
                 <label class="flex items-center gap-1.5 cursor-pointer select-none w-full truncate">
-                    <input type="checkbox" class="accent-pixelGold w-3.5 h-3.5 rounded shrink-0" ${isChecked ? "checked" : ""} onchange="MysteryPairsModule.toggleOptIn('${anglerId}', this.checked)">
-                    <span class="truncate font-medium">${anglerName}</span>
+                    <input type="checkbox" class="accent-pixelGold w-3.5 h-3.5 rounded shrink-0" ${isChecked ? "checked" : ""} onchange="MysteryPairsModule.toggleOptIn('${a.id}', this.checked)">
+                    <span class="truncate font-medium">${a.name}</span>
                 </label>
             `;
             container.appendChild(div);
         });
+    },
+
+    getAnglerDay1Score: function(anglerId) {
+        if (appState.scores && appState.scores.day1 && appState.scores.day1[anglerId]) {
+            return parseFloat(appState.scores.day1[anglerId].length) || 0;
+        }
+        return 0;
+    },
+
+    getAnglerDay2Score: function(anglerId) {
+        if (appState.scores && appState.scores.day2 && appState.scores.day2[anglerId]) {
+            return parseFloat(appState.scores.day2[anglerId].length) || 0;
+        }
+        return 0;
     },
 
     generatePairs: function() {
@@ -3188,8 +3185,11 @@ const MysteryPairsModule = {
         }
 
         let ranked = eligibleAnglers.map(a => {
-            let d1 = (appState.scores && appState.scores.day1 && appState.scores.day1[a.id]) || { fish: 0, length: 0 };
-            return { id: a.id, name: a.name, d1Length: d1.length || 0 };
+            return {
+                id: a.id,
+                name: a.name,
+                d1Length: this.getAnglerDay1Score(a.id)
+            };
         });
 
         ranked.sort((a, b) => b.d1Length - a.d1Length);
@@ -3252,7 +3252,7 @@ const MysteryPairsModule = {
         }
 
         appState.mysteryPairs = pairs;
-        saveState();
+        if (typeof saveState === 'function') saveState();
         this.renderLeaderboard();
         alert(`Successfully generated ${pairs.length} Mystery Pairs!`);
     },
@@ -3260,7 +3260,7 @@ const MysteryPairsModule = {
     clearPairs: function() {
         if (confirm("Clear all generated Mystery Pairs?")) {
             appState.mysteryPairs = [];
-            saveState();
+            if (typeof saveState === 'function') saveState();
             this.renderLeaderboard();
         }
     },
@@ -3272,8 +3272,8 @@ const MysteryPairsModule = {
 
         let totalLength = 0;
         eligible.forEach(a => {
-            let s = (appState.scores && appState.scores[dayKey] && appState.scores[dayKey][a.id]) || { length: 0 };
-            totalLength += (s.length || 0);
+            let score = dayKey === 'day1' ? this.getAnglerDay1Score(a.id) : this.getAnglerDay2Score(a.id);
+            totalLength += score;
         });
 
         return Math.round(totalLength / eligible.length);
@@ -3285,7 +3285,7 @@ const MysteryPairsModule = {
         tbody.innerHTML = "";
 
         if (!appState.mysteryPairs || appState.mysteryPairs.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-gray-500">No Mystery Pairs generated yet.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center p-4 text-gray-500">No Mystery Pairs generated yet.</td></tr>`;
             return;
         }
 
@@ -3293,24 +3293,22 @@ const MysteryPairsModule = {
         let d2FieldAvg = this.calculateFieldAverage("day2");
 
         let computed = appState.mysteryPairs.map(p => {
-            let a1D1 = (appState.scores && appState.scores.day1 && appState.scores.day1[p.angler1Id]) || { length: 0 };
-            let a1D2 = (appState.scores && appState.scores.day2 && appState.scores.day2[p.angler1Id]) || { length: 0 };
+            let a1D1 = this.getAnglerDay1Score(p.angler1Id);
+            let a1D2 = this.getAnglerDay2Score(p.angler1Id);
 
-            let a2D1Length = 0;
-            let a2D2Length = 0;
+            let a2D1 = 0;
+            let a2D2 = 0;
 
             if (p.isGhost) {
-                a2D1Length = d1FieldAvg;
-                a2D2Length = d2FieldAvg;
+                a2D1 = d1FieldAvg;
+                a2D2 = d2FieldAvg;
             } else {
-                let a2D1 = (appState.scores && appState.scores.day1 && appState.scores.day1[p.angler2Id]) || { length: 0 };
-                let a2D2 = (appState.scores && appState.scores.day2 && appState.scores.day2[p.angler2Id]) || { length: 0 };
-                a2D1Length = a2D1.length || 0;
-                a2D2Length = a2D2.length || 0;
+                a2D1 = this.getAnglerDay1Score(p.angler2Id);
+                a2D2 = this.getAnglerDay2Score(p.angler2Id);
             }
 
-            let d1Total = (a1D1.length || 0) + a2D1Length;
-            let d2Total = (a1D2.length || 0) + a2D2Length;
+            let d1Total = a1D1 + a2D1;
+            let d2Total = a1D2 + a2D2;
             let combined = d1Total + d2Total;
 
             return {
