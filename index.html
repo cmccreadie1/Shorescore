@@ -870,64 +870,64 @@
         </main>
     </div>
     <!-- MYSTERY PAIRS TAB -->
-<div id="tab-mystery-pairs" class="tab-content hidden space-y-6">
-    <div class="glass-panel p-6 rounded-2xl">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold flex items-center gap-2">
-                <i class="fa-solid fa-user-check text-pixelGold"></i> Opt-In Registration Matrix
+<!-- MYSTERY PAIRS TAB -->
+<div id="tab-mystery-pairs" class="tab-content hidden space-y-4">
+    <!-- Registration Matrix Panel -->
+    <div class="glass-panel p-4 rounded-xl">
+        <div class="flex justify-between items-center mb-2">
+            <h2 class="text-base font-bold flex items-center gap-2">
+                <i class="fa-solid fa-user-check text-pixelGold"></i> Mystery Pairs Opt-In Matrix
             </h2>
-            <button class="btn-secondary text-xs px-3 py-1" onclick="MysteryPairsModule.selectAllOptIn(true)">Select All</button>
+            <span class="text-xs text-pixelMuted">Deselect any angler not participating</span>
         </div>
-        <p class="text-sm text-gray-400 mb-4">
-            Select competitors participating in the Mystery Pairs sweepstake. Only opted-in anglers will be included in the post-Day 1 draw.
-        </p>
-        <div id="mp-registration-matrix" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-3 bg-black/30 rounded-xl border border-white/10">
+        <div id="mp-registration-matrix" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 p-2 bg-black/40 rounded-lg border border-white/10">
             <!-- Populated via JavaScript -->
         </div>
     </div>
 
-    <div class="glass-panel p-6 rounded-2xl">
-        <h2 class="text-xl font-bold flex items-center gap-2 mb-2">
-            <i class="fa-solid fa-shuffle text-pixelGold"></i> Day 1 Automated Pairing Engine
-        </h2>
-        <p class="text-sm text-gray-400 mb-4">
-            Pairs the 1st placed Day 1 angler with the last placed angler down the field. If an odd number of competitors opt in, the middle-ranked angler is assigned a Ghost Partner based on the field average.
-        </p>
-        <div class="flex gap-3">
-            <button class="btn-primary text-sm px-4 py-2 flex items-center gap-2" onclick="MysteryPairsModule.generatePairs()">
-                <i class="fa-solid fa-dice"></i> Generate Day 1 Pairs
+    <!-- Controls Panel -->
+    <div class="glass-panel p-4 rounded-xl flex items-center justify-between gap-4">
+        <div>
+            <h3 class="text-sm font-bold flex items-center gap-2">
+                <i class="fa-solid fa-shuffle text-pixelGold"></i> Automated Day 1 Pairing
+            </h3>
+            <p class="text-xs text-gray-400">Pairs 1st with last based on Day 1 rankings. Odd field count assigns field average ghost partner.</p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+            <button class="btn-primary text-xs px-3 py-2 flex items-center gap-1.5" onclick="MysteryPairsModule.generatePairs()">
+                <i class="fa-solid fa-dice"></i> Generate Pairs
             </button>
-            <button class="btn-danger text-sm px-4 py-2 flex items-center gap-2" onclick="MysteryPairsModule.clearPairs()">
-                <i class="fa-solid fa-trash-can"></i> Reset Pairs
+            <button class="btn-danger text-xs px-3 py-2 flex items-center gap-1.5" onclick="MysteryPairsModule.clearPairs()">
+                <i class="fa-solid fa-trash-can"></i> Reset
             </button>
         </div>
     </div>
 
-    <div class="glass-panel p-6 rounded-2xl">
-        <h2 class="text-xl font-bold flex items-center gap-2 mb-4">
+    <!-- Leaderboard Panel -->
+    <div class="glass-panel p-4 rounded-xl">
+        <h2 class="text-base font-bold flex items-center gap-2 mb-3">
             <i class="fa-solid fa-trophy text-pixelGold"></i> Mystery Pairs Leaderboard
         </h2>
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm border-collapse">
+            <table class="w-full text-left text-xs border-collapse">
                 <thead>
-                    <tr class="border-b border-white/10 text-gray-400 text-xs uppercase">
-                        <th class="p-3">Rank</th>
-                        <th class="p-3">Angler 1 (Day 1 Rank)</th>
-                        <th class="p-3">Angler 2 (Day 1 Rank)</th>
-                        <th class="p-3">Day 1 (cm)</th>
-                        <th class="p-3">Day 2 (cm)</th>
-                        <th class="p-3">Total Combined (cm)</th>
-                        <th class="p-3">Prize Status</th>
+                    <tr class="border-b border-white/10 text-gray-400 uppercase">
+                        <th class="p-2">Rank</th>
+                        <th class="p-2">Angler 1 (Day 1 Rank)</th>
+                        <th class="p-2">Angler 2 (Day 1 Rank)</th>
+                        <th class="p-2">Day 1 (cm)</th>
+                        <th class="p-2">Day 2 (cm)</th>
+                        <th class="p-2">Total (cm)</th>
+                        <th class="p-2">Prize Status</th>
                     </tr>
                 </thead>
                 <tbody id="mp-leaderboard-body">
-                    <tr><td colspan="7" class="text-center p-6 text-gray-500">No Mystery Pairs generated yet.</td></tr>
+                    <tr><td colspan="7" class="text-center p-4 text-gray-500">No Mystery Pairs generated yet.</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
     <!-- APPLICATION LOGIC SCRIPT -->
     <script>
         const STORAGE_KEY = 'shore_fishing_comp_v100_data';
@@ -3146,21 +3146,22 @@ const MysteryPairsModule = {
         container.innerHTML = "";
 
         if (!appState.anglers || appState.anglers.length === 0) {
-            container.innerHTML = `<div class="text-gray-500 text-sm p-2">No registered anglers found.</div>`;
+            container.innerHTML = `<div class="col-span-full text-gray-500 text-xs p-2 text-center">No registered anglers found. Add anglers under the setup/competitors tab first.</div>`;
             return;
         }
 
         let optIns = this.getOptInList();
         appState.anglers.forEach(a => {
+            // Default to true (selected) unless explicitly toggled off
             const isChecked = optIns[a.id] !== false;
             optIns[a.id] = isChecked;
 
             const div = document.createElement("div");
-            div.className = "flex items-center gap-2 text-sm text-gray-200 cursor-pointer";
+            div.className = "flex items-center gap-1.5 p-1.5 rounded bg-white/5 hover:bg-white/10 transition-colors text-xs text-gray-200 cursor-pointer overflow-hidden truncate";
             div.innerHTML = `
-                <label class="flex items-center gap-2 cursor-pointer select-none">
-                    <input type="checkbox" class="accent-pixelGold w-4 h-4 rounded" ${isChecked ? "checked" : ""} onchange="MysteryPairsModule.toggleOptIn('${a.id}', this.checked)">
-                    <span>${a.name}</span>
+                <label class="flex items-center gap-1.5 cursor-pointer select-none w-full truncate">
+                    <input type="checkbox" class="accent-pixelGold w-3.5 h-3.5 rounded shrink-0" ${isChecked ? "checked" : ""} onchange="MysteryPairsModule.toggleOptIn('${a.id}', this.checked)">
+                    <span class="truncate font-medium">${a.name}</span>
                 </label>
             `;
             container.appendChild(div);
