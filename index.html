@@ -3163,14 +3163,14 @@ const MysteryPairsModule = {
 
     getAnglerDay1Score: function(anglerId) {
         if (appState.scores && appState.scores.day1 && appState.scores.day1[anglerId]) {
-            return parseFloat(appState.scores.day1[anglerId].length) || 0;
+            return parseFloat(appState.scores.day1[anglerId].totalMetric) || 0;
         }
         return 0;
     },
 
     getAnglerDay2Score: function(anglerId) {
         if (appState.scores && appState.scores.day2 && appState.scores.day2[anglerId]) {
-            return parseFloat(appState.scores.day2[anglerId].length) || 0;
+            return parseFloat(appState.scores.day2[anglerId].totalMetric) || 0;
         }
         return 0;
     },
