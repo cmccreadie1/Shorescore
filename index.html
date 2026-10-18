@@ -1416,7 +1416,7 @@
             reader.readAsText(file);
         }
 
-        function exportScoresJSON() {
+       function exportScoresJSON() {
             if (!appState.draw.generated) { alert("Please generate the draw first."); return; }
 
             const d1ZoneRes = calculateSessionZoneResults(1);
@@ -1459,15 +1459,37 @@
                 const d1 = item.d1Data;
                 const d2 = item.d2Data;
 
+                const d1Sc = (appState.scores.day1 && appState.scores.day1[item.anglerId]) ? appState.scores.day1[item.anglerId] : {};
+                const d2Sc = (appState.scores.day2 && appState.scores.day2[item.anglerId]) ? appState.scores.day2[item.anglerId] : {};
+
                 return {
                     anglerName: item.name, teamName: item.teamName,
-                    day1: { zone: d1 ? `${d1.zone} Zone` : 'Red Zone', peg: d1 ? (parseInt(d1.peg) || d1.peg) : 0, fishCount: d1 ? d1.fishCount : 0, totalLengthCm: d1 ? d1.totalMetric : 0, biggestFishCm: d1 ? d1.bestFish : 0, zonePoints: d1 ? d1.zonePoints : 0 },
-                    day2: { zone: d2 ? `${d2.zone} Zone` : (appState.config.duration === 2 ? 'Yellow Zone' : '-'), peg: d2 ? (parseInt(d2.peg) || d2.peg) : 0, fishCount: d2 ? d2.fishCount : 0, totalLengthCm: d2 ? d2.totalMetric : 0, biggestFishCm: d2 ? d2.bestFish : 0, zonePoints: d2 ? d2.zonePoints : 0 },
+                    day1: { zone: d1 ? `${d1.zone} Zone` : 'Red Zone', peg: d1 ? (parseInt(d1.peg) || d1.peg) : 0, fishCount: d1 ? d1.fishCount : 0, totalLengthCm: d1 ? d1.totalMetric : 0, biggestFishCm: d1 ? d1.bestFish : 0, biggestFishSpecies: d1Sc.bestFishSpecies || '', zonePoints: d1 ? d1.zonePoints : 0 },
+                    day2: { zone: d2 ? `${d2.zone} Zone` : (appState.config.duration === 2 ? 'Yellow Zone' : '-'), peg: d2 ? (parseInt(d2.peg) || d2.peg) : 0, fishCount: d2 ? d2.fishCount : 0, totalLengthCm: d2 ? d2.totalMetric : 0, biggestFishCm: d2 ? d2.bestFish : 0, biggestFishSpecies: d2Sc.bestFishSpecies || '', zonePoints: d2 ? d2.zonePoints : 0 },
                     totals: { cumulativePoints: item.totalZonePts, cumulativeFish: item.totalFish, cumulativeLengthCm: item.totalMetric, overallRank: idx + 1 }
                 };
             });
 
-            const exportObj = { anglers: jsonAnglers, biggestFishSpecies: { day1: ["", "", ""], day2: ["", "", ""] }, secretPairs: { description: "Target Length calculated for wildcard mystery pairing.", targetLength: "0cm", winners: [], otherPairs: [] } };
+            const getTopSpeciesList = (dayKey) => {
+                const dayScores = appState.scores[dayKey] || {};
+                const list = Object.values(dayScores)
+                    .filter(sc => (parseFloat(sc.bestFish) || 0) > 0)
+                    .sort((a, b) => (parseFloat(b.bestFish) || 0) - (parseFloat(a.bestFish) || 0))
+                    .map(sc => sc.bestFishSpecies || 'Unspecified')
+                    .slice(0, 3);
+                while (list.length < 3) list.push("");
+                return list;
+            };
+
+            const exportObj = { 
+                anglers: jsonAnglers, 
+                biggestFishSpecies: { 
+                    day1: getTopSpeciesList('day1'), 
+                    day2: getTopSpeciesList('day2') 
+                }, 
+                secretPairs: appState.secretPairs || { description: "Target Length calculated for wildcard mystery pairing.", targetLength: "0cm", winners: [], otherPairs: [] } 
+            };
+
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj, null, 2));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
