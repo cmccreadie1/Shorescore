@@ -858,7 +858,7 @@
                                     <th class="py-4 px-5">Zone & Peg</th>
                                     <th class="py-4 px-5 text-center">Fish Length</th>
                                     <th class="py-4 px-5 text-center">Match Day</th>
-                                    <th class="py-4 px-5">Status / Notes</th>
+                                    <th class="py-4 px-5">Species</th>
                                 </tr>
                             </thead>
                             <tbody id="topFishTableBody" class="divide-y divide-white/15 border-b border-white/20"></tbody>
@@ -3077,45 +3077,76 @@
             }).join('');
         }
 
-        function renderTopFishTable() {
-            const tbody = document.getElementById('topFishTableBody');
-            let allFish = [];
-            const daysToProcess = appState.config.duration === 2 ? [1, 2] : [1];
+       function renderTopFishTable() {
+    const tbody = document.getElementById('topFishTableBody');
+    if (!tbody) return;
+    let allFish = [];
+    const daysToProcess = appState.config.duration === 2 ? [1, 2] : [1];
 
-            daysToProcess.forEach(day => {
-                const dayScores = day === 1 ? appState.scores.day1 : appState.scores.day2;
-                const drawList = day === 1 ? appState.draw.day1 : appState.draw.day2;
+    daysToProcess.forEach(day => {
+        const dayKey = day === 1 ? 'day1' : 'day2';
+        const dayScores = appState.scores[dayKey] || {};
+        const drawList = (appState.draw && appState.draw[dayKey]) ? appState.draw[dayKey] : [];
 
-                Object.keys(dayScores).forEach(aId => {
-                    const sc = dayScores[aId];
-                    const best = parseFloat(sc.bestFish) || 0;
-                    if (best > 0) {
-                        const angler = appState.anglers.find(a => a.id === aId);
-                        const dItem = drawList.find(d => d.anglerId === aId);
-                        allFish.push({ anglerName: angler && angler.name ? angler.name : 'Unnamed', zone: dItem ? dItem.zone : '-', peg: dItem ? dItem.peg : '-', bestFish: best, day: day });
-                    }
+        Object.keys(dayScores).forEach(aId => {
+            const sc = dayScores[aId];
+            const best = parseFloat(sc.bestFish) || 0;
+            const species = sc.bestFishSpecies || '';
+            if (best > 0) {
+                const angler = (appState.anglers || []).find(a => a.id === aId);
+                const dItem = drawList.find(d => d.anglerId === aId);
+                allFish.push({
+                    anglerId: aId,
+                    anglerName: angler && angler.name ? angler.name : 'Unnamed',
+                    teamName: angler && angler.team ? angler.team : 'NO TEAM',
+                    zone: dItem ? dItem.zone : '-',
+                    peg: dItem ? dItem.peg : '-',
+                    bestFish: best,
+                    species: species,
+                    day: day,
+                    dayKey: dayKey
                 });
-            });
-
-            allFish.sort((a,b) => b.bestFish - a.bestFish);
-            const top5 = allFish.slice(0, 5);
-
-            if (top5.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-base">No fish scores recorded yet.</td></tr>`;
-                return;
             }
+        });
+    });
 
-            tbody.innerHTML = top5.map((f, idx) => `
-                <tr class="hover:bg-white/10 font-mono-tabular">
-                    <td class="py-4 px-5 font-black text-pixelGold text-lg">#${idx+1}</td>
-                    <td class="py-4 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-base">${f.anglerName.toUpperCase()}</td>
-                    <td class="py-4 px-5"><span class="zone-badge-${f.zone} px-4 py-1.5 rounded-full text-base font-black">${f.zone} • Peg ${f.peg}</span></td>
-                    <td class="py-4 px-5 text-center font-black text-pixelEmerald text-lg">${f.bestFish} CM</td>
-                    <td class="py-4 px-5 text-center text-base font-bold uppercase tracking-wider text-pixelMuted font-heading">Day ${f.day}</td>
-                    <td class="py-4 px-5 text-base font-bold uppercase tracking-wider text-pixelGold font-heading">Official Catch Record</td>
-                </tr>
-            `).join('');
-        }
+    allFish.sort((a,b) => b.bestFish - a.bestFish);
+    const top5 = allFish.slice(0, 5);
+
+    if (top5.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-pixelMuted font-black uppercase tracking-wider text-base">No fish scores recorded yet.</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = top5.map((f, idx) => `
+        <tr class="hover:bg-white/10 font-mono-tabular transition-colors">
+            <td class="py-4 px-5 font-black text-pixelGold text-lg">#${idx+1}</td>
+            <td class="py-4 px-5 font-black uppercase tracking-wider text-pixelText font-heading text-base">
+                <div>${f.anglerName.toUpperCase()}</div>
+                <div class="text-xs text-pixelMuted font-bold uppercase tracking-normal mt-0.5">${f.teamName}</div>
+            </td>
+            <td class="py-4 px-5"><span class="zone-badge-${f.zone} px-4 py-1.5 rounded-full text-base font-black">${f.zone} • Peg ${f.peg}</span></td>
+            <td class="py-4 px-5 text-center font-black text-pixelEmerald text-lg">${f.bestFish} CM</td>
+            <td class="py-4 px-5 text-center text-base font-bold uppercase tracking-wider text-pixelMuted font-heading">Day ${f.day}</td>
+            <td class="py-4 px-5 text-center">
+                <input type="text" 
+                       value="${f.species}" 
+                       placeholder="e.g. Cod, Bass, Ray" 
+                       onchange="updateTopFishSpecies('${f.dayKey}', '${f.anglerId}', this.value)"
+                       class="w-full max-w-[180px] bg-slate-900/90 border border-white/20 rounded px-3 py-1.5 text-xs text-pixelGold text-center font-bold placeholder:italic placeholder:text-white/30 focus:outline-none focus:border-pixelGold">
+            </td>
+        </tr>
+    `).join('');
+}
+
+function updateTopFishSpecies(dayKey, anglerId, value) {
+    if (!appState.scores[dayKey]) appState.scores[dayKey] = {};
+    if (!appState.scores[dayKey][anglerId]) {
+        appState.scores[dayKey][anglerId] = { totalMetric: 0, fishCount: 0, bestFish: 0 };
+    }
+    appState.scores[dayKey][anglerId].bestFishSpecies = value.trim();
+    if (typeof saveState === 'function') saveState();
+}
         
 // ============================================================================
 // MYSTERY PAIRS EXTENSION MODULE
