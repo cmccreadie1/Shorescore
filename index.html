@@ -3675,9 +3675,10 @@ function buildPresentationScriptText() {
 
     return lines.join("\n");
 }
-        <!-- Presentation Script Modal -->
-<div id="scriptModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-white/20 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative">
+    </script>
+    <!-- Presentation Script Modal -->
+<div id="scriptModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-white/20 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
         <!-- Modal Header -->
         <div class="p-4 border-b border-white/10 bg-slate-950/60 flex flex-wrap items-center justify-between gap-3 shrink-0">
             <h3 class="text-pixelGold font-heading text-lg font-black uppercase tracking-wider flex items-center gap-2">
@@ -3698,42 +3699,29 @@ function buildPresentationScriptText() {
                 </button>
             </div>
         </div>
-        <!-- Modal Body Container -->
-        <div class="p-6 overflow-y-auto font-mono text-sm leading-relaxed text-slate-200 whitespace-pre-wrap select-text" id="scriptContentArea"></div>
+        <!-- Modal Body / Printable Container -->
+        <div class="p-6 overflow-y-auto font-mono text-sm leading-relaxed text-slate-200 whitespace-pre-wrap select-text" id="scriptContentArea">
+            <!-- Script dynamically injected here -->
+        </div>
     </div>
 </div>
 
 <style>
 @media print {
-    body * {
-        visibility: hidden !important;
-    }
-    #scriptContentArea, #scriptContentArea * {
-        visibility: visible !important;
-    }
-    #scriptModal {
-        position: static !important;
-        background: transparent !important;
-        padding: 0 !important;
-        display: block !important;
-    }
+    body * { visibility: hidden; }
+    #scriptContentArea, #scriptContentArea * { visibility: visible; }
     #scriptContentArea {
-        position: static !important;
-        width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-        color: #000000 !important;
-        background: #ffffff !important;
-        font-family: monospace !important;
-        font-size: 11pt !important;
-        line-height: 1.5 !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        color: #000 !important;
+        background: #fff !important;
         white-space: pre-wrap !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        font-family: monospace !important;
+        padding: 20px !important;
     }
 }
 </style>
-    </script>
-   
 </body>
 </html>
