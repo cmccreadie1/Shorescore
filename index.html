@@ -3408,6 +3408,9 @@ window.addEventListener("DOMContentLoaded", () => {
         const contentArea = document.getElementById('scriptContentArea');
         if (!modal || !contentArea) return;
 
+        // Clear previous content to prevent duplicating text
+        contentArea.innerText = "";
+
         const scriptText = buildPresentationScriptText();
         contentArea.innerText = scriptText;
         modal.classList.remove('hidden');
@@ -3527,7 +3530,7 @@ function buildPresentationScriptText() {
 
     const totalMeters = (totalCm / 100).toFixed(2);
 
-    // Day 1 & Day 2 Stats
+    // Session Overviews
     const getSessionStats = (dKey) => {
         let count = 0;
         let cm = 0;
@@ -3568,7 +3571,7 @@ function buildPresentationScriptText() {
     const d1Stats = getSessionStats('d1');
     const d2Stats = isTwoDay ? getSessionStats('d2') : null;
 
-    // Specimen Fish Calculation (Top 3)
+    // Specimen Fish Calculation (Top 3 in Reverse: 3rd -> 1st)
     let specimenList = [];
     indSummary.forEach(a => {
         ['d1', 'd2'].forEach((dKey, idx) => {
@@ -3585,29 +3588,18 @@ function buildPresentationScriptText() {
         });
     });
     specimenList.sort((a, b) => b.cm - a.cm);
-    const top3Specimens = specimenList.slice(0, 3);
+    const top3Specimens = specimenList.slice(0, 3).map((item, idx) => ({ ...item, rank: idx + 1 })).reverse();
 
-    // Sort Individual Standings
+    // Individual Standings (Top 5 in Reverse: 5th -> 1st)
     indSummary.sort((a, b) => {
         if (a.totalZonePts !== b.totalZonePts) return a.totalZonePts - b.totalZonePts;
         if (a.totalMetric !== b.totalMetric) return b.totalMetric - a.totalMetric;
         return b.totalFish - a.totalFish;
     });
 
-    const indTop5 = indSummary.slice(0, 5);
-    const thirdInd = indSummary[2];
-    const getIndMargin = (item) => {
-        if (!thirdInd) return '';
-        if (item.totalZonePts > thirdInd.totalZonePts) {
-            const ptDiff = item.totalZonePts - thirdInd.totalZonePts;
-            return `${ptDiff} zone point${ptDiff > 1 ? 's' : ''} behind 3rd place`;
-        } else {
-            const cmDiff = thirdInd.totalMetric - item.totalMetric;
-            return `missed 3rd spot by just ${cmDiff} cm on metric tie-breaker`;
-        }
-    };
+    const indTop5Reverse = indSummary.slice(0, 5).map((item, idx) => ({ ...item, rank: idx + 1 })).reverse();
 
-    // Sort Team Standings
+    // Team Standings (Top 5 in Reverse: 5th -> 1st)
     const teamMap = {};
     indSummary.forEach(a => {
         const tName = a.teamName || 'SOLO';
@@ -3623,18 +3615,7 @@ function buildPresentationScriptText() {
         return b.fishCount - a.fishCount;
     });
 
-    const teamTop5 = sortedTeams.slice(0, 5);
-    const thirdTeam = sortedTeams[2];
-    const getTeamMargin = (t) => {
-        if (!thirdTeam) return '';
-        if (t.points > thirdTeam.points) {
-            const ptDiff = t.points - thirdTeam.points;
-            return `${ptDiff} team point${ptDiff > 1 ? 's' : ''} behind 3rd place`;
-        } else {
-            const cmDiff = thirdTeam.lengthCm - t.lengthCm;
-            return `missed 3rd spot by just ${(cmDiff / 100).toFixed(2)} meters on length tie-breaker`;
-        }
-    };
+    const teamTop5Reverse = sortedTeams.slice(0, 5).map((item, idx) => ({ ...item, rank: idx + 1 })).reverse();
 
     // Build Output Text
     let lines = [];
@@ -3644,45 +3625,52 @@ function buildPresentationScriptText() {
     lines.push("PART 1: TOURNAMENT HIGHLIGHTS & STATS");
     lines.push("---------------------------------------");
     lines.push(`• Championship Totals: ${totalAnglers} Field Anglers | ${totalFish} Total Fish Caught | ${totalMeters} Cumulative Meters.`);
+    lines.push("");
     lines.push(`• Day 1 Session Overview: ${d1Stats.count} Fish | ${d1Stats.meters} Meters | ${d1Stats.catchRate}% Angler Success Rate | ${d1Stats.avgFish} Fish/Angler Avg | Top Zone: ${d1Stats.topZone}.`);
     if (isTwoDay && d2Stats) {
+        lines.push("");
         lines.push(`• Day 2 Session Overview: ${d2Stats.count} Fish | ${d2Stats.meters} Meters | ${d2Stats.catchRate}% Angler Success Rate | ${d2Stats.avgFish} Fish/Angler Avg | Top Zone: ${d2Stats.topZone}.`);
     }
     lines.push("");
+    lines.push("");
     lines.push("PART 2: OFFICIAL RESULTS & PRIZE ANNOUNCEMENTS");
     lines.push("-----------------------------------------------");
-    lines.push("1) OVERALL BIGGEST FISH AWARDS (TOP 3 SPECIMENS)");
+    lines.push("1) OVERALL BIGGEST FISH AWARDS (Announced in Reverse Order: 3rd -> 1st Place)");
+    lines.push("-------------------------------------------------------------------------");
     if (top3Specimens.length === 0) {
         lines.push("   No specimen fish recorded.");
+        lines.push("");
     } else {
-        top3Specimens.forEach((sp, idx) => {
-            lines.push(`   #${idx+1}: ${sp.cm} CM ${sp.species.toUpperCase()} - ${sp.anglerName} (${sp.teamName}) [Day ${sp.day}]`);
+        top3Specimens.forEach(sp => {
+            lines.push(`   #${sp.rank}: ${sp.cm} CM ${sp.species.toUpperCase()} - ${sp.anglerName} (${sp.teamName}) [Day ${sp.day}]`);
+            lines.push("");
         });
     }
     lines.push("");
-    lines.push("2) TEAM CHAMPIONSHIP STANDINGS (TOP 5)");
-    teamTop5.forEach((t, idx) => {
+    lines.push("2) TEAM CHAMPIONSHIP STANDINGS (Announced in Reverse Order: 5th -> 1st Place)");
+    lines.push("-----------------------------------------------------------------------");
+    teamTop5Reverse.forEach(t => {
         const meterVal = (t.lengthCm / 100).toFixed(2);
-        lines.push(`   #${idx+1}: ${t.teamName} - ${t.points} PTS | ${meterVal} METERS | ${t.fishCount} FISH`);
-        if (idx === 3 || idx === 4) {
-            lines.push(`       * Honorable Mention (${t.teamName}): ${getTeamMargin(t)}.`);
-        }
+        lines.push(`   #${t.rank}: ${t.teamName} - ${t.points} PTS | ${meterVal} METERS | ${t.fishCount} FISH`);
+        lines.push("");
     });
     lines.push("");
-    lines.push("3) INDIVIDUAL CHAMPIONSHIP STANDINGS (TOP 5)");
-    indTop5.forEach((a, idx) => {
+    lines.push("3) INDIVIDUAL CHAMPIONSHIP STANDINGS (Announced in Reverse Order: 5th -> 1st Place)");
+    lines.push("-----------------------------------------------------------------------------");
+    indTop5Reverse.forEach(a => {
         const meterVal = (a.totalMetric / 100).toFixed(2);
-        lines.push(`   #${idx+1}: ${a.name} (${a.teamName}) - ${a.totalZonePts} PTS | ${meterVal} METERS | ${a.totalFish} FISH`);
-        if (idx === 3 || idx === 4) {
-            lines.push(`       * Honorable Mention (${a.name}): ${getIndMargin(a)}.`);
-        }
+        lines.push(`   #${a.rank}: ${a.name} (${a.teamName}) - ${a.totalZonePts} PTS | ${meterVal} METERS | ${a.totalFish} FISH`);
+        lines.push("");
     });
     lines.push("");
     lines.push("PART 3: SIGN-OFF & CLOSING REMARKS");
     lines.push("----------------------------------");
     lines.push("• Sincere thanks to all match officials, peg marshals, and recording staff for flawless event administration.");
+    lines.push("");
     lines.push("• Special recognition to our sponsors and host venue for their valued support and hospitality.");
+    lines.push("");
     lines.push("• Congratulations to all competitors for fantastic sportsmanship across the match.");
+    lines.push("");
     lines.push("• Safe travels home to everyone, and we look forward to seeing you all at the next championship!");
 
     return lines.join("\n");
