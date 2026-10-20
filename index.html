@@ -3449,44 +3449,102 @@ function downloadScriptFile() {
 }
 
 function buildPresentationScriptText() {
-    let scoresData;
-    if (typeof generateScoresJSON === 'function') {
-        scoresData = generateScoresJSON();
-    } else {
-        scoresData = { anglers: [] };
-    }
-
-    const anglers = scoresData.anglers || [];
     const isTwoDay = (appState && appState.config && appState.config.duration === 2);
+    const anglers = (appState && appState.anglers) ? appState.anglers : [];
+    const day1Scores = (appState && appState.scores && appState.scores.day1) ? appState.scores.day1 : {};
+    const day2Scores = (appState && appState.scores && appState.scores.day2) ? appState.scores.day2 : {};
 
-    // Overall Totals
-    const totalAnglers = anglers.length || (appState && appState.anglers ? appState.anglers.length : 0);
+    const d1ZoneRes = typeof calculateSessionZoneResults === 'function' ? calculateSessionZoneResults(1) : [];
+    const d2ZoneRes = (isTwoDay && typeof calculateSessionZoneResults === 'function') ? calculateSessionZoneResults(2) : [];
+
+    // Process Angler Stats directly from appState
+    let indSummary = anglers.map(a => {
+        const team = (appState.teams || []).find(t => t.id === a.teamId);
+        const aId = a.id;
+
+        const d1Sc = day1Scores[aId] || {};
+        const d2Sc = day2Scores[aId] || {};
+
+        let d1Data = null;
+        if (d1ZoneRes && typeof ZONE_COLORS !== 'undefined') {
+            ZONE_COLORS.forEach(c => {
+                if (d1ZoneRes[c]) {
+                    const found = d1ZoneRes[c].find(item => item.anglerId === aId);
+                    if (found) d1Data = found;
+                }
+            });
+        }
+
+        let d2Data = null;
+        if (isTwoDay && d2ZoneRes && typeof ZONE_COLORS !== 'undefined') {
+            ZONE_COLORS.forEach(c => {
+                if (d2ZoneRes[c]) {
+                    const found = d2ZoneRes[c].find(item => item.anglerId === aId);
+                    if (found) d2Data = found;
+                }
+            });
+        }
+
+        const d1Pts = d1Data ? d1Data.zonePoints : 9;
+        const d2Pts = d2Data ? d2Data.zonePoints : 0;
+
+        const totalZonePts = isTwoDay ? (d1Pts + d2Pts) : d1Pts;
+        const totalMetric = (parseFloat(d1Sc.totalMetric) || 0) + (parseFloat(d2Sc.totalMetric) || 0);
+        const totalFish = (parseFloat(d1Sc.fishCount) || 0) + (parseFloat(d2Sc.fishCount) || 0);
+
+        return {
+            anglerId: aId,
+            name: (a.name || 'UNNAMED').toUpperCase(),
+            teamName: team ? team.name.toUpperCase() : 'SOLO',
+            totalZonePts,
+            totalMetric,
+            totalFish,
+            d1: {
+                fishCount: parseFloat(d1Sc.fishCount) || 0,
+                totalLengthCm: parseFloat(d1Sc.totalMetric) || 0,
+                biggestFishCm: parseFloat(d1Sc.bestFish) || 0,
+                biggestFishSpecies: d1Sc.bestFishSpecies || '',
+                zone: d1Data ? d1Data.zone : '-'
+            },
+            d2: {
+                fishCount: parseFloat(d2Sc.fishCount) || 0,
+                totalLengthCm: parseFloat(d2Sc.totalMetric) || 0,
+                biggestFishCm: parseFloat(d2Sc.bestFish) || 0,
+                biggestFishSpecies: d2Sc.bestFishSpecies || '',
+                zone: d2Data ? d2Data.zone : '-'
+            }
+        };
+    });
+
+    const totalAnglers = indSummary.length;
     let totalFish = 0;
     let totalCm = 0;
 
-    anglers.forEach(a => {
-        totalFish += (a.totals ? a.totals.cumulativeFish : 0) || 0;
-        totalCm += (a.totals ? a.totals.cumulativeLengthCm : 0) || 0;
+    indSummary.forEach(a => {
+        totalFish += a.totalFish;
+        totalCm += a.totalMetric;
     });
 
     const totalMeters = (totalCm / 100).toFixed(2);
 
     // Day 1 & Day 2 Stats
-    const getSessionStats = (dayKey) => {
+    const getSessionStats = (dKey) => {
         let count = 0;
         let cm = 0;
         let activeAnglers = 0;
+        let caughtFishAnglers = 0;
         const zoneTotals = {};
 
-        anglers.forEach(a => {
-            const d = a[dayKey];
+        indSummary.forEach(a => {
+            const d = a[dKey];
             if (d) {
                 const fish = d.fishCount || 0;
                 const len = d.totalLengthCm || 0;
                 count += fish;
                 cm += len;
-                if (d.peg > 0) activeAnglers++;
-                if (d.zone) {
+                activeAnglers++;
+                if (fish > 0) caughtFishAnglers++;
+                if (d.zone && d.zone !== '-') {
                     zoneTotals[d.zone] = (zoneTotals[d.zone] || 0) + len;
                 }
             }
@@ -3501,23 +3559,23 @@ function buildPresentationScriptText() {
             }
         });
 
-        const catchRate = activeAnglers > 0 ? ((anglers.filter(a => (a[dayKey]?.fishCount || 0) > 0).length / activeAnglers) * 100).toFixed(1) : '0.0';
+        const catchRate = activeAnglers > 0 ? ((caughtFishAnglers / activeAnglers) * 100).toFixed(1) : '0.0';
         const avgFish = activeAnglers > 0 ? (count / activeAnglers).toFixed(1) : '0.0';
 
         return { count, meters: (cm / 100).toFixed(2), catchRate, avgFish, topZone };
     };
 
-    const d1Stats = getSessionStats('day1');
-    const d2Stats = isTwoDay ? getSessionStats('day2') : null;
+    const d1Stats = getSessionStats('d1');
+    const d2Stats = isTwoDay ? getSessionStats('d2') : null;
 
     // Specimen Fish Calculation (Top 3)
     let specimenList = [];
-    anglers.forEach(a => {
-        ['day1', 'day2'].forEach((dKey, idx) => {
+    indSummary.forEach(a => {
+        ['d1', 'd2'].forEach((dKey, idx) => {
             const d = a[dKey];
             if (d && (d.biggestFishCm || 0) > 0) {
                 specimenList.push({
-                    anglerName: a.anglerName,
+                    anglerName: a.name,
                     teamName: a.teamName,
                     cm: d.biggestFishCm,
                     species: d.biggestFishSpecies || 'Unspecified',
@@ -3529,36 +3587,34 @@ function buildPresentationScriptText() {
     specimenList.sort((a, b) => b.cm - a.cm);
     const top3Specimens = specimenList.slice(0, 3);
 
-    // Individual Standings (Top 5)
-    const sortedInd = [...anglers].sort((a, b) => {
-        if (a.totals.cumulativePoints !== b.totals.cumulativePoints) return a.totals.cumulativePoints - b.totals.cumulativePoints;
-        if (a.totals.cumulativeLengthCm !== b.totals.cumulativeLengthCm) return b.totals.cumulativeLengthCm - a.totals.cumulativeLengthCm;
-        return b.totals.cumulativeFish - a.totals.cumulativeFish;
+    // Sort Individual Standings
+    indSummary.sort((a, b) => {
+        if (a.totalZonePts !== b.totalZonePts) return a.totalZonePts - b.totalZonePts;
+        if (a.totalMetric !== b.totalMetric) return b.totalMetric - a.totalMetric;
+        return b.totalFish - a.totalFish;
     });
 
-    const indTop5 = sortedInd.slice(0, 5);
-
-    // Individual Honorable Mention Margins (4th & 5th)
-    const thirdInd = sortedInd[2];
+    const indTop5 = indSummary.slice(0, 5);
+    const thirdInd = indSummary[2];
     const getIndMargin = (item) => {
         if (!thirdInd) return '';
-        if (item.totals.cumulativePoints > thirdInd.totals.cumulativePoints) {
-            const ptDiff = item.totals.cumulativePoints - thirdInd.totals.cumulativePoints;
+        if (item.totalZonePts > thirdInd.totalZonePts) {
+            const ptDiff = item.totalZonePts - thirdInd.totalZonePts;
             return `${ptDiff} zone point${ptDiff > 1 ? 's' : ''} behind 3rd place`;
         } else {
-            const cmDiff = thirdInd.totals.cumulativeLengthCm - item.totals.cumulativeLengthCm;
+            const cmDiff = thirdInd.totalMetric - item.totalMetric;
             return `missed 3rd spot by just ${cmDiff} cm on metric tie-breaker`;
         }
     };
 
-    // Team Standings (Top 5)
+    // Sort Team Standings
     const teamMap = {};
-    anglers.forEach(a => {
+    indSummary.forEach(a => {
         const tName = a.teamName || 'SOLO';
         if (!teamMap[tName]) teamMap[tName] = { teamName: tName, points: 0, lengthCm: 0, fishCount: 0 };
-        teamMap[tName].points += a.totals.cumulativePoints;
-        teamMap[tName].lengthCm += a.totals.cumulativeLengthCm;
-        teamMap[tName].fishCount += a.totals.cumulativeFish;
+        teamMap[tName].points += a.totalZonePts;
+        teamMap[tName].lengthCm += a.totalMetric;
+        teamMap[tName].fishCount += a.totalFish;
     });
 
     const sortedTeams = Object.values(teamMap).sort((a, b) => {
@@ -3580,7 +3636,7 @@ function buildPresentationScriptText() {
         }
     };
 
-    // Build Final Output Text
+    // Build Output Text
     let lines = [];
     lines.push("SPRA Scottish Shore Championship - Prize Giving Presentation Speech Notes");
     lines.push("===========================================================================");
@@ -3596,9 +3652,13 @@ function buildPresentationScriptText() {
     lines.push("PART 2: OFFICIAL RESULTS & PRIZE ANNOUNCEMENTS");
     lines.push("-----------------------------------------------");
     lines.push("1) OVERALL BIGGEST FISH AWARDS (TOP 3 SPECIMENS)");
-    top3Specimens.forEach((sp, idx) => {
-        lines.push(`   #${idx+1}: ${sp.cm} CM ${sp.species.toUpperCase()} - ${sp.anglerName} (${sp.teamName}) [Day ${sp.day}]`);
-    });
+    if (top3Specimens.length === 0) {
+        lines.push("   No specimen fish recorded.");
+    } else {
+        top3Specimens.forEach((sp, idx) => {
+            lines.push(`   #${idx+1}: ${sp.cm} CM ${sp.species.toUpperCase()} - ${sp.anglerName} (${sp.teamName}) [Day ${sp.day}]`);
+        });
+    }
     lines.push("");
     lines.push("2) TEAM CHAMPIONSHIP STANDINGS (TOP 5)");
     teamTop5.forEach((t, idx) => {
@@ -3611,10 +3671,10 @@ function buildPresentationScriptText() {
     lines.push("");
     lines.push("3) INDIVIDUAL CHAMPIONSHIP STANDINGS (TOP 5)");
     indTop5.forEach((a, idx) => {
-        const meterVal = (a.totals.cumulativeLengthCm / 100).toFixed(2);
-        lines.push(`   #${idx+1}: ${a.anglerName} (${a.teamName}) - ${a.totals.cumulativePoints} PTS | ${meterVal} METERS | ${a.totals.cumulativeFish} FISH`);
+        const meterVal = (a.totalMetric / 100).toFixed(2);
+        lines.push(`   #${idx+1}: ${a.name} (${a.teamName}) - ${a.totalZonePts} PTS | ${meterVal} METERS | ${a.totalFish} FISH`);
         if (idx === 3 || idx === 4) {
-            lines.push(`       * Honorable Mention (${a.anglerName}): ${getIndMargin(a)}.`);
+            lines.push(`       * Honorable Mention (${a.name}): ${getIndMargin(a)}.`);
         }
     });
     lines.push("");
