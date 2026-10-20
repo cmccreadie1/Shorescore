@@ -3402,14 +3402,19 @@ window.addEventListener("DOMContentLoaded", () => {
     MysteryPairsModule.renderMatrix();
     MysteryPairsModule.renderLeaderboard();
 });
-        function openPresentationScriptModal() {
-    const modal = document.getElementById('scriptModal');
-    const contentArea = document.getElementById('scriptContentArea');
-    if (!modal || !contentArea) return;
+     function openPresentationScriptModal() {
+    try {
+        const modal = document.getElementById('scriptModal');
+        const contentArea = document.getElementById('scriptContentArea');
+        if (!modal || !contentArea) return;
 
-    const scriptText = buildPresentationScriptText();
-    contentArea.innerText = scriptText;
-    modal.classList.remove('hidden');
+        const scriptText = buildPresentationScriptText();
+        contentArea.innerText = scriptText;
+        modal.classList.remove('hidden');
+    } catch (err) {
+        alert("Unable to open presentation script: " + err.message);
+        console.error(err);
+    }
 }
 
 function closePresentationScriptModal() {
@@ -3444,18 +3449,24 @@ function downloadScriptFile() {
 }
 
 function buildPresentationScriptText() {
-    const scoresData = generateScoresJSON();
+    let scoresData;
+    if (typeof generateScoresJSON === 'function') {
+        scoresData = generateScoresJSON();
+    } else {
+        scoresData = { anglers: [] };
+    }
+
     const anglers = scoresData.anglers || [];
-    const isTwoDay = appState.config.duration === 2;
+    const isTwoDay = (appState && appState.config && appState.config.duration === 2);
 
     // Overall Totals
-    const totalAnglers = anglers.length;
+    const totalAnglers = anglers.length || (appState && appState.anglers ? appState.anglers.length : 0);
     let totalFish = 0;
     let totalCm = 0;
 
     anglers.forEach(a => {
-        totalFish += (a.totals.cumulativeFish || 0);
-        totalCm += (a.totals.cumulativeLengthCm || 0);
+        totalFish += (a.totals ? a.totals.cumulativeFish : 0) || 0;
+        totalCm += (a.totals ? a.totals.cumulativeLengthCm : 0) || 0;
     });
 
     const totalMeters = (totalCm / 100).toFixed(2);
