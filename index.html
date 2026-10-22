@@ -3442,10 +3442,14 @@ function copyScriptToClipboard() {
 function downloadScriptFile() {
     const contentArea = document.getElementById('scriptContentArea');
     if (!contentArea) return;
+
+    const rawTitle = (appState && appState.config && appState.config.title) ? appState.config.title : 'competition';
+    const safeTitle = rawTitle.toLowerCase().replace(/[^a-z0-9]/g, '_');
+
     const blob = new Blob([contentArea.innerText], { type: 'text/plain;charset=utf-8' });
     const downloadAnchor = document.createElement('a');
     downloadAnchor.href = URL.createObjectURL(blob);
-    downloadAnchor.download = `SPRA_Presentation_Script.txt`;
+    downloadAnchor.download = `${safeTitle}_presentation_script.txt`;
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -3459,6 +3463,11 @@ function buildPresentationScriptText() {
 
     const d1ZoneRes = typeof calculateSessionZoneResults === 'function' ? calculateSessionZoneResults(1) : [];
     const d2ZoneRes = (isTwoDay && typeof calculateSessionZoneResults === 'function') ? calculateSessionZoneResults(2) : [];
+
+    // Retrieve dynamic competition title entered in Setup Wizard
+    const matchTitle = (appState && appState.config && appState.config.title && appState.config.title.trim() !== '') 
+        ? appState.config.title.trim().toUpperCase() 
+        : "SHORE SEA FISHING CHAMPIONSHIP";
 
     // Process Angler Stats directly from appState
     let indSummary = anglers.map(a => {
@@ -3571,7 +3580,7 @@ function buildPresentationScriptText() {
     const d1Stats = getSessionStats('d1');
     const d2Stats = isTwoDay ? getSessionStats('d2') : null;
 
-    // Specimen Fish Calculation (Top 3 in Reverse: 3rd -> 1st)
+    // Specimen Fish Calculation (3rd -> 1st)
     let specimenList = [];
     indSummary.forEach(a => {
         ['d1', 'd2'].forEach((dKey, idx) => {
@@ -3588,18 +3597,19 @@ function buildPresentationScriptText() {
         });
     });
     specimenList.sort((a, b) => b.cm - a.cm);
-    const top3Specimens = specimenList.slice(0, 3).map((item, idx) => ({ ...item, rank: idx + 1 })).reverse();
+    const rankedSpecimens = specimenList.slice(0, 3).map((item, idx) => ({ ...item, rank: idx + 1 }));
+    const top3Specimens = rankedSpecimens.reverse();
 
-    // Individual Standings (Top 5 in Reverse: 5th -> 1st)
+    // Individual Standings (5th -> 1st)
     indSummary.sort((a, b) => {
         if (a.totalZonePts !== b.totalZonePts) return a.totalZonePts - b.totalZonePts;
         if (a.totalMetric !== b.totalMetric) return b.totalMetric - a.totalMetric;
         return b.totalFish - a.totalFish;
     });
+    const rankedIndividuals = indSummary.slice(0, 5).map((item, idx) => ({ ...item, rank: idx + 1 }));
+    const indTop5Reverse = rankedIndividuals.reverse();
 
-    const indTop5Reverse = indSummary.slice(0, 5).map((item, idx) => ({ ...item, rank: idx + 1 })).reverse();
-
-    // Team Standings (Top 5 in Reverse: 5th -> 1st)
+    // Team Standings (5th -> 1st)
     const teamMap = {};
     indSummary.forEach(a => {
         const tName = a.teamName || 'SOLO';
@@ -3614,13 +3624,14 @@ function buildPresentationScriptText() {
         if (a.lengthCm !== b.lengthCm) return b.lengthCm - a.lengthCm;
         return b.fishCount - a.fishCount;
     });
-
-    const teamTop5Reverse = sortedTeams.slice(0, 5).map((item, idx) => ({ ...item, rank: idx + 1 })).reverse();
+    const rankedTeams = sortedTeams.slice(0, 5).map((item, idx) => ({ ...item, rank: idx + 1 }));
+    const teamTop5Reverse = rankedTeams.reverse();
 
     // Build Output Text
     let lines = [];
-    lines.push("SPRA Scottish Shore Championship - Prize Giving Presentation Speech Notes");
-    lines.push("===========================================================================");
+    const headerTitle = `${matchTitle} PRIZE GIVING PRESENTATION SPEECH NOTES`;
+    lines.push(headerTitle);
+    lines.push("=".repeat(headerTitle.length));
     lines.push("");
     lines.push("PART 1: TOURNAMENT HIGHLIGHTS & STATS");
     lines.push("---------------------------------------");
@@ -3708,18 +3719,49 @@ function buildPresentationScriptText() {
 
 <style>
 @media print {
-    body * { visibility: hidden; }
-    #scriptContentArea, #scriptContentArea * { visibility: visible; }
+    /* Hide all workspace background elements */
+    body > *:not(#scriptModal) {
+        display: none !important;
+    }
+    
+    #scriptModal {
+        position: static !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    #scriptModal > div {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        max-width: 100% !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    /* Hide modal header buttons during physical print/PDF save */
+    #scriptModal .border-b {
+        display: none !important;
+    }
+
     #scriptContentArea {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        color: #000 !important;
-        background: #fff !important;
+        position: static !important;
+        display: block !important;
+        width: 100% !important;
+        color: #000000 !important;
+        background: #ffffff !important;
         white-space: pre-wrap !important;
         font-family: monospace !important;
-        padding: 20px !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        page-break-inside: auto;
     }
 }
 </style>
