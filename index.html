@@ -643,16 +643,15 @@
                     <button onclick="triggerHaptic(); openRedrawConfigModal()" type="button" class="glass-pill text-pixelText hover:bg-white/15 border border-white/25 px-5 py-3.5 rounded-2xl text-sm transition-all flex items-center gap-2 font-black uppercase tracking-wider touch-elastic font-heading">
                         <i class="fa-solid fa-rotate text-pixelGold"></i> Full Redraw
                     </button>
-
-                    <!-- HOVER TOOLTIP CARD -->
-                    <div class="absolute left-0 top-full mt-2 hidden group-hover:block z-50 w-72 p-4 glass-card-sm border-pixelGold/50 bg-slate-950/95 shadow-2xl rounded-2xl space-y-2 pointer-events-none">
-                        <div class="text-xs font-black font-heading uppercase text-pixelGold flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-info"></i> When to use Full Redraw
-                        </div>
-                        <p class="text-[11px] text-pixelMuted font-medium leading-relaxed">
-                            Best used when major roster or mobility changes occur before fishing starts. Re-runs the entire draw algorithm to guarantee 0 teammate collisions across all beach zones.
-                        </p>
-                    </div>
+<!-- HOVER TOOLTIP CARD (ELEVATED Z-INDEX) -->
+<div class="absolute left-0 top-full mt-2 hidden group-hover:block z-[100] w-80 p-4 glass-card-sm border-pixelGold/60 bg-slate-950/95 shadow-2xl rounded-2xl space-y-2 pointer-events-none backdrop-blur-2xl">
+    <div class="text-xs font-black font-heading uppercase text-pixelGold flex items-center gap-1.5 border-b border-white/15 pb-2">
+        <i class="fa-solid fa-circle-info text-sm"></i> When to use Full Redraw
+    </div>
+    <p class="text-xs text-pixelMuted font-medium leading-relaxed">
+        Best used when major roster or mobility changes occur before fishing starts. Re-runs the entire draw algorithm to guarantee 0 teammate collisions across all beach zones.
+    </p>
+</div>
                 </div>
             </div>
 
