@@ -43,11 +43,10 @@
 
     <style type="text/css">
         body {
-            background-color: #090d16;
+            background-color: #070d19;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.10) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+                radial-gradient(at 50% 0%, rgba(30, 58, 138, 0.25) 0px, transparent 65%),
+                radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.8) 0px, transparent 50%);
             background-attachment: fixed;
             color: #f8fafc;
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -61,7 +60,13 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1.25rem;
         }
-
+/* Active Tab Highlight (Light Slate Blue) */
+        .nav-tab-active {
+            background-color: #8da4cc !important;
+            color: #0f172a !important;
+            font-weight: 900 !important;
+            box-shadow: 0 4px 12px rgba(141, 164, 204, 0.25);
+        }
         .glass-card-sm {
             background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(12px);
@@ -172,45 +177,48 @@
 </head>
 <body class="p-3 sm:p-6 md:p-8 custom-scrollbar">
 
-    <!-- TOP HEADER / BRAND BAR WITH TOP-RIGHT BUTTON CLUSTER -->
-    <header class="max-w-7xl mx-auto mb-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4 glass-card p-4 sm:p-6 no-print">
-        <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-pixelBlue via-pixelCyan to-pixelEmerald flex items-center justify-center text-slate-950 font-black text-2xl shadow-lg shadow-pixelBlue/20">
-                <i class="fa-solid fa-fish-fins"></i>
-            </div>
+   <!-- TOP HEADER / BRAND BAR WITH INTEGRATED CAPSULE NAV -->
+    <header class="max-w-7xl mx-auto mb-6 flex flex-col md:flex-row items-center justify-between gap-4 glass-card p-3 sm:p-4 no-print">
+        <!-- Left: Title & Version Badges -->
+        <div class="flex items-center gap-3">
             <div>
-                <h1 id="headerAppTitle" class="text-xl sm:text-2xl font-black font-heading tracking-wide text-pixelText uppercase">
-                    Shore Fishing Championship
-                </h1>
-                <div class="flex items-center gap-2 mt-0.5">
-                    <span id="headerDaysBadge" class="glass-pill px-2.5 py-0.5 rounded-full text-xs font-bold text-pixelCyan border border-pixelCyan/30">
+                <div class="flex items-center gap-2">
+                    <h1 id="headerAppTitle" class="text-lg sm:text-xl font-black font-heading tracking-wide text-pixelText uppercase">
+                        STRESS TEST COMP
+                    </h1>
+                    <span class="glass-pill px-2 py-0.5 rounded-md text-[10px] font-mono font-bold text-pixelMuted">v1.0.0</span>
+                </div>
+                <div class="mt-0.5">
+                    <span id="headerDaysBadge" class="glass-pill px-2.5 py-0.5 rounded-full text-[10px] font-bold text-pixelEmerald border border-pixelEmerald/30 uppercase">
                         2-Day Competition
                     </span>
-                    <span class="text-xs text-pixelMuted font-mono">v7.4.0</span>
                 </div>
             </div>
         </div>
 
-        <!-- Header Action Toolbar Cluster (Matched to User Screenshot) -->
-        <div class="flex items-center gap-2 flex-wrap">
-            <button onclick="openRulesGuideModal()" class="glass-pill hover:bg-white/10 text-pixelText font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-book-open text-pixelGold"></i> Rules & User Guide
+        <!-- Center: Floating Capsule Navigation Bar -->
+        <nav class="glass-pill p-1.5 rounded-full flex items-center gap-1 overflow-x-auto">
+            <button id="nav-tab-draw" onclick="switchTab('tab-draw')" class="nav-btn text-pixelMuted hover:text-white font-black font-heading text-xs px-5 py-2 rounded-full transition-all flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-shuffle text-xs"></i> PEG DRAW
             </button>
-            <button onclick="openPresentationScriptModal()" class="glass-pill hover:bg-white/10 text-pixelText font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-bullhorn text-pixelEmerald"></i> Speech Script
+            <button id="nav-tab-scorecard" onclick="switchTab('tab-scorecard')" class="nav-btn nav-tab-active font-black font-heading text-xs px-5 py-2 rounded-full transition-all flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-clipboard-list text-xs"></i> SCORECARDS
             </button>
-            <button onclick="exportScoresJSON()" class="glass-pill hover:bg-white/10 text-pixelGold border border-pixelGold/30 font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-file-export text-sm"></i> Export Scores
+            <button id="nav-tab-results" onclick="switchTab('tab-results')" class="nav-btn text-pixelMuted hover:text-white font-black font-heading text-xs px-5 py-2 rounded-full transition-all flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-trophy text-xs"></i> RESULTS
             </button>
-            <button onclick="exportViewerJSON()" class="glass-pill hover:bg-white/10 text-pixelCyan border border-pixelCyan/30 font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-download text-sm"></i> Export Zone JSON
+            <button id="nav-tab-mystery-pairs" onclick="switchTab('tab-mystery-pairs')" class="nav-btn text-pixelMuted hover:text-white font-black font-heading text-xs px-5 py-2 rounded-full transition-all flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-user-group text-xs"></i> MYSTERY PAIRS
             </button>
-            <button onclick="resetWholeAppState()" class="bg-pixelCoral/20 hover:bg-pixelCoral/30 text-pixelCoral border border-pixelCoral/40 font-bold text-xs px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-rotate-left"></i> Reset Match
+        </nav>
+
+        <!-- Right: Reset Match Power Button -->
+        <div class="flex items-center gap-2">
+            <button onclick="resetWholeAppState()" title="Reset Match State" class="w-10 h-10 rounded-full bg-pixelCoral/20 hover:bg-pixelCoral/30 text-pixelCoral border border-pixelCoral/40 font-bold flex items-center justify-center transition-all touch-elastic">
+                <i class="fa-solid fa-power-off text-sm"></i>
             </button>
         </div>
     </header>
-
     <!-- SETUP SPLASH PAGE / WIZARD (Visible before draw is created) -->
     <div id="setup-splash-page" class="max-w-7xl mx-auto space-y-6 no-print">
         <div class="glass-card p-6 sm:p-8 space-y-6">
@@ -301,21 +309,7 @@
     <!-- MAIN APP WORKSPACE (Hidden until draw created or loaded) -->
     <div id="main-app-workspace" class="max-w-7xl mx-auto space-y-6 hidden flex-col">
         
-        <!-- MAIN NAVIGATION TABS (Matched to Screenshot Style) -->
-        <nav class="glass-card p-2 flex items-center gap-2 overflow-x-auto custom-scrollbar no-print">
-            <button id="nav-tab-draw" onclick="switchTab('tab-draw')" class="nav-btn text-pixelMuted hover:text-white font-bold font-heading text-sm px-6 py-3 rounded-xl transition-all shrink-0 flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-chess-board text-base"></i> Match Draw Sheet
-            </button>
-            <button id="nav-tab-scorecard" onclick="switchTab('tab-scorecard')" class="nav-btn bg-pixelBlue text-slate-950 font-black font-heading text-sm px-6 py-3 rounded-xl transition-all shrink-0 flex items-center gap-2 shadow-md touch-elastic">
-                <i class="fa-solid fa-clipboard-list text-base"></i> Scorecard Input
-            </button>
-            <button id="nav-tab-results" onclick="switchTab('tab-results')" class="nav-btn text-pixelMuted hover:text-white font-bold font-heading text-sm px-6 py-3 rounded-xl transition-all shrink-0 flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-trophy text-base"></i> Official Results
-            </button>
-            <button id="nav-tab-mystery-pairs" onclick="switchTab('tab-mystery-pairs')" class="nav-btn text-pixelMuted hover:text-white font-bold font-heading text-sm px-6 py-3 rounded-xl transition-all shrink-0 flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-user-group text-base"></i> Mystery Pairs
-            </button>
-        </nav>
+        
 
         <!-- TAB 1: DRAW VIEW -->
         <div id="tab-draw" class="tab-content space-y-6 hidden">
@@ -439,16 +433,22 @@
 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
                     <div>
-                        <h3 class="text-lg font-black uppercase tracking-wider text-pixelText font-heading flex items-center gap-2">
-                            <i class="fa-solid fa-square-check text-pixelEmerald"></i> MATCH SCORECARD ENTRY
+                        <h3 class="text-xl font-black uppercase tracking-wider text-pixelText font-heading flex items-center gap-2.5">
+                            <i class="fa-solid fa-shield-halved text-pixelBlue"></i> MATCH SECRETARY SCORECARDS
                         </h3>
-                        <p class="text-xs text-pixelMuted font-semibold mt-0.5">Record total length metric (CM), total fish count, and best specimen fish size.</p>
+                        <p class="text-xs text-pixelMuted font-medium mt-1">
+                            3 core fields per entry. Type values and press <span class="glass-pill px-1.5 py-0.5 rounded text-[10px] font-mono font-bold text-pixelText">Tab</span> or <span class="glass-pill px-1.5 py-0.5 rounded text-[10px] font-mono font-bold text-pixelText">Enter</span> to save & jump.
+                        </p>
                     </div>
 
-                    <!-- Day Toggle for Scorecards -->
+                    <!-- Day Toggle Buttons -->
                     <div class="flex items-center gap-2">
-                        <button id="scoreDayBtn1" onclick="setScorecardDay(1)" class="px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider glass-pill text-pixelMuted hover:text-white">Day 1 Scores</button>
-                        <button id="scoreDayBtn2" onclick="setScorecardDay(2)" class="px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider bg-pixelGold text-slate-950 shadow-md">Day 2 Scores</button>
+                        <button id="scoreDayBtn1" onclick="setScorecardDay(1)" class="px-5 py-2 rounded-xl text-xs font-black uppercase tracking-wider nav-tab-active">
+                            <i class="fa-solid fa-calendar-days mr-1.5"></i> DAY 1 SCORECARD
+                        </button>
+                        <button id="scoreDayBtn2" onclick="setScorecardDay(2)" class="px-5 py-2 rounded-xl text-xs font-black uppercase tracking-wider glass-pill text-pixelMuted hover:text-white">
+                            <i class="fa-solid fa-calendar-days mr-1.5"></i> DAY 2 SCORECARD
+                        </button>
                     </div>
                 </div>
 
@@ -1934,12 +1934,13 @@
             if (target) target.classList.remove('hidden');
 
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-pixelBlue', 'text-slate-950', 'shadow-md');
+                btn.classList.remove('nav-tab-active');
                 btn.classList.add('text-pixelMuted', 'hover:text-white');
             });
+
             const activeNav = document.getElementById('nav-' + tabId);
             if (activeNav) {
-                activeNav.classList.add('bg-pixelBlue', 'text-slate-950', 'shadow-md');
+                activeNav.classList.add('nav-tab-active');
                 activeNav.classList.remove('text-pixelMuted', 'hover:text-white');
             }
 
@@ -1948,7 +1949,6 @@
             if (tabId === 'tab-results') renderResultsView();
             if (tabId === 'tab-mystery-pairs') MysteryPairsModule.renderMatrix();
         }
-
         function copyWhatsAppDraw() {
             if (!appState.draw.generated) { alert("Generate draw first."); return; }
 
@@ -2029,28 +2029,7 @@
         // ============================================================================
         // SCORECARD TAB LOGIC & WATERMARK MANAGEMENT
         // ============================================================================
-        function setScorecardDay(day) {
-            activeScoreDay = day;
-            const btn1 = document.getElementById('scoreDayBtn1');
-            const btn2 = document.getElementById('scoreDayBtn2');
-            const watermarkEl = document.getElementById('scorecardTableWatermark');
-            const watermarkLabel = document.getElementById('scorecardWatermarkLabel');
-
-            if (day === 1) {
-                btn1.className = "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider bg-pixelBlue text-slate-950 shadow-md";
-                btn2.className = "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider glass-pill text-pixelMuted hover:text-white";
-                if (watermarkEl) watermarkEl.innerText = "DAY 1";
-                if (watermarkLabel) watermarkLabel.innerText = "DAY 1";
-            } else {
-                btn1.className = "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider glass-pill text-pixelMuted hover:text-white";
-                btn2.className = "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider bg-pixelGold text-slate-950 shadow-md";
-                if (watermarkEl) watermarkEl.innerText = "DAY 2";
-                if (watermarkLabel) watermarkLabel.innerText = "DAY 2";
-            }
-
-            renderScorecardView();
-        }
-
+        function setScorecardDay(day)
         function renderScorecardView() {
             const tbody = document.getElementById('scorecardTableBody');
             if (!tbody) return;
