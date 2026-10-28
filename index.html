@@ -257,18 +257,18 @@
             </button>
         </div>
 
-        <!-- Center: Floating Capsule Navigation Bar -->
-        <nav class="glass-pill p-1.5 rounded-full flex items-center gap-1.5 overflow-x-auto max-w-full">
-            <button id="nav-tab-draw" onclick="switchTab('tab-draw')" class="nav-btn text-slate-300 hover:text-white font-black font-heading text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shrink-0">
+        <!-- Center: Floating Capsule Navigation Bar with Subtle Border -->
+        <nav class="glass-pill p-1.5 rounded-full flex items-center gap-1.5 overflow-x-auto max-w-full border border-white/20 shadow-sm">
+            <button id="nav-tab-draw" onclick="switchTab('tab-draw')" class="nav-btn text-slate-300 hover:text-white font-black font-heading text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full border border-white/10 transition-all flex items-center gap-2 shrink-0">
                 <i class="fa-solid fa-shuffle text-sm"></i> PEG DRAW
             </button>
-            <button id="nav-tab-scorecard" onclick="switchTab('tab-scorecard')" class="nav-btn nav-tab-active font-black font-heading text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shrink-0">
+            <button id="nav-tab-scorecard" onclick="switchTab('tab-scorecard')" class="nav-btn nav-tab-active font-black font-heading text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full border border-white/20 transition-all flex items-center gap-2 shrink-0">
                 <i class="fa-solid fa-clipboard-list text-sm"></i> SCORECARDS
             </button>
-            <button id="nav-tab-results" onclick="switchTab('tab-results')" class="nav-btn text-slate-300 hover:text-white font-black font-heading text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shrink-0">
+            <button id="nav-tab-results" onclick="switchTab('tab-results')" class="nav-btn text-slate-300 hover:text-white font-black font-heading text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full border border-white/10 transition-all flex items-center gap-2 shrink-0">
                 <i class="fa-solid fa-trophy text-sm"></i> RESULTS
             </button>
-            <button id="nav-tab-mystery-pairs" onclick="switchTab('tab-mystery-pairs')" class="nav-btn text-slate-300 hover:text-white font-black font-heading text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full transition-all flex items-center gap-2 shrink-0">
+            <button id="nav-tab-mystery-pairs" onclick="switchTab('tab-mystery-pairs')" class="nav-btn text-slate-300 hover:text-white font-black font-heading text-xs sm:text-sm px-4 sm:px-6 py-2.5 rounded-full border border-white/10 transition-all flex items-center gap-2 shrink-0">
                 <i class="fa-solid fa-user-group text-sm"></i> MYSTERY PAIRS
             </button>
         </nav>
@@ -1458,7 +1458,7 @@
             const workspace = document.getElementById('main-app-workspace');
             workspace.classList.remove('hidden');
             workspace.classList.add('flex');
-            document.getElementById('headerAppTitle').innerText = appState.config.title || "Shore Fishing Championship";
+            document.getElementById('headerAppTitle').innerText = (appState.config.title && appState.config.title !== "Shore Fishing Championship") ? appState.config.title : "ShoreScore";
             document.getElementById('headerDaysBadge').innerText = appState.config.duration === 1 ? '1-Day Competition' : '2-Day Competition';
             
             const btnD2 = document.getElementById('subnav-res-zones-d2');
