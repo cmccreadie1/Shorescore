@@ -176,15 +176,18 @@
             display: block;
         }
 
-        /* Modern Edge-Graduated Line Shading for Table Rows */
+        /* Modern Edge-Graduated Line Shading with Subtle Row Separators */
         tbody tr {
-            background: linear-gradient(90deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.4) 60%, rgba(15, 23, 42, 0.1) 100%);
-            border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+            background: linear-gradient(90deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.5) 60%, rgba(15, 23, 42, 0.15) 100%);
+            border-bottom: 1px solid rgba(71, 85, 105, 0.45) !important;
             transition: background 0.2s ease, border-color 0.2s ease;
         }
+        tbody tr:last-child {
+            border-bottom: none !important;
+        }
         tbody tr:hover {
-            background: linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(30, 41, 59, 0.6) 70%, rgba(15, 23, 42, 0.2) 100%) !important;
-            border-bottom-color: rgba(59, 130, 246, 0.5);
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(30, 41, 59, 0.65) 70%, rgba(15, 23, 42, 0.25) 100%) !important;
+            border-bottom-color: rgba(59, 130, 246, 0.6) !important;
         }
 
         /* Large Floating Translucent Scorecard Watermark */
@@ -2168,7 +2171,7 @@
                 const peg = dItem ? dItem.peg : '-';
 
                 return `
-                    <tr class="hover:bg-white/10 transition-colors">
+                    <tr class="transition-colors">
                         <td class="py-3.5 px-4 text-center"><span class="glass-pill text-white font-mono-tabular font-black px-3 py-1 text-sm border border-slate-600 shadow-sm">${peg}</span></td>
                         <td class="py-3.5 px-4 font-black uppercase tracking-wider text-white font-heading text-base">${(a.name || '').toUpperCase() || '<em class="text-slate-400 lowercase italic">unnamed</em>'}</td>
                         <td class="py-3.5 px-4 text-xs text-slate-300 font-bold uppercase tracking-wider font-heading">${team ? team.name.toUpperCase() : 'INDIVIDUAL'}</td>
