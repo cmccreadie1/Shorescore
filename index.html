@@ -2332,24 +2332,24 @@
 
             tbody.innerHTML = indSummary.map((res, idx) => `
                 <tr class="font-mono-tabular text-base">
-                    <td class="py-3.5 px-3 font-black text-center text-pixelBlue border-r border-slate-700">#${idx+1}</td>
-                    <td class="py-3.5 px-4 font-black uppercase tracking-wider text-white font-heading border-r border-slate-700">${res.name.toUpperCase()}</td>
-                    <td class="py-3.5 px-4 text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider font-heading border-r border-slate-700">${res.teamName.toUpperCase()}</td>
+                    <td class="py-1.5 px-3 font-black text-center text-pixelBlue border-r border-slate-700">#${idx+1}</td>
+                    <td class="py-1.5 px-4 font-black uppercase tracking-wider text-white font-heading border-r border-slate-700">${res.name.toUpperCase()}</td>
+                    <td class="py-1.5 px-4 text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider font-heading border-r border-slate-700">${res.teamName.toUpperCase()}</td>
                     
-                    <td class="py-3.5 px-3 text-center bg-white/10 font-black text-white"><span class="bg-pixelBlue text-slate-950 font-black px-3.5 py-1 rounded-full text-sm">${res.totalZonePts}</span></td>
-                    <td class="py-3.5 px-3 text-center bg-white/10 font-black text-pixelEmerald">${res.totalMetric}</td>
-                    <td class="py-3.5 px-3 text-center bg-white/10 font-black text-white">${res.totalFish}</td>
-                    <td class="py-3.5 px-3 text-center bg-white/10 font-black text-pixelGold border-r border-slate-700">${res.overallBestFish}</td>
+                    <td class="py-1.5 px-3 text-center bg-white/10 font-black text-white"><span class="bg-pixelBlue text-slate-950 font-black px-3 py-0.5 rounded-full text-sm">${res.totalZonePts}</span></td>
+                    <td class="py-1.5 px-3 text-center bg-white/10 font-black text-pixelEmerald">${res.totalMetric}</td>
+                    <td class="py-1.5 px-3 text-center bg-white/10 font-black text-white">${res.totalFish}</td>
+                    <td class="py-1.5 px-3 text-center bg-white/10 font-black text-pixelGold border-r border-slate-700">${res.overallBestFish}</td>
 
-                    <td class="py-3.5 px-3 text-center bg-pixelBlue/10 font-black text-pixelBlue">${res.d1Pts}</td>
-                    <td class="py-3.5 px-3 text-center bg-pixelBlue/10 font-bold text-white">${res.d1Metric}</td>
-                    <td class="py-3.5 px-3 text-center bg-pixelBlue/10 font-bold text-white">${res.d1Fish}</td>
-                    <td class="py-3.5 px-3 text-center bg-pixelBlue/10 font-bold text-white border-r border-slate-700">${res.d1Best}</td>
+                    <td class="py-1.5 px-3 text-center bg-pixelBlue/10 font-black text-pixelBlue">${res.d1Pts}</td>
+                    <td class="py-1.5 px-3 text-center bg-pixelBlue/10 font-bold text-white">${res.d1Metric}</td>
+                    <td class="py-1.5 px-3 text-center bg-pixelBlue/10 font-bold text-white">${res.d1Fish}</td>
+                    <td class="py-1.5 px-3 text-center bg-pixelBlue/10 font-bold text-white border-r border-slate-700">${res.d1Best}</td>
 
-                    <td class="py-3.5 px-3 text-center bg-pixelGold/10 font-black text-pixelGold">${appState.config.duration === 2 ? res.d2Pts : '-'}</td>
-                    <td class="py-3.5 px-3 text-center bg-pixelGold/10 font-bold text-white">${appState.config.duration === 2 ? res.d2Metric : '-'}</td>
-                    <td class="py-3.5 px-3 text-center bg-pixelGold/10 font-bold text-white">${appState.config.duration === 2 ? res.d2Fish : '-'}</td>
-                    <td class="py-3.5 px-3 text-center bg-pixelGold/10 font-bold text-white">${appState.config.duration === 2 ? res.d2Best : '-'}</td>
+                    <td class="py-1.5 px-3 text-center bg-pixelGold/10 font-black text-pixelGold">${appState.config.duration === 2 ? res.d2Pts : '-'}</td>
+                    <td class="py-1.5 px-3 text-center bg-pixelGold/10 font-bold text-white">${appState.config.duration === 2 ? res.d2Metric : '-'}</td>
+                    <td class="py-1.5 px-3 text-center bg-pixelGold/10 font-bold text-white">${appState.config.duration === 2 ? res.d2Fish : '-'}</td>
+                    <td class="py-1.5 px-3 text-center bg-pixelGold/10 font-bold text-white">${appState.config.duration === 2 ? res.d2Best : '-'}</td>
                 </tr>
             `).join('');
         }
@@ -2403,20 +2403,20 @@
 
             container.innerHTML = teamSummaries.map((t, idx) => `
                 <tr>
-                    <td class="py-4 px-5 text-center">
+                    <td class="py-2 px-5 text-center">
                         <div class="flex items-center justify-center gap-3">
-                            <span class="text-pixelGold font-mono-tabular font-black text-xl">#${idx+1}</span>
-                            <span class="font-black font-heading text-white uppercase tracking-wider text-lg">${t.teamName.toUpperCase()}</span>
+                            <span class="text-pixelGold font-mono-tabular font-black text-lg">#${idx+1}</span>
+                            <span class="font-black font-heading text-white uppercase tracking-wider text-base">${t.teamName.toUpperCase()}</span>
                         </div>
                     </td>
-                    <td class="py-4 px-4 text-center font-black text-pixelBlue font-mono-tabular text-xl bg-white/10">${t.totalTeamZonePts}</td>
-                    <td class="py-4 px-4 text-center font-black text-pixelEmerald font-mono-tabular text-xl bg-white/10">${t.totalTeamMetric}</td>
-                    <td class="py-4 px-4 text-center font-black text-pixelGold font-mono-tabular text-xl bg-white/10">${t.totalTeamFish}</td>
-                    <td class="py-3 px-5">
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+                    <td class="py-2 px-4 text-center font-black text-pixelBlue font-mono-tabular text-lg bg-white/10">${t.totalTeamZonePts}</td>
+                    <td class="py-2 px-4 text-center font-black text-pixelEmerald font-mono-tabular text-lg bg-white/10">${t.totalTeamMetric}</td>
+                    <td class="py-2 px-4 text-center font-black text-pixelGold font-mono-tabular text-lg bg-white/10">${t.totalTeamFish}</td>
+                    <td class="py-2 px-5">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                             ${t.memberBreakdown.map(m => `
-                                <div class="glass-card-sm p-3 text-center space-y-1 border border-slate-700">
-                                    <div class="font-black text-white text-sm truncate uppercase font-heading">${m.name.toUpperCase()}</div>
+                                <div class="glass-card-sm p-2 text-center space-y-0.5 border border-slate-700">
+                                    <div class="font-black text-white text-xs truncate uppercase font-heading">${m.name.toUpperCase()}</div>
                                     <div class="text-xs font-bold text-slate-300 font-mono-tabular">
                                         <span class="text-pixelBlue font-black">${m.zPts}PTS</span> / <span class="text-pixelEmerald font-black">${m.metric}CM</span>
                                     </div>
@@ -2513,22 +2513,22 @@
                 return;
             }
 
-            tbody.innerHTML = top5.map((f, idx) => `
+           tbody.innerHTML = top5.map((f, idx) => `
                 <tr class="font-mono-tabular text-base">
-                    <td class="py-3.5 px-4 font-black text-pixelGold text-lg">#${idx+1}</td>
-                    <td class="py-3.5 px-4 font-black uppercase tracking-wider text-white font-heading text-base">
+                    <td class="py-1.5 px-4 font-black text-pixelGold text-base">#${idx+1}</td>
+                    <td class="py-1.5 px-4 font-black uppercase tracking-wider text-white font-heading text-base">
                         <div>${f.anglerName.toUpperCase()}</div>
                         <div class="text-xs text-slate-400 font-bold uppercase mt-0.5">${f.teamName}</div>
                     </td>
-                    <td class="py-3.5 px-4"><span class="zone-badge-${f.zone} px-3.5 py-1 rounded-full text-xs sm:text-sm font-black">${f.zone} • Peg ${f.peg}</span></td>
-                    <td class="py-3.5 px-4 text-center font-black text-pixelEmerald text-lg">${f.bestFish} CM</td>
-                    <td class="py-3.5 px-4 text-center text-sm font-bold uppercase text-slate-300 font-heading">Day ${f.day}</td>
-                    <td class="py-3.5 px-4 text-center">
+                    <td class="py-1.5 px-4"><span class="zone-badge-${f.zone} px-3 py-0.5 rounded-full text-xs font-black">${f.zone} • Peg ${f.peg}</span></td>
+                    <td class="py-1.5 px-4 text-center font-black text-pixelEmerald text-base">${f.bestFish} CM</td>
+                    <td class="py-1.5 px-4 text-center text-sm font-bold uppercase text-slate-300 font-heading">Day ${f.day}</td>
+                    <td class="py-1.5 px-4 text-center">
                         <input type="text" 
                                value="${f.species}" 
                                placeholder="e.g. Cod, Bass, Ray" 
                                onchange="updateTopFishSpecies('${f.dayKey}', '${f.anglerId}', this.value)"
-                               class="w-full max-w-[180px] bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-pixelGold text-center font-bold placeholder:italic placeholder:text-white/30 focus:outline-none focus:border-pixelGold">
+                               class="w-full max-w-[180px] bg-slate-950 border border-slate-700 rounded-lg px-3 py-1 text-sm text-pixelGold text-center font-bold placeholder:italic placeholder:text-white/30 focus:outline-none focus:border-pixelGold">
                     </td>
                 </tr>
             `).join('');
