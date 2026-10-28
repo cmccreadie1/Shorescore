@@ -183,6 +183,23 @@
             .glass-card, .glass-card-sm { background: none !important; border: 1px solid #ccc !important; box-shadow: none !important; color: black !important; }
             .scorecard-watermark { display: none !important; }
         }
+        /* Output Menu Dropdown Styling */
+        .output-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 0.875rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            min-width: 210px;
+            overflow: hidden;
+        }
+        .output-dropdown.show {
+            display: block;
+        }
     </style>
 </head>
 <body class="p-3 sm:p-6 md:p-8 custom-scrollbar">
@@ -233,21 +250,35 @@
             </button>
         </nav>
 
-        <!-- Right: Action & Export Toolbar Cluster -->
-        <div class="flex items-center gap-2 flex-wrap justify-center xl:justify-end">
-            <button onclick="openRulesGuideModal()" class="glass-pill hover:bg-white/15 text-white font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 touch-elastic">
+       <!-- Right: Clean 3-Button Header Cluster -->
+        <div class="flex items-center gap-2.5 relative">
+            <!-- 1. Rules & Guide Button -->
+            <button onclick="openRulesGuideModal()" class="glass-pill hover:bg-white/15 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 touch-elastic">
                 <i class="fa-solid fa-book-open text-pixelGold"></i> Rules & Guide
             </button>
-            <button onclick="openPresentationScriptModal()" class="glass-pill hover:bg-white/15 text-white font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 touch-elastic">
-                <i class="fa-solid fa-bullhorn text-pixelEmerald"></i> Speech Script
-            </button>
-            <button onclick="exportScoresJSON()" class="glass-pill hover:bg-white/15 text-pixelGold border border-pixelGold/40 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 touch-elastic">
-                <i class="fa-solid fa-file-export text-xs"></i> Export Scores
-            </button>
-            <button onclick="exportViewerJSON()" class="glass-pill hover:bg-white/15 text-pixelCyan border border-pixelCyan/40 font-bold text-xs px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 touch-elastic">
-                <i class="fa-solid fa-download text-xs"></i> Export Zone JSON
-            </button>
-            <button onclick="resetWholeAppState()" title="Reset Match State" class="hidden xl:flex w-9 h-9 rounded-full bg-pixelCoral/20 hover:bg-pixelCoral/30 text-pixelCoral border border-pixelCoral/40 font-bold items-center justify-center transition-all touch-elastic ml-1">
+
+            <!-- 2. Output Menu Dropdown Button -->
+            <div class="relative">
+                <button onclick="toggleOutputMenu(event)" class="glass-pill hover:bg-white/15 text-pixelCyan border border-pixelCyan/40 font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 touch-elastic">
+                    <i class="fa-solid fa-folder-open text-xs"></i> Outputs <i class="fa-solid fa-chevron-down text-[10px] ml-0.5"></i>
+                </button>
+
+                <!-- Dropdown Content Options -->
+                <div id="outputDropdownMenu" class="output-dropdown p-1.5 space-y-1">
+                    <button onclick="exportScoresJSON()" class="w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-white hover:bg-white/10 flex items-center gap-2 transition-colors">
+                        <i class="fa-solid fa-file-export text-pixelGold w-4 text-center"></i> Scores JSON
+                    </button>
+                    <button onclick="exportViewerJSON()" class="w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-white hover:bg-white/10 flex items-center gap-2 transition-colors">
+                        <i class="fa-solid fa-download text-pixelCyan w-4 text-center"></i> Zone JSON
+                    </button>
+                    <button onclick="openPresentationScriptModal()" class="w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-white hover:bg-white/10 flex items-center gap-2 transition-colors">
+                        <i class="fa-solid fa-bullhorn text-pixelEmerald w-4 text-center"></i> Prize Giving Script
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Reset App Power Button -->
+            <button onclick="resetWholeAppState()" title="Reset Match State" class="w-9 h-9 rounded-full bg-pixelCoral/20 hover:bg-pixelCoral/30 text-pixelCoral border border-pixelCoral/40 font-bold flex items-center justify-center transition-all touch-elastic ml-0.5">
                 <i class="fa-solid fa-power-off text-xs"></i>
             </button>
         </div>
@@ -2695,7 +2726,17 @@
             copyWhatsAppDraw();
             setTimeout(() => { window.print(); }, 300);
         }
+function toggleOutputMenu(event) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById('outputDropdownMenu');
+            if (menu) menu.classList.toggle('show');
+        }
 
+        // Close dropdown when clicking outside
+        window.addEventListener('click', () => {
+            const menu = document.getElementById('outputDropdownMenu');
+            if (menu) menu.classList.remove('show');
+        });
         function openRulesGuideModal() {
             const modal = document.getElementById('rulesGuideModal');
             if (modal) modal.classList.remove('hidden');
