@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -159,7 +158,36 @@
             font-variant-numeric: tabular-nums;
         }
 
-      /* Large Floating Translucent Scorecard Watermark */
+        /* Output Menu Dropdown Styling */
+        .output-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 0.875rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            min-width: 210px;
+            overflow: hidden;
+        }
+        .output-dropdown.show {
+            display: block;
+        }
+
+        /* Modern Edge-Graduated Line Shading for Table Rows */
+        tbody tr {
+            background: linear-gradient(90deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.4) 60%, rgba(15, 23, 42, 0.1) 100%);
+            border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        tbody tr:hover {
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.3) 0%, rgba(30, 41, 59, 0.6) 70%, rgba(15, 23, 42, 0.2) 100%) !important;
+            border-bottom-color: rgba(59, 130, 246, 0.5);
+        }
+
+        /* Large Floating Translucent Scorecard Watermark */
         .scorecard-watermark {
             position: fixed;
             top: 50%;
@@ -178,36 +206,20 @@
 
         /* Day-Specific Brighter Translucent Colors */
         .watermark-day1 {
-            color: rgba(74, 222, 128, 0.22) !important; /* Brighter Emerald Green */
+            color: rgba(74, 222, 128, 0.22) !important;
             text-shadow: 0 0 40px rgba(74, 222, 128, 0.15);
         }
         .watermark-day2 {
-            color: rgba(248, 113, 113, 0.22) !important; /* Brighter Vibrant Red */
+            color: rgba(248, 113, 113, 0.22) !important;
             text-shadow: 0 0 40px rgba(248, 113, 113, 0.15);
         }
+
         @media print {
             body { background: white !important; color: black !important; }
             .no-print { display: none !important; }
             .print-only { display: block !important; }
             .glass-card, .glass-card-sm { background: none !important; border: 1px solid #ccc !important; box-shadow: none !important; color: black !important; }
             .scorecard-watermark { display: none !important; }
-        }
-        /* Output Menu Dropdown Styling */
-        .output-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: calc(100% + 8px);
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 0.875rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-            z-index: 100;
-            min-width: 210px;
-            overflow: hidden;
-        }
-        .output-dropdown.show {
-            display: block;
         }
     </style>
 </head>
@@ -259,7 +271,7 @@
             </button>
         </nav>
 
-       <!-- Right: Clean 3-Button Header Cluster -->
+        <!-- Right: Clean 3-Button Header Cluster -->
         <div class="flex items-center gap-2.5 relative">
             <!-- 1. Rules & Guide Button -->
             <button onclick="openRulesGuideModal()" class="glass-pill hover:bg-white/15 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 touch-elastic">
@@ -327,7 +339,7 @@
                 </div>
             </div>
 
-            <!-- Custom Structure Generator (Replaces old fixed demo buttons) -->
+            <!-- Custom Structure Generator -->
             <div class="glass-card-sm p-5 space-y-4 border border-pixelCyan/40">
                 <h3 class="text-sm font-black uppercase tracking-wider text-pixelCyan font-heading flex items-center gap-2">
                     <i class="fa-solid fa-cubes"></i> Generate Custom Empty Roster Structure
@@ -367,7 +379,7 @@
             <!-- Mobility Advisor Live Status Banner -->
             <div id="mobilityAdvisor" class="hidden"></div>
 
-            <!-- Team & Angler Setup Builder (3-across Horizontal Layout for Max Space) -->
+            <!-- Team & Angler Setup Builder -->
             <div class="space-y-4">
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-black uppercase tracking-wider text-white font-heading flex items-center gap-2">
@@ -395,7 +407,7 @@
     </div>
 
     <!-- MAIN APP WORKSPACE (Hidden until draw created or loaded) -->
-    <div id="main-app-workspace" class="max-w- [96%]-auto space-y-6 hidden flex-col">
+    <div id="main-app-workspace" class="max-w-[96%] mx-auto space-y-6 hidden flex-col">
 
         <!-- TAB 1: DRAW VIEW -->
         <div id="tab-draw" class="tab-content space-y-6 hidden">
@@ -515,7 +527,7 @@
             <div class="glass-card p-6 space-y-5 relative overflow-hidden">
                 
                 <!-- Dynamic Background Watermark -->
-                <div id="scorecardTableWatermark" class="scorecard-watermark">DAY 2</div>
+                <div id="scorecardTableWatermark" class="scorecard-watermark watermark-day2">DAY 2</div>
 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700 pb-4 relative z-10">
                     <div>
@@ -563,7 +575,7 @@
                                 <th class="py-3.5 px-4 text-center">BEST FISH (CM)</th>
                             </tr>
                         </thead>
-                        <tbody id="scorecardTableBody" class="divide-y divide-slate-800">
+                        <tbody id="scorecardTableBody">
                             <!-- Dynamic Scorecard Rows -->
                         </tbody>
                     </table>
@@ -581,8 +593,11 @@
                 <button id="subnav-res-team" onclick="switchResultsSubTab('res-team')" class="res-subnav-btn text-slate-300 hover:text-white font-bold font-heading text-xs px-5 py-2.5 rounded-lg transition-all shrink-0">
                     Team Leaderboard
                 </button>
-                <button id="subnav-res-zones" onclick="switchResultsSubTab('res-zones')" class="res-subnav-btn text-slate-300 hover:text-white font-bold font-heading text-xs px-5 py-2.5 rounded-lg transition-all shrink-0">
-                    Stacked Zone Breakdown
+                <button id="subnav-res-zones-d1" onclick="switchResultsSubTab('res-zones-d1')" class="res-subnav-btn text-slate-300 hover:text-white font-bold font-heading text-xs px-5 py-2.5 rounded-lg transition-all shrink-0">
+                    Day 1 Zones
+                </button>
+                <button id="subnav-res-zones-d2" onclick="switchResultsSubTab('res-zones-d2')" class="res-subnav-btn text-slate-300 hover:text-white font-bold font-heading text-xs px-5 py-2.5 rounded-lg transition-all shrink-0">
+                    Day 2 Zones
                 </button>
                 <button id="subnav-res-topfish" onclick="switchResultsSubTab('res-topfish')" class="res-subnav-btn text-slate-300 hover:text-white font-bold font-heading text-xs px-5 py-2.5 rounded-lg transition-all shrink-0">
                     Top Specimen Fish
@@ -615,7 +630,7 @@
                                 <th class="py-3 px-3 text-center bg-pixelGold/10">D2 Best</th>
                             </tr>
                         </thead>
-                        <tbody id="individualResultsBody" class="divide-y divide-slate-800"></tbody>
+                        <tbody id="individualResultsBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -636,26 +651,25 @@
                                 <th class="py-3 px-4">Member Breakdown</th>
                             </tr>
                         </thead>
-                        <tbody id="teamResultsContainer" class="divide-y divide-slate-800"></tbody>
+                        <tbody id="teamResultsContainer"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- SUBTAB 3: STACKED ZONE BREAKDOWN -->
-            <div id="res-zones" class="res-subtab-content space-y-6 hidden">
-                <div class="glass-card p-6 space-y-4">
-                    <h3 class="text-base font-black font-heading uppercase text-pixelBlue flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group"></i> Day 1 Zone Standings
-                    </h3>
-                    <div id="day1StackedZonesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
-                </div>
+            <!-- SUBTAB 3A: DAY 1 ZONE STANDINGS (4-ACROSS) -->
+            <div id="res-zones-d1" class="res-subtab-content glass-card p-6 space-y-4 hidden">
+                <h3 class="text-base font-black font-heading uppercase text-pixelBlue flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group"></i> Day 1 Zone Standings
+                </h3>
+                <div id="day1StackedZonesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+            </div>
 
-                <div id="day2StackedZonesOuter" class="glass-card p-6 space-y-4">
-                    <h3 class="text-base font-black font-heading uppercase text-pixelGold flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group"></i> Day 2 Zone Standings
-                    </h3>
-                    <div id="day2StackedZonesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
-                </div>
+            <!-- SUBTAB 3B: DAY 2 ZONE STANDINGS (4-ACROSS) -->
+            <div id="res-zones-d2" class="res-subtab-content glass-card p-6 space-y-4 hidden">
+                <h3 class="text-base font-black font-heading uppercase text-pixelGold flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group"></i> Day 2 Zone Standings
+                </h3>
+                <div id="day2StackedZonesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
             </div>
 
             <!-- SUBTAB 4: TOP SPECIMEN FISH -->
@@ -675,7 +689,7 @@
                                 <th class="py-3 px-4 text-center">Species Name</th>
                             </tr>
                         </thead>
-                        <tbody id="topFishTableBody" class="divide-y divide-slate-800"></tbody>
+                        <tbody id="topFishTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -726,7 +740,7 @@
                                     <th class="p-3">Status</th>
                                 </tr>
                             </thead>
-                            <tbody id="mp-leaderboard-body" class="divide-y divide-slate-800"></tbody>
+                            <tbody id="mp-leaderboard-body"></tbody>
                         </table>
                     </div>
                 </div>
@@ -784,10 +798,10 @@
                         <div>
                             <span class="font-bold text-pixelGold font-mono">v7.4.0 Overhaul:</span>
                             <ul class="list-disc list-inside mt-1 space-y-1">
-                                <li>Custom Roster Generator: Removed static demo buttons in favor of custom team and solo slot generators.</li>
-                                <li>High-Contrast Slate UI: Reverted outer canvas to a lighter slate background for maximum legibility of all cards and inputs.</li>
-                                <li>3-Column Setup Layout: Reorganized setup team cards horizontally to eliminate excessive vertical scrolling.</li>
-                                <li>Header Action Bar: Grouped all export, script, guide, and reset buttons directly into the top header.</li>
+                                <li>Header Output Menu: Grouped export and presentation tools into a streamlined 3-button top-right cluster.</li>
+                                <li>Separate Zone Pages: Split Day 1 and Day 2 zone breakdowns into dedicated sub-tabs rendering side-by-side (4-across).</li>
+                                <li>Edge-Graduated Row Shading: Replaced default dark borders with modern linear gradient line shading across all results tables.</li>
+                                <li>High-Visibility Watermarks: Scaled up and float-positioned dynamic Day 1 (Green) and Day 2 (Red) scorecards watermarks.</li>
                             </ul>
                         </div>
                     </div>
@@ -928,6 +942,17 @@
             if (navigator.vibrate) navigator.vibrate(12);
         }
 
+        function toggleOutputMenu(event) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById('outputDropdownMenu');
+            if (menu) menu.classList.toggle('show');
+        }
+
+        window.addEventListener('click', () => {
+            const menu = document.getElementById('outputDropdownMenu');
+            if (menu) menu.classList.remove('show');
+        });
+
         // ============================================================================
         // SETUP WIZARD & CUSTOM ROSTER GENERATION
         // ============================================================================
@@ -1010,7 +1035,7 @@
                         id: `angler_t${t}_m${m}`,
                         name: '',
                         teamId: teamId,
-                        mobility: false // Everyone unselected by default
+                        mobility: false
                     });
                 }
             }
@@ -1020,7 +1045,7 @@
                     id: `angler_solo_${s}`,
                     name: '',
                     teamId: null,
-                    mobility: false // Everyone unselected by default
+                    mobility: false
                 });
             }
 
@@ -1139,7 +1164,6 @@
 
             if (appState.anglers.length === 0) { alert("Please configure at least 1 angler or team."); return; }
             
-            // Auto fill blank names with generic labels if empty
             appState.anglers.forEach((a, idx) => {
                 if (!a.name || a.name.trim() === '') {
                     a.name = a.teamId ? `Angler ${idx + 1}` : `Solo ${idx + 1}`;
@@ -1432,7 +1456,14 @@
             workspace.classList.add('flex');
             document.getElementById('headerAppTitle').innerText = appState.config.title || "Shore Fishing Championship";
             document.getElementById('headerDaysBadge').innerText = appState.config.duration === 1 ? '1-Day Competition' : '2-Day Competition';
-            switchTab('tab-scorecard'); // Default view
+            
+            const btnD2 = document.getElementById('subnav-res-zones-d2');
+            if (btnD2) {
+                if (appState.config.duration === 1) btnD2.classList.add('hidden');
+                else btnD2.classList.remove('hidden');
+            }
+
+            switchTab('tab-scorecard');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1626,7 +1657,6 @@
             container.innerHTML = html;
         }
 
-        // Batch deletion helpers
         function toggleBatchSelectMode() {
             isBatchDeleteModeActive = !isBatchDeleteModeActive;
             isDeleteModeActive = false;
@@ -2079,7 +2109,7 @@
         // ============================================================================
         // SCORECARD TAB LOGIC & WATERMARK MANAGEMENT
         // ============================================================================
-       function setScorecardDay(day) {
+        function setScorecardDay(day) {
             activeScoreDay = day;
             const btn1 = document.getElementById('scoreDayBtn1');
             const btn2 = document.getElementById('scoreDayBtn2');
@@ -2297,7 +2327,7 @@
             });
 
             tbody.innerHTML = indSummary.map((res, idx) => `
-                <tr class="hover:bg-white/10 transition-colors font-mono-tabular text-sm">
+                <tr class="font-mono-tabular text-sm">
                     <td class="py-3 px-3 font-black text-center text-pixelBlue border-r border-slate-700">#${idx+1}</td>
                     <td class="py-3 px-4 font-black uppercase tracking-wider text-white font-heading border-r border-slate-700">${res.name.toUpperCase()}</td>
                     <td class="py-3 px-4 text-xs text-slate-300 font-bold uppercase tracking-wider font-heading border-r border-slate-700">${res.teamName.toUpperCase()}</td>
@@ -2368,7 +2398,7 @@
             });
 
             container.innerHTML = teamSummaries.map((t, idx) => `
-                <tr class="hover:bg-white/10 transition-colors border-b border-slate-800">
+                <tr>
                     <td class="py-4 px-5 text-center">
                         <div class="flex items-center justify-center gap-3">
                             <span class="text-pixelGold font-mono-tabular font-black text-lg">#${idx+1}</span>
@@ -2403,7 +2433,7 @@
                 const items = zoneRes[color];
 
                 const rows = items.map(item => `
-                    <tr class="hover:bg-white/10 transition-colors font-mono-tabular border-b border-slate-800">
+                    <tr class="font-mono-tabular">
                         <td class="py-2 px-1 text-center font-black shrink-0"><span class="bg-slate-900 text-white font-black px-1.5 py-0.5 rounded text-[11px] border border-slate-700">${item.zonePoints}</span></td>
                         <td class="py-2 px-2 min-w-0">
                             <div class="font-black uppercase tracking-wider text-white text-xs font-heading truncate">${item.anglerName.toUpperCase()}</div>
@@ -2431,7 +2461,7 @@
                                     <th class="py-1 px-1 text-center">BIG</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-800">${rows || '<tr><td colspan="5" class="text-center py-4 text-slate-400">No results.</td></tr>'}</tbody>
+                            <tbody>${rows || '<tr><td colspan="5" class="text-center py-4 text-slate-400">No results.</td></tr>'}</tbody>
                         </table>
                     </div>
                 `;
@@ -2480,7 +2510,7 @@
             }
 
             tbody.innerHTML = top5.map((f, idx) => `
-                <tr class="hover:bg-white/10 font-mono-tabular transition-colors">
+                <tr class="font-mono-tabular">
                     <td class="py-3 px-4 font-black text-pixelGold text-base">#${idx+1}</td>
                     <td class="py-3 px-4 font-black uppercase tracking-wider text-white font-heading text-sm">
                         <div>${f.anglerName.toUpperCase()}</div>
@@ -2715,7 +2745,7 @@
 
                 computed.forEach((item, idx) => {
                     const tr = document.createElement("tr");
-                    tr.className = "border-b border-slate-800 hover:bg-white/5 transition-colors text-xs font-mono-tabular";
+                    tr.className = "font-mono-tabular text-xs";
                     tr.innerHTML = `
                         <td class="p-3 font-bold text-pixelGold">#${idx + 1}</td>
                         <td class="p-3 font-bold font-heading uppercase text-white">${item.angler1Name} <span class="text-[10px] text-slate-400">(Rank ${item.angler1Rank})</span></td>
@@ -2741,17 +2771,7 @@
             copyWhatsAppDraw();
             setTimeout(() => { window.print(); }, 300);
         }
-function toggleOutputMenu(event) {
-            if (event) event.stopPropagation();
-            const menu = document.getElementById('outputDropdownMenu');
-            if (menu) menu.classList.toggle('show');
-        }
 
-        // Close dropdown when clicking outside
-        window.addEventListener('click', () => {
-            const menu = document.getElementById('outputDropdownMenu');
-            if (menu) menu.classList.remove('show');
-        });
         function openRulesGuideModal() {
             const modal = document.getElementById('rulesGuideModal');
             if (modal) modal.classList.remove('hidden');
@@ -3050,7 +3070,7 @@ function toggleOutputMenu(event) {
             loadState();
 
             if (appState.anglers.length === 0) {
-                applyCustomRosterStructure(); // Generate initial structure (4 teams)
+                applyCustomRosterStructure();
             } else {
                 renderSetupAnglerInputs();
             }
@@ -3061,7 +3081,6 @@ function toggleOutputMenu(event) {
                 document.getElementById('setup-splash-page').classList.remove('hidden');
             }
 
-            // Sync watermark
             setScorecardDay(activeScoreDay);
 
             MysteryPairsModule.renderMatrix();
