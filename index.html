@@ -606,26 +606,19 @@
                 </button>
             </div>
 
-            <!-- SUBTAB 1: INDIVIDUAL STANDINGS -->
-            <div id="res-ind" class="res-subtab-content glass-card p-6 space-y-4">
-                <h3 class="text-lg font-black font-heading uppercase text-white flex items-center gap-2">
-                    <i class="fa-solid fa-trophy text-pixelGold"></i> Individual Championship Standings
-                </h3>
-                <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-left text-base text-white border-collapse">
-                        <thead class="bg-slate-900 text-slate-300 text-xs font-black font-heading uppercase tracking-wider border-b border-slate-700">
+            <thead class="bg-slate-900 text-slate-300 text-xs font-black font-heading uppercase tracking-wider border-b border-slate-700">
                             <tr>
-                                <th class="py-2 px-1 text-center w-10">Rank</th>
-                                <th class="py-2 px-3 text-left">Angler</th>
-                                <th class="py-2 px-3 text-left">Team</th>
+                                <th class="py-2 px-1 text-center w-10 border-r border-slate-700">Rank</th>
+                                <th class="py-2 px-3 text-left border-r border-slate-700">Angler</th>
+                                <th class="py-2 px-3 text-left border-r-2 border-slate-500">Team</th>
                                 <th class="py-2 px-1 text-center bg-white/5">Zone Pts</th>
                                 <th class="py-2 px-1 text-center bg-white/5">CM</th>
                                 <th class="py-2 px-1 text-center bg-white/5">Fish</th>
-                                <th class="py-2 px-1 text-center bg-white/5">Best</th>
+                                <th class="py-2 px-1 text-center bg-white/5 border-r-2 border-slate-500">Best</th>
                                 <th class="py-2 px-1 text-center bg-pixelBlue/10">D1 Pts</th>
                                 <th class="py-2 px-1 text-center bg-pixelBlue/10">D1 CM</th>
                                 <th class="py-2 px-1 text-center bg-pixelBlue/10">D1 Fish</th>
-                                <th class="py-2 px-1 text-center bg-pixelBlue/10">D1 Best</th>
+                                <th class="py-2 px-1 text-center bg-pixelBlue/10 border-r-2 border-slate-500">D1 Best</th>
                                 <th class="py-2 px-1 text-center bg-pixelGold/10">D2 Pts</th>
                                 <th class="py-2 px-1 text-center bg-pixelGold/10">D2 CM</th>
                                 <th class="py-2 px-1 text-center bg-pixelGold/10">D2 Fish</th>
@@ -2334,17 +2327,17 @@
                 <tr class="font-mono-tabular text-sm">
                     <td class="py-1.5 px-1 font-black text-center text-pixelBlue border-r border-slate-700">${idx+1}</td>
                     <td class="py-1.5 px-3 font-black uppercase tracking-wider text-white font-heading border-r border-slate-700 min-w-[140px] truncate">${res.name.toUpperCase()}</td>
-                    <td class="py-1.5 px-3 text-xs text-slate-300 font-bold uppercase tracking-wider font-heading border-r border-slate-700 min-w-[120px] truncate">${res.teamName.toUpperCase()}</td>
+                    <td class="py-1.5 px-3 text-xs text-slate-300 font-bold uppercase tracking-wider font-heading border-r-2 border-slate-500 min-w-[120px] truncate">${res.teamName.toUpperCase()}</td>
                     
                     <td class="py-1.5 px-1 text-center bg-white/10 font-black text-white"><span class="bg-pixelBlue text-slate-950 font-black px-2 py-0.5 rounded-full text-xs">${res.totalZonePts}</span></td>
                     <td class="py-1.5 px-1 text-center bg-white/10 font-black text-pixelEmerald">${res.totalMetric}</td>
                     <td class="py-1.5 px-1 text-center bg-white/10 font-black text-white">${res.totalFish}</td>
-                    <td class="py-1.5 px-1 text-center bg-white/10 font-black text-pixelGold border-r border-slate-700">${res.overallBestFish}</td>
+                    <td class="py-1.5 px-1 text-center bg-white/10 font-black text-pixelGold border-r-2 border-slate-500">${res.overallBestFish}</td>
 
                     <td class="py-1.5 px-1 text-center bg-pixelBlue/10 font-black text-pixelBlue">${res.d1Pts}</td>
                     <td class="py-1.5 px-1 text-center bg-pixelBlue/10 font-bold text-white">${res.d1Metric}</td>
                     <td class="py-1.5 px-1 text-center bg-pixelBlue/10 font-bold text-white">${res.d1Fish}</td>
-                    <td class="py-1.5 px-1 text-center bg-pixelBlue/10 font-bold text-white border-r border-slate-700">${res.d1Best}</td>
+                    <td class="py-1.5 px-1 text-center bg-pixelBlue/10 font-bold text-white border-r-2 border-slate-500">${res.d1Best}</td>
 
                     <td class="py-1.5 px-1 text-center bg-pixelGold/10 font-black text-pixelGold">${appState.config.duration === 2 ? res.d2Pts : '-'}</td>
                     <td class="py-1.5 px-1 text-center bg-pixelGold/10 font-bold text-white">${appState.config.duration === 2 ? res.d2Metric : '-'}</td>
