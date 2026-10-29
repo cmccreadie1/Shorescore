@@ -2173,12 +2173,12 @@
 
                 return `
                     <tr class="transition-colors">
-                        <td class="py-4 px-4 text-center"><span class="glass-pill text-white font-mono-tabular font-black px-3.5 py-1 text-base border border-slate-600 shadow-sm">${peg}</span></td>
-                        <td class="py-4 px-4 font-black uppercase tracking-wider text-white font-heading text-lg">${(a.name || '').toUpperCase() || '<em class="text-slate-400 lowercase italic">unnamed</em>'}</td>
-                        <td class="py-4 px-4 text-sm text-slate-300 font-bold uppercase tracking-wider font-heading">${team ? team.name.toUpperCase() : 'INDIVIDUAL'}</td>
-                        <td class="py-4 px-4 text-center"><input type="number" step="0.1" min="0" value="${score.totalMetric}" onchange="updateScoreField('${a.id}', 'totalMetric', this.value)" class="w-36 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono-tabular font-black text-base text-center focus:outline-none focus:border-pixelBlue" placeholder="0"></td>
-                        <td class="py-4 px-4 text-center"><input type="number" min="0" value="${score.fishCount}" onchange="updateScoreField('${a.id}', 'fishCount', this.value)" class="w-32 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono-tabular font-black text-base text-center focus:outline-none focus:border-pixelBlue" placeholder="0"></td>
-                        <td class="py-4 px-4 text-center"><input type="number" step="0.1" min="0" value="${score.bestFish}" onchange="updateScoreField('${a.id}', 'bestFish', this.value)" class="w-32 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono-tabular font-black text-base text-center focus:outline-none focus:border-pixelBlue" placeholder="0"></td>
+                        <td class="py-1.5 px-4 text-center"><span class="glass-pill text-white font-mono-tabular font-black px-3 py-0.5 text-sm border border-slate-600 shadow-sm">${peg}</span></td>
+                        <td class="py-1.5 px-4 font-black uppercase tracking-wider text-white font-heading text-base leading-tight">${(a.name || '').toUpperCase() || '<em class="text-slate-400 lowercase italic">unnamed</em>'}</td>
+                        <td class="py-1.5 px-4 text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider font-heading leading-tight">${team ? team.name.toUpperCase() : 'INDIVIDUAL'}</td>
+                        <td class="py-1.5 px-4 text-center"><input type="number" step="0.1" min="0" value="${score.totalMetric}" onchange="updateScoreField('${a.id}', 'totalMetric', this.value)" class="w-32 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-white font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0"></td>
+                        <td class="py-1.5 px-4 text-center"><input type="number" min="0" value="${score.fishCount}" onchange="updateScoreField('${a.id}', 'fishCount', this.value)" class="w-28 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-white font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0"></td>
+                        <td class="py-1.5 px-4 text-center"><input type="number" step="0.1" min="0" value="${score.bestFish}" onchange="updateScoreField('${a.id}', 'bestFish', this.value)" class="w-28 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-white font-mono-tabular font-black text-sm text-center focus:outline-none focus:border-pixelBlue" placeholder="0"></td>
                     </tr>
                 `;
             }).join('');
