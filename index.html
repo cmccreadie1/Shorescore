@@ -116,6 +116,13 @@
         }
 
         /* Zone Color Badges & Card Accents */
+        /* Sticky Mobility Advisor Banner */
+        #mobilityAdvisor {
+            position: sticky;
+            top: 1rem;
+            z-index: 50;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
         .zone-badge-Red { background-color: #ef4444; color: #ffffff; }
         .zone-badge-Yellow { background-color: #eab308; color: #0f172a; }
         .zone-badge-Green { background-color: #22c55e; color: #ffffff; }
@@ -985,14 +992,12 @@
             else box.classList.add('hidden');
             updateMobilityAdvisor();
         }
-
-        function parsePegList(inputStr) {
-            if (!inputStr) return [];
-            return inputStr.split(',')
-                .map(s => parseInt(s.trim()))
-                .filter(n => !isNaN(n));
-        }
-
+function parsePegList(inputStr) {
+    if (!inputStr) return [];
+    return inputStr.split(/[\s,]+/)
+        .map(s => parseInt(s.trim()))
+        .filter(n => !isNaN(n));
+}      
         function updateMobilityAdvisor() {
             const advisor = document.getElementById('mobilityAdvisor');
             if (!advisor) return;
@@ -3084,6 +3089,23 @@
         // ============================================================================
         // INITIALIZATION
         // ============================================================================
+       const autoCommaHandler = (e) => {
+    if (e.key === ' ' || e.code === 'Space') {
+        const input = e.target;
+        const val = input.value;
+        const cursor = input.selectionStart;
+
+        if (val.length > 0 && !/[,\s\-]$/.test(val.slice(0, cursor))) {
+            e.preventDefault();
+            const before = val.slice(0, cursor);
+            const after = val.slice(cursor);
+            input.value = before + ', ' + after;
+            input.selectionStart = input.selectionEnd = cursor + 2;
+            
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    }
+};
         window.addEventListener("DOMContentLoaded", () => {
             loadState();
 
@@ -3100,6 +3122,11 @@
             }
 
             setScorecardDay(activeScoreDay);
+            const d1PegsInput = document.getElementById('cfgAccessPegsD1');
+    const d2PegsInput = document.getElementById('cfgAccessPegsD2');
+
+    if (d1PegsInput) d1PegsInput.addEventListener('keydown', autoCommaHandler);
+    if (d2PegsInput) d2PegsInput.addEventListener('keydown', autoCommaHandler);
 
             MysteryPairsModule.renderMatrix();
             MysteryPairsModule.renderLeaderboard();
