@@ -526,7 +526,7 @@
             </div>
 
             <!-- Team Cards Container -->
-            <div id="teamCardsDrawContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div id="teamCardsDrawContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                 <!-- Dynamic Team Cards Rendered Here -->
             </div>
         </div>
@@ -1526,8 +1526,8 @@ function parsePegList(inputStr) {
             let html = '';
             const memberHeaderHTML = `
                 <div class="flex items-center justify-end gap-2.5 px-3.5 pb-1 font-heading font-black text-xs sm:text-sm uppercase tracking-wider text-slate-400">
-                    <span class="w-12 text-center">D1</span>
-                    ${appState.config.duration === 2 ? '<span class="w-12 text-center">D2</span>' : ''}
+                    <span class="w-10 text-center">D1</span>
+                    ${appState.config.duration === 2 ? '<span class="w-10 text-center">D2</span>' : ''}
                 </div>
             `;
 
@@ -1584,7 +1584,7 @@ function parsePegList(inputStr) {
                 const splitBtnLive = isAmendToolbarOpen ? `<button onclick="triggerHaptic(); splitTeamInLiveWorkspace('${t.id}')" class="bg-pixelCoral/25 hover:bg-pixelCoral/35 text-pixelCoral border border-pixelCoral/50 font-black text-xs sm:text-sm uppercase tracking-wider px-3 py-1 rounded-xl transition-all shrink-0 flex items-center gap-1 touch-elastic" title="Split team into solo anglers"><i class="fa-solid fa-scissors"></i> Split</button>` : '';
 
                 html += `
-                    <div class="glass-card-sm p-5 space-y-4 hover:border-pixelBlue/60 transition-all">
+                    <div class="glass-card-sm p-3.5 space-y-2.5 hover:border-pixelBlue/60 transition-all">
                         <div class="flex items-center justify-between pb-3 border-b border-slate-700 gap-2">
                             <div class="flex items-center gap-2 min-w-0 flex-grow">
                                 <i class="fa-solid fa-users text-pixelBlue text-base shrink-0"></i>
@@ -1626,7 +1626,7 @@ function parsePegList(inputStr) {
                     const d2SelectedClass = isD2Selected ? 'swap-peg-selected' : '';
 
                     html += `
-                        <div class="glass-card-sm p-5 space-y-4 hover:border-pixelCyan/60 transition-all">
+                        <div class="glass-card-sm p-3.5 space-y-2.5 hover:border-pixelCyan/60 transition-all">
                             <div class="flex items-center justify-between pb-2 border-b border-slate-700 gap-2">
                                 <div class="flex items-center gap-2 min-w-0 flex-grow">
                                     <i class="fa-solid fa-user text-pixelCyan text-base shrink-0"></i>
@@ -1637,7 +1637,7 @@ function parsePegList(inputStr) {
                                     ${appState.config.duration === 2 ? '<span class="w-12 text-center">D2</span>' : ''}
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-slate-900 border border-slate-700 transition-all">
+                            <div class="flex items-center justify-between py-1.5 px-2.5 rounded-xl bg-slate-900 border border-slate-700 transition-all">
                                 <div class="flex items-center gap-2 min-w-0">
                                     ${batchChk}
                                     ${deleteBtn}
