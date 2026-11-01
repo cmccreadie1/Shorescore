@@ -1646,8 +1646,7 @@ function parsePegList(inputStr) {
 
                     const nameDisplay = isAmendNamesModeActive 
                         ? `<div class="relative flex-grow"><input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-base font-black uppercase tracking-wider text-white focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">${mobNameBadge}</div>` 
-                        : `<div class="relative flex-grow min-w-0">${mobNameBadge}<span class="text-base font-black uppercase tracking-wider text-white truncate block font-heading">${(m.name || '').toUpperCase() || '<em class="text-slate-400 lowercase italic">unnamed member</em>'}</span></div>`;
-
+                       : `<div class="relative flex-grow min-w-0">${mobNameBadge}<span class="text-xs font-black uppercase tracking-normal text-white truncate block">${(m.name || '').toUpperCase()}</span></div>`
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
                     const d2BadgeClass = isSwapModeActive && activeSwapDay === 2 ? 'swap-peg-active' : '';
