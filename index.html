@@ -356,11 +356,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
                     <div class="space-y-1.5">
                         <label class="text-xs sm:text-sm font-bold text-slate-300">Number of 4-Person Teams</label>
-                        <input type="number" id="cfgCountTeams" min="0" max="20" value="4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-base font-bold text-white focus:outline-none focus:border-pixelCyan">
+                        <input type="number" id="cfgCountTeams" min="0" max="20" placeholder="e.g. 4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-base font-bold text-white focus:outline-none focus:border-pixelCyan">
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-xs sm:text-sm font-bold text-slate-300">Number of Solo Anglers</label>
-                        <input type="number" id="cfgCountSolos" min="0" max="40" value="0" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-base font-bold text-white focus:outline-none focus:border-pixelCyan">
+                        <input type="number" id="cfgCountSolos" min="0" max="40" placeholder="e.g. 0" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-base font-bold text-white focus:outline-none focus:border-pixelCyan">
                     </div>
                     <button onclick="applyCustomRosterStructure()" class="bg-pixelCyan hover:bg-cyan-400 text-slate-950 font-black font-heading text-xs sm:text-sm uppercase py-3 px-4 rounded-xl transition-all touch-elastic flex items-center justify-center gap-2">
                         <i class="fa-solid fa-arrows-rotate"></i> Create Team Cards
@@ -1130,6 +1130,10 @@ function parsePegList(inputStr) {
         function applyCustomRosterStructure() {
             const numTeams = parseInt(document.getElementById('cfgCountTeams').value) || 0;
             const numSolos = parseInt(document.getElementById('cfgCountSolos').value) || 0;
+            if (numTeams === 0 && numSolos === 0) {
+    alert("Please enter the number of teams or solo anglers first.");
+    return;
+}
 
             appState.teams = [];
             appState.anglers = [];
@@ -3262,11 +3266,7 @@ function updateGuideView() {
         window.addEventListener("DOMContentLoaded", () => {
             loadState();
 
-            if (appState.anglers.length === 0) {
-                applyCustomRosterStructure();
-            } else {
-                renderSetupAnglerInputs();
-            }
+            renderSetupAnglerInputs();
 
             if (appState.draw && appState.draw.generated) {
                 showMainWorkspace();
