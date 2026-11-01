@@ -363,7 +363,7 @@
                         <input type="number" id="cfgCountSolos" min="0" max="40" value="0" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-base font-bold text-white focus:outline-none focus:border-pixelCyan">
                     </div>
                     <button onclick="applyCustomRosterStructure()" class="bg-pixelCyan hover:bg-cyan-400 text-slate-950 font-black font-heading text-xs sm:text-sm uppercase py-3 px-4 rounded-xl transition-all touch-elastic flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-arrows-rotate"></i> Apply Structure
+                        <i class="fa-solid fa-arrows-rotate"></i> Create Team Cards
                     </button>
                 </div>
             </div>
@@ -1110,7 +1110,7 @@ function parsePegList(inputStr) {
                     <div class="glass-card-sm p-3 flex items-center gap-2">
                         <input type="text" value="${m.name}" onchange="updateSetupAnglerName('${m.id}', this.value)" placeholder="Member ${mIdx+1} Name" class="flex-grow bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white text-sm font-bold uppercase tracking-wider focus:outline-none focus:border-pixelBlue">
                         <label class="flex items-center gap-1.5 text-xs text-slate-300 cursor-pointer shrink-0 font-bold">
-                            <input type="checkbox" ${m.mobility ? 'checked' : ''} onchange="toggleSetupAnglerMobility('${m.id}', this.checked)" class="rounded border-slate-600 text-pixelBlue focus:ring-pixelBlue bg-slate-950 w-4 h-4">
+                            <input type="checkbox" ${m.mobility ? 'checked' : ''} onchange="toggleSetupAnglerMobility('${m.id}', this.checked)" tabindex="-1" class="rounded border-slate-600 text-pixelBlue focus:ring-pixelBlue bg-slate-950 w-4 h-4">
                             <span class="text-pixelGold font-black">[A]</span>
                         </label>
                     </div>
@@ -1133,7 +1133,7 @@ function parsePegList(inputStr) {
                     <div class="glass-card-sm p-3 flex items-center gap-2">
                         <input type="text" value="${s.name}" onchange="updateSetupAnglerName('${s.id}', this.value)" placeholder="Solo Angler ${sIdx+1}" class="flex-grow bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white text-sm font-bold uppercase tracking-wider focus:outline-none focus:border-pixelBlue">
                         <label class="flex items-center gap-1.5 text-xs text-slate-300 cursor-pointer shrink-0 font-bold">
-                            <input type="checkbox" ${s.mobility ? 'checked' : ''} onchange="toggleSetupAnglerMobility('${s.id}', this.checked)" class="rounded border-slate-600 text-pixelBlue focus:ring-pixelBlue bg-slate-950 w-4 h-4">
+                            <input type="checkbox" ${s.mobility ? 'checked' : ''} onchange="toggleSetupAnglerMobility('${s.id}', this.checked)" tabindex="-1" class="rounded border-slate-600 text-pixelBlue focus:ring-pixelBlue bg-slate-950 w-4 h-4">
                             <span class="text-pixelGold font-black">[A]</span>
                         </label>
                         <button onclick="removeSetupSolo('${s.id}')" class="text-pixelCoral hover:text-red-300 font-bold text-sm"><i class="fa-solid fa-xmark"></i></button>
@@ -3089,8 +3089,8 @@ function parsePegList(inputStr) {
         // ============================================================================
         // INITIALIZATION
         // ============================================================================
-       const autoCommaHandler = (e) => {
-    if (e.key === ' ' || e.code === 'Space') {
+      const autoCommaHandler = (e) => {
+    if (e.key === ' ' || e.code === 'Space' || e.key === 'Enter' || e.code === 'Enter') {
         const input = e.target;
         const val = input.value;
         const cursor = input.selectionStart;
