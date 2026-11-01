@@ -2443,32 +2443,40 @@
                 const items = zoneRes[color];
 
                 const rows = items.map(item => `
-                    <tr class="font-mono-tabular">
-                        <td class="py-2.5 px-1.5 text-center font-black shrink-0"><span class="bg-slate-900 text-white font-black px-2 py-0.5 rounded text-xs border border-slate-700">${item.zonePoints}</span></td>
-                        <td class="py-2.5 px-2 min-w-0">
-                            <div class="font-black uppercase tracking-wider text-white text-sm font-heading truncate">${item.anglerName.toUpperCase()}</div>
-                            <div class="text-xs font-bold text-slate-400 uppercase truncate">${item.teamName.toUpperCase()}</div>
+                    <tr class="font-mono-tabular border-b border-slate-800/80 hover:bg-white/5 transition-colors">
+                        <td class="py-1.5 px-1 text-center font-black w-8">
+                            <span class="inline-block bg-slate-950 text-white font-black px-1.5 py-0.5 rounded text-xs border border-slate-700/80">${item.zonePoints}</span>
                         </td>
-                        <td class="py-2.5 px-1.5 font-black text-center text-pixelEmerald text-sm">${item.totalMetric}</td>
-                        <td class="py-2.5 px-1.5 font-black text-center text-white text-sm">${item.fishCount}</td>
-                        <td class="py-2.5 px-1.5 font-black text-center text-pixelGold text-sm">${item.bestFish}</td>
+                        <td class="py-1.5 px-2 min-w-0 overflow-hidden">
+                            <div class="font-black uppercase tracking-wider text-white text-xs font-heading truncate">${item.anglerName.toUpperCase()}</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase truncate leading-tight">${item.teamName.toUpperCase()}</div>
+                        </td>
+                        <td class="py-1.5 px-1 text-center font-black text-pixelEmerald text-xs w-12">
+                            <span class="bg-slate-950/60 px-1 py-0.5 rounded border border-slate-800 block">${item.totalMetric}</span>
+                        </td>
+                        <td class="py-1.5 px-1 text-center font-black text-white text-xs w-8">
+                            <span class="bg-slate-950/60 px-1 py-0.5 rounded border border-slate-800 block">${item.fishCount}</span>
+                        </td>
+                        <td class="py-1.5 px-1 text-center font-black text-pixelGold text-xs w-10">
+                            <span class="bg-slate-950/60 px-1 py-0.5 rounded border border-slate-800 block">${item.bestFish}</span>
+                        </td>
                     </tr>
                 `).join('');
 
                 return `
-                    <div class="glass-card p-4 sm:p-5 zone-card-${color} space-y-3">
-                        <h4 class="text-sm font-black font-heading text-white flex items-center justify-between uppercase tracking-wider pb-2 border-b border-slate-700">
+                    <div class="glass-card p-4 zone-card-${color} space-y-3">
+                        <h4 class="text-sm font-black font-heading text-white flex items-center justify-between uppercase tracking-wider pb-2 border-b border-slate-700/80">
                             <span class="text-white drop-shadow">${color} Zone</span>
-                            <span class="text-xs font-black glass-pill px-2.5 py-0.5 border border-slate-600 text-white">Day ${day}</span>
+                            <span class="text-xs font-black glass-pill px-2.5 py-0.5 border border-slate-600/60 text-white">Day ${day}</span>
                         </h4>
-                        <table class="w-full text-left text-xs sm:text-sm text-white border-collapse">
-                            <thead class="bg-slate-900 text-slate-400 text-xs font-black font-heading uppercase border-b border-slate-700">
+                        <table class="w-full table-fixed text-left text-xs text-white border-collapse">
+                            <thead class="bg-slate-900/90 text-slate-400 text-[11px] font-black font-heading uppercase border-b border-slate-700/80">
                                 <tr>
-                                    <th class="py-2 px-1 text-center">PTS</th>
-                                    <th class="py-2 px-2">Angler</th>
-                                    <th class="py-2 px-1 text-center">CM</th>
-                                    <th class="py-2 px-1 text-center">CT</th>
-                                    <th class="py-2 px-1 text-center">BIG</th>
+                                    <th class="py-1.5 px-1 text-center w-8">PTS</th>
+                                    <th class="py-1.5 px-2 text-left">Angler</th>
+                                    <th class="py-1.5 px-1 text-center w-12">CM</th>
+                                    <th class="py-1.5 px-1 text-center w-8">CT</th>
+                                    <th class="py-1.5 px-1 text-center w-10">BIG</th>
                                 </tr>
                             </thead>
                             <tbody>${rows || '<tr><td colspan="5" class="text-center py-4 text-slate-400">No results.</td></tr>'}</tbody>
