@@ -2542,16 +2542,18 @@ function renderStackedZoneResults(day, containerId) {
     if (!container) return;
     const zoneRes = calculateSessionZoneResults(day);
 
+    // Color definitions normalized to lowercase zone keys
     const zoneConfig = {
-        red: { color: '#ef4444', bg: 'rgba(239, 68, 68, 0.2)', text: '#fca5a5' },
-        yellow: { color: '#eab308', bg: 'rgba(234, 179, 8, 0.2)', text: '#fde047' },
-        green: { color: '#10b981', bg: 'rgba(16, 185, 129, 0.2)', text: '#6ee7b7' },
-        blue: { color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.2)', text: '#93c5fd' }
+        red:    { color: '#ef4444', bg: 'rgba(239, 68, 68, 0.25)',  grad: 'rgba(239, 68, 68, 0.12)', text: '#fca5a5' },
+        yellow: { color: '#eab308', bg: 'rgba(234, 179, 8, 0.25)',   grad: 'rgba(234, 179, 8, 0.12)',  text: '#fde047' },
+        green:  { color: '#10b981', bg: 'rgba(16, 185, 129, 0.25)', grad: 'rgba(16, 185, 129, 0.12)', text: '#6ee7b7' },
+        blue:   { color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.25)',  grad: 'rgba(59, 130, 246, 0.12)', text: '#93c5fd' }
     };
 
     container.innerHTML = ZONE_COLORS.map(color => {
-        const items = zoneRes[color];
-        const cfg = zoneConfig[color] || { color: '#38bdf8', bg: 'rgba(56, 189, 248, 0.2)', text: '#38bdf8' };
+        const items = zoneRes[color] || [];
+        const key = String(color).toLowerCase();
+        const cfg = zoneConfig[key] || { color: '#38bdf8', bg: 'rgba(56, 189, 248, 0.25)', grad: 'rgba(56, 189, 248, 0.12)', text: '#38bdf8' };
 
         const rows = items.map(item => `
             <tr class="font-mono-tabular border-b border-slate-800/80 hover:bg-white/5 transition-colors">
@@ -2575,10 +2577,10 @@ function renderStackedZoneResults(day, containerId) {
         `).join('');
 
         return `
-            <div class="glass-card rounded-xl overflow-hidden bg-slate-900/50 shadow-lg mb-4" style="border: 1px solid rgba(51, 65, 85, 0.8); border-left: 6px solid ${cfg.color};">
+            <div class="glass-card rounded-xl overflow-hidden shadow-lg mb-4" style="border: 1px solid rgba(51, 65, 85, 0.8); border-left: 6px solid ${cfg.color}; background: linear-gradient(to right, ${cfg.grad} 0%, rgba(15, 23, 42, 0.6) 35%);">
                 <div class="flex items-center justify-between p-2.5 px-3 border-b" style="background-color: ${cfg.bg}; border-bottom-color: ${cfg.color}40;">
                     <span class="font-black uppercase text-xs tracking-wider" style="color: ${cfg.text};">${color} ZONE</span>
-                    <span class="text-[10px] font-bold uppercase" style="color: ${cfg.text}; opacity: 0.8;">DAY ${day}</span>
+                    <span class="text-[10px] font-bold uppercase" style="color: ${cfg.text}; opacity: 0.9;">DAY ${day}</span>
                 </div>
                 <div class="p-2">
                     <table class="w-full text-left border-collapse">
