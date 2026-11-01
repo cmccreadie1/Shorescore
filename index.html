@@ -283,9 +283,9 @@
         <!-- Right: Clean 3-Button Header Cluster -->
         <div class="flex items-center gap-3 relative">
             <!-- 1. Rules & Guide Button -->
-            <button onclick="openRulesGuideModal()" class="glass-pill hover:bg-white/15 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 touch-elastic">
-                <i class="fa-solid fa-book-open text-pixelGold"></i> Rules & Guide
-            </button>
+            <button onclick="openRulesModal()" class="glass-pill hover:bg-white/15 text-pixelCyan border border-pixelCyan/40 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 px-3.5 py-2">
+    <i class="fa-solid fa-book-open text-sm"></i> User Guide
+</button>
 
             <!-- 2. Output Menu Dropdown Button -->
             <div class="relative z-50">
@@ -758,72 +758,170 @@
 
     </div>
 
-    <!-- MODAL 1: COMBINED RULES & USER GUIDE MODAL -->
-    <div id="rulesGuideModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
-        <div class="glass-card max-w-3xl w-full p-6 space-y-5 border border-pixelGold/40 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div class="flex items-center justify-between border-b border-slate-700 pb-3">
-                <h3 class="text-lg font-black uppercase tracking-wider text-pixelGold font-heading flex items-center gap-2">
-                    <i class="fa-solid fa-book-open"></i> Competition Rules, User Guide & Release Changelog
-                </h3>
-                <button onclick="closeRulesGuideModal()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <div class="space-y-3">
-                <!-- Accordion 1: Match Rules -->
-                <div class="glass-card-sm p-4 border border-slate-700">
-                    <button onclick="toggleGuideAccordion('guide-rules')" class="w-full flex items-center justify-between text-left font-black text-base text-white font-heading">
-                        <span>📜 Match Rules & Code of Conduct</span>
-                        <i id="guide-rules-icon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
-                    </button>
-                    <div id="guide-rules" class="hidden mt-3 text-xs sm:text-sm text-slate-300 space-y-2.5 border-t border-slate-700 pt-3">
-                        <p><strong class="text-pixelCyan uppercase font-heading">1. Team Separation & Draw Mechanics:</strong> No two anglers from the same 4-person team are assigned to the same zone on the same day. Day 2 zone rotation follows the verified 2-Zone leap strategy (Red $\rightarrow$ Green, Yellow $\rightarrow$ Blue).</p>
-                        <p><strong class="text-pixelCyan uppercase font-heading">2. Mobility Assistance [A] Pegs:</strong> Anglers marked as mobility assisted [A] are strictly allocated to pre-designated accessible pegs (e.g., parking adjacent or flat ground) for both competition days.</p>
-                        <p><strong class="text-pixelCyan uppercase font-heading">3. Scoring & Tie-Breakers:</strong> Match standings are calculated on Zone Points first (1 point for 1st in zone, 2 for 2nd, etc.). Ties are broken by total length in centimeters (CM), followed by total fish count, and then biggest specimen fish.</p>
-                        <p><strong class="text-pixelCyan uppercase font-heading">4. Blanking & Disqualifications:</strong> Anglers recording zero fish in a session receive zone points equal to the total number of pegs in that zone for the session.</p>
-                    </div>
+    <!-- USER GUIDE MODAL -->
+<div id="rulesGuideModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-3xl w-full max-h-[85vh] flex flex-col rounded-2xl border border-slate-700 shadow-2xl overflow-hidden">
+        
+        <!-- Modal Header -->
+        <div class="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-pixelCyan/20 text-pixelCyan flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-book"></i>
                 </div>
-
-                <!-- Accordion 2: Quick Start -->
-                <div class="glass-card-sm p-4 border border-slate-700">
-                    <button onclick="toggleGuideAccordion('guide-quickstart')" class="w-full flex items-center justify-between text-left font-black text-base text-white font-heading">
-                        <span>🚀 Quick Start Guide</span>
-                        <i id="guide-quickstart-icon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
-                    </button>
-                    <div id="guide-quickstart" class="hidden mt-3 text-xs sm:text-sm text-slate-300 space-y-2 border-t border-slate-700 pt-3">
-                        <p>1. Enter match title, select 1 or 2 day duration, specify number of teams/solos, and click <strong>Apply Structure</strong>.</p>
-                        <p>2. Fill in angler names and check mobility [A] boxes if applicable.</p>
-                        <p>3. Click <strong>CREATE THE DRAW ⚡</strong> to execute the verified Monte Carlo allocation.</p>
-                        <p>4. Use the Live Workspace tabs to enter scorecards, view standings, or export JSON results.</p>
-                    </div>
-                </div>
-
-                <!-- Accordion 3: Version Changelog -->
-                <div class="glass-card-sm p-4 border border-slate-700">
-                    <button onclick="toggleGuideAccordion('guide-changelog')" class="w-full flex items-center justify-between text-left font-black text-base text-white font-heading">
-                        <span>📜 Version Changelog & Release Notes</span>
-                        <i id="guide-changelog-icon" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
-                    </button>
-                    <div id="guide-changelog" class="hidden mt-3 text-xs sm:text-sm text-slate-300 space-y-3 border-t border-slate-700 pt-3">
-                        <div>
-                            <span class="font-bold text-pixelGold font-mono">v7.4.0 Overhaul:</span>
-                            <ul class="list-disc list-inside mt-1 space-y-1">
-                                <li>Global Text Scaling: Increased overall base font and table text sizes for enhanced readability.</li>
-                                <li>Single Source of Truth & Branding: Updated app name to ShoreScore and removed header version badge while maintaining single source of truth versioning.</li>
-                                <li>Header Output Menu: Grouped export and presentation tools into a streamlined 3-button top-right cluster.</li>
-                                <li>Separate Zone Pages: Split Day 1 and Day 2 zone breakdowns into dedicated sub-tabs rendering side-by-side (4-across).</li>
-                                <li>Edge-Graduated Row Shading & Dividers: Applied modern linear gradient shading with clear horizontal row borders.</li>
-                                <li>High-Visibility Watermarks: Scaled up and float-positioned dynamic Day 1 (Green) and Day 2 (Red) scorecards watermarks.</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white uppercase tracking-wider font-heading">Match Secretary User Guide</h3>
+                    <p class="text-xs text-slate-400" id="guidePageIndicator">Page 1 of 5 — Setup & Draw</p>
                 </div>
             </div>
-
-            <div class="flex items-center justify-end pt-3 border-t border-slate-700">
-                <button onclick="closeRulesGuideModal()" class="bg-pixelBlue text-slate-950 font-black text-xs sm:text-sm uppercase px-6 py-2.5 rounded-xl">Got It</button>
-            </div>
+            <button onclick="closeRulesGuideModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
+
+        <!-- Modal Content Pages -->
+        <div class="p-5 sm:p-6 overflow-y-auto space-y-4 text-slate-300 text-sm flex-1 custom-scrollbar">
+            
+            <!-- PAGE 1: SETUP & DRAW -->
+            <div id="guidePage1" class="guide-page space-y-4">
+                <h4 class="text-base font-bold text-pixelCyan border-b border-slate-800 pb-2">1. Setup, Draw Management & Peg Allocation</h4>
+                
+                <div class="space-y-3">
+                    <p class="font-semibold text-slate-100">1.1 Competition Format & Setup</p>
+                    <ol class="list-decimal pl-5 space-y-1.5 text-xs text-slate-300">
+                        <li>Select <strong>1-Day</strong> or <strong>2-Day Competition</strong> format.</li>
+                        <li>Enter <strong>Number of Teams</strong> (or 0 for individuals-only), <strong>Team Size</strong>, and <strong>Unattached Individuals</strong>.</li>
+                        <li>Click <strong>Create Team Cards</strong>. The app automatically calculates the total peg count required and splits the beach into 4 equal color-coded sections (Red, Yellow, Green, Blue).</li>
+                    </ol>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <p class="font-semibold text-slate-100">1.2 Roster Entry & Mobility Access Pegs ([A])</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-300">
+                        <li>Type angler names into team cards or individual fields.</li>
+                        <li>Enter designated mobility peg numbers (e.g., <code class="text-pixelGold">1, 2, 15, 16</code>) under <strong>Designated Mobility Access Pegs</strong> for Day 1 and Day 2.</li>
+                        <li>Tick the <strong>[A] checkbox</strong> beside any angler requiring access pegs. (Checkboxes are skipped during keyboard Tab navigation for fast typing).</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <p class="font-semibold text-slate-100">1.3 Running & Amending the Draw</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-300">
+                        <li>Click <strong>Generate Match Draw</strong>. Anglers marked <code class="text-pixelGold">[A]</code> are prioritized into mobility pegs with fair multi-day zone rotation.</li>
+                        <li>Review allocations using the <strong>Beach Layout Map</strong> and <strong>Team Draw Cards</strong>.</li>
+                        <li>To swap pegs or replace anglers post-draw, scroll to the <strong>Amend Draw</strong> module directly underneath the beach map.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PAGE 2: SCORECARDS -->
+            <div id="guidePage2" class="guide-page space-y-4 hidden">
+                <h4 class="text-base font-bold text-pixelCyan border-b border-slate-800 pb-2">2. Scorecard Management & Data Entry</h4>
+                
+                <div class="space-y-3">
+                    <p class="font-semibold text-slate-100">2.1 Accessing & Navigating Scorecards</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-300">
+                        <li>Click the <strong>Scorecards</strong> tab on the main navigation bar.</li>
+                        <li>Use the top tabs to toggle between <strong>Day 1</strong> and <strong>Day 2</strong> scorecards.</li>
+                        <li>Use the <strong>Search Angler</strong> box to search directly by angler name.</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <p class="font-semibold text-slate-100">2.2 Score Input & Real-Time Saving</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-300">
+                        <li>Enter <strong>Total Fish Count</strong>, <strong>Total Length / Points</strong> (in cm), and <strong>Longest / Specimen Fish</strong>.</li>
+                        <li>Leave unplaced or blank cards as <code class="text-slate-400">0</code> or empty.</li>
+                        <li><strong>Automatic Instant Save:</strong> All scorecard entries save in real time to local browser memory—no save button required. Data is protected against reloads or crashes.</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <p class="font-semibold text-slate-100">2.3 Section Scoring & Tie-Breakers</p>
+                    <p class="text-xs text-slate-300">Primary rank is determined by <strong>Zone Points</strong> (1st in zone = 1 point, 2nd = 2 points, lowest points wins). Ties are resolved in order by: (1) Total Length/Points, (2) Total Fish Count, (3) Longest Specimen Fish.</p>
+                </div>
+            </div>
+
+            <!-- PAGE 3: RESULTS & MYSTERY PAIRS -->
+            <div id="guidePage3" class="guide-page space-y-4 hidden">
+                <h4 class="text-base font-bold text-pixelCyan border-b border-slate-800 pb-2">3. Results, Standings & Mystery Pairs</h4>
+                
+                <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
+                    <strong class="text-pixelGold">Note:</strong> Results tables are dynamically generated from Scorecards and cannot be edited directly on Results pages. To fix any discrepancy, update the angler's entry on the Scorecards tab.
+                </div>
+
+                <div class="space-y-3">
+                    <p class="font-semibold text-slate-100">3.1 Leaderboards</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-300">
+                        <li><strong>Individual Standings:</strong> View Day 1, Day 2, and Overall Combined standings based on total Zone Points.</li>
+                        <li><strong>Team Standings:</strong> Aggregates Zone Points across all team members across the event.</li>
+                        <li><strong>Specimen Table:</strong> Tracks longest/heaviest individual fish entries.</li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <p class="font-semibold text-slate-100">3.2 Mystery Pairs Side-Pot</p>
+                    <p class="text-xs text-slate-300">Once the entire match is complete and all scores are entered, go to the Mystery Pairs tab and click <strong>Generate Pairs</strong>. The app automatically links anglers into random pairs (creating the pairings generated based on the scores entered into the app after Day 1 of the competition). The pair with the <strong>highest combined total length of fish</strong> wins.</p>
+                </div>
+            </div>
+
+            <!-- PAGE 4: OUTPUTS & EXPORTS -->
+            <div id="guidePage4" class="guide-page space-y-4 hidden">
+                <h4 class="text-base font-bold text-pixelCyan border-b border-slate-800 pb-2">4. Outputs & Export Menu</h4>
+                
+                <div class="space-y-3">
+                    <ul class="list-disc pl-5 space-y-2 text-xs text-slate-300">
+                        <li><strong>Print / Export PDF:</strong> Generates a clean, print-ready document with clutter removed, ideal for hard copies of draw cards, beach maps, or final results.</li>
+                        <li><strong>Scores JSON (Backup & Restore):</strong> Downloads a lightweight backup file containing your complete match data. Keep a copy on a USB drive for multi-day safety.</li>
+                        <li><strong>Zone JSON:</strong> Exports raw section structure data for archive logs.</li>
+                        <li><strong>Prize-Giving Script / WhatsApp Summaries:</strong> Generates clean text summaries ready to copy into WhatsApp group chats or read aloud at prize presentations.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PAGE 5: RESET & CHECKLIST -->
+            <div id="guidePage5" class="guide-page space-y-4 hidden">
+                <h4 class="text-base font-bold text-pixelCyan border-b border-slate-800 pb-2">5. App Reset & Pre-Match Checklist</h4>
+                
+                <div class="space-y-3">
+                    <p class="font-semibold text-slate-100">5.1 Resetting the App for Next Match</p>
+                    <ol class="list-decimal pl-5 space-y-1.5 text-xs text-slate-300">
+                        <li>Click <strong>Outputs &rarr; Scores JSON</strong> to save a final backup copy.</li>
+                        <li>Click the red <strong>Reset / Wipe button</strong> (power icon) in the top-right header.</li>
+                        <li>Confirm the prompt to wipe scorecards, draws, and rosters for the next match.</li>
+                    </ol>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <p class="font-semibold text-slate-100">5.2 Pre-Match Secretary Checklist</p>
+                    <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-300">
+                        <li>[ ] Battery fully charged on laptop/tablet.</li>
+                        <li>[ ] Select duration, set team/individual counts, click <strong>Create Team Cards</strong>.</li>
+                        <li>[ ] Enter mobility access peg numbers (<code class="text-pixelGold">[A]</code>) for Day 1 and Day 2.</li>
+                        <li>[ ] Enter angler names and tick <code class="text-pixelGold">[A]</code> for mobility anglers.</li>
+                        <li>[ ] Click <strong>Generate Match Draw</strong>, review, and export PDF / WhatsApp summary.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Modal Footer Controls -->
+        <div class="p-4 border-t border-slate-800 flex items-center justify-between bg-slate-900/80">
+            <button id="guidePrevBtn" onclick="changeGuidePage(-1)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2" disabled>
+                <i class="fa-solid fa-chevron-left"></i> Previous
+            </button>
+            
+            <button onclick="window.print()" class="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-print"></i> Print Guide
+            </button>
+
+            <button id="guideNextBtn" onclick="changeGuidePage(1)" class="px-4 py-2 rounded-xl bg-pixelBlue hover:bg-blue-600 text-white text-xs font-bold transition-all flex items-center gap-2">
+                Next <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
     </div>
+</div>
 
     <!-- MODAL 2: PRESENTATION SPEECH SCRIPT -->
     <div id="scriptModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
@@ -2795,15 +2893,57 @@ function parsePegList(inputStr) {
             setTimeout(() => { window.print(); }, 300);
         }
 
-        function openRulesGuideModal() {
-            const modal = document.getElementById('rulesGuideModal');
-            if (modal) modal.classList.remove('hidden');
-        }
+        let currentGuidePage = 1;
+const totalGuidePages = 5;
 
-        function closeRulesGuideModal() {
-            const modal = document.getElementById('rulesGuideModal');
-            if (modal) modal.classList.add('hidden');
+function openRulesGuideModal() {
+    currentGuidePage = 1;
+    updateGuideView();
+    document.getElementById('rulesGuideModal').classList.remove('hidden');
+}
+
+function closeRulesGuideModal() {
+    document.getElementById('rulesGuideModal').classList.add('hidden');
+}
+
+function changeGuidePage(step) {
+    currentGuidePage = Math.max(1, Math.min(totalGuidePages, currentGuidePage + step));
+    updateGuideView();
+}
+
+function updateGuideView() {
+    const titles = [
+        'Setup & Draw',
+        'Scorecards & Input',
+        'Results & Mystery Pairs',
+        'Outputs & Exports',
+        'Reset & Checklist'
+    ];
+
+    for (let i = 1; i <= totalGuidePages; i++) {
+        const pageEl = document.getElementById(`guidePage${i}`);
+        if (pageEl) {
+            if (i === currentGuidePage) {
+                pageEl.classList.remove('hidden');
+            } else {
+                pageEl.classList.add('hidden');
+            }
         }
+    }
+
+    document.getElementById('guidePageIndicator').innerText = `Page ${currentGuidePage} of ${totalGuidePages} — ${titles[currentGuidePage - 1]}`;
+    
+    document.getElementById('guidePrevBtn').disabled = (currentGuidePage === 1);
+    
+    const nextBtn = document.getElementById('guideNextBtn');
+    if (currentGuidePage === totalGuidePages) {
+        nextBtn.innerHTML = 'Close Guide <i class="fa-solid fa-check"></i>';
+        nextBtn.onclick = closeRulesGuideModal;
+    } else {
+        nextBtn.innerHTML = 'Next <i class="fa-solid fa-chevron-right"></i>';
+        nextBtn.onclick = () => changeGuidePage(1);
+    }
+}
 
         function toggleGuideAccordion(id) {
             const content = document.getElementById(id);
