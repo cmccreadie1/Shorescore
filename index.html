@@ -2537,26 +2537,46 @@ function parsePegList(inputStr) {
             `).join('');
         }
 
-       function renderStackedZoneResults(day, containerId) {
+ function renderStackedZoneResults(day, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     const zoneRes = calculateSessionZoneResults(day);
 
     const zoneStyles = {
-        red: { text: 'text-red-400', border: 'border-red-500/30', bg: 'bg-red-500/10' },
-        yellow: { text: 'text-yellow-400', border: 'border-yellow-500/30', bg: 'bg-yellow-500/10' },
-        green: { text: 'text-emerald-400', border: 'border-emerald-500/30', bg: 'bg-emerald-500/10' },
-        blue: { text: 'text-blue-400', border: 'border-blue-500/30', bg: 'bg-blue-500/10' }
+        red: { 
+            card: 'border-red-500/40 border-l-4 border-l-red-500', 
+            header: 'bg-red-500/20 text-red-400 border-red-500/30',
+            pts: 'border-red-500/40 text-red-300'
+        },
+        yellow: { 
+            card: 'border-yellow-500/40 border-l-4 border-l-yellow-400', 
+            header: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+            pts: 'border-yellow-500/40 text-yellow-300'
+        },
+        green: { 
+            card: 'border-emerald-500/40 border-l-4 border-l-emerald-400', 
+            header: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+            pts: 'border-emerald-500/40 text-emerald-300'
+        },
+        blue: { 
+            card: 'border-blue-500/40 border-l-4 border-l-blue-500', 
+            header: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+            pts: 'border-blue-500/40 text-blue-300'
+        }
     };
 
     container.innerHTML = ZONE_COLORS.map(color => {
         const items = zoneRes[color];
-        const style = zoneStyles[color] || { text: 'text-pixelCyan', border: 'border-slate-800', bg: 'bg-slate-900/40' };
+        const style = zoneStyles[color] || { 
+            card: 'border-slate-800', 
+            header: 'bg-slate-800/50 text-pixelCyan border-slate-700',
+            pts: 'border-slate-700 text-white'
+        };
 
         const rows = items.map(item => `
             <tr class="font-mono-tabular border-b border-slate-800/80 hover:bg-white/5 transition-colors">
                 <td class="py-1.5 px-1 text-center font-black w-8">
-                    <span class="inline-block bg-slate-950 text-white font-black px-1.5 py-0.5 rounded text-xs border border-slate-700/80">${item.zonePoints}</span>
+                    <span class="inline-block bg-slate-950 font-black px-1.5 py-0.5 rounded text-xs border ${style.pts}">${item.zonePoints}</span>
                 </td>
                 <td class="py-1.5 px-2 min-w-0 overflow-hidden">
                     <div class="font-black uppercase tracking-wider text-white text-xs font-heading truncate">${item.anglerName.toUpperCase()}</div>
@@ -2575,25 +2595,27 @@ function parsePegList(inputStr) {
         `).join('');
 
         return `
-            <div class="glass-card rounded-xl p-3 border ${style.border} bg-slate-900/40">
-                <div class="flex items-center justify-between mb-2 pb-1 border-b border-slate-800 ${style.bg} -mx-3 -mt-3 p-3 rounded-t-xl">
-                    <span class="font-black uppercase text-xs tracking-wider ${style.text}">${color} ZONE</span>
-                    <span class="text-[10px] font-bold text-slate-400 uppercase">DAY ${day}</span>
+            <div class="glass-card rounded-xl overflow-hidden border ${style.card} bg-slate-900/50 shadow-lg">
+                <div class="flex items-center justify-between p-2.5 px-3 border-b ${style.header}">
+                    <span class="font-black uppercase text-xs tracking-wider">${color} ZONE</span>
+                    <span class="text-[10px] font-bold opacity-80 uppercase">DAY ${day}</span>
                 </div>
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="text-[10px] font-black text-slate-400 border-b border-slate-800 uppercase tracking-wider">
-                            <th class="py-1 px-1 text-center w-8">Pts</th>
-                            <th class="py-1 px-2 text-left">Angler</th>
-                            <th class="py-1 px-0.5 text-center w-7">CM</th>
-                            <th class="py-1 px-0.5 text-center w-7">CT</th>
-                            <th class="py-1 px-0.5 text-center w-7">BIG</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${rows}
-                    </tbody>
-                </table>
+                <div class="p-2">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-[10px] font-black text-slate-400 border-b border-slate-800 uppercase tracking-wider">
+                                <th class="py-1 px-1 text-center w-8">Pts</th>
+                                <th class="py-1 px-2 text-left">Angler</th>
+                                <th class="py-1 px-0.5 text-center w-7">CM</th>
+                                <th class="py-1 px-0.5 text-center w-7">CT</th>
+                                <th class="py-1 px-0.5 text-center w-7">BIG</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         `;
     }).join('');
