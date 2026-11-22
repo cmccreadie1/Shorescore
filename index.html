@@ -388,23 +388,30 @@
             <!-- Mobility Advisor Live Status Banner -->
             <div id="mobilityAdvisor" class="hidden"></div>
 
-            <!-- STAGE 2: Team & Angler Setup Builder (Hidden until Create Team Cards is clicked) -->
-            <div id="rosterStageSection" class="space-y-4 hidden">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-black uppercase tracking-wider text-white font-heading flex items-center gap-2">
-                        <i class="fa-solid fa-users text-pixelCyan"></i> Registered Roster & Teams
-                    </h3>
-                </div>
+           </div>
 
-                <!-- 3-Column Grid for Horizontal Roster Spacing -->
-                <div id="setupTeamInputsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <!-- Dynamic Team & Solo Input Cards rendered here -->
+        <!-- STAGE 2: Separate Visual Card for Registered Roster & Draw Launch -->
+        <div id="rosterStageSection" class="glass-card p-6 sm:p-8 space-y-6 border-2 border-pixelCyan/50 shadow-2xl hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700 pb-4">
+                <div>
+                    <h3 class="text-xl sm:text-2xl font-black uppercase tracking-wider text-white font-heading flex items-center gap-2.5">
+                        <i class="fa-solid fa-users text-pixelCyan"></i> Stage 2: Registered Roster & Teams
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-300 font-semibold mt-1">Enter unique angler names below and tick <span class="text-pixelGold font-black">[A]</span> for mobility pegs.</p>
                 </div>
+                <span class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-black text-pixelEmerald border border-pixelEmerald/40 uppercase self-start sm:self-center">
+                    Cards Ready
+                </span>
             </div>
 
-            <div id="drawActionBar" class="pt-4 border-t border-slate-700 flex items-center justify-between hidden">
+            <!-- 3-Column Grid for Horizontal Roster Spacing -->
+            <div id="setupTeamInputsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Dynamic Team & Solo Input Cards rendered here -->
+            </div>
+
+            <div id="drawActionBar" class="pt-5 border-t border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
                 <span id="setupTotalCountLabel" class="text-base font-bold text-slate-300 font-mono">Total: 0 Anglers</span>
-                <button onclick="handleCreateTheDraw(event)" class="bg-gradient-to-r from-pixelBlue via-pixelCyan to-pixelEmerald hover:brightness-110 text-slate-950 font-black font-heading text-lg px-8 py-4 rounded-2xl shadow-xl transition-all touch-elastic flex items-center gap-3">
+                <button onclick="handleCreateTheDraw(event)" class="w-full sm:w-auto bg-gradient-to-r from-pixelBlue via-pixelCyan to-pixelEmerald hover:brightness-110 text-slate-950 font-black font-heading text-lg px-8 py-4 rounded-2xl shadow-xl transition-all touch-elastic flex items-center justify-center gap-3">
                     <i class="fa-solid fa-bolt text-xl"></i> CREATE THE DRAW ⚡
                 </button>
             </div>
@@ -1131,32 +1138,58 @@
                 return;
             }
 
-            appState.teams = [];
-            appState.anglers = [];
+            const overlay = document.getElementById('transitionOverlay');
+            const pBar = document.getElementById('transitionProgressBar');
+            const title = document.getElementById('transitionTitle');
+            const sub = document.getElementById('transitionSubtitle');
 
-            for (let t = 1; t <= numTeams; t++) {
-                const teamId = 'team_custom_' + t;
-                appState.teams.push({ id: teamId, name: `Team ${t}` });
-                for (let m = 1; m <= 4; m++) {
+            if (overlay) {
+                overlay.classList.remove('hidden');
+                if (pBar) pBar.style.width = '45%';
+                if (title) title.innerText = 'Creating Cards...';
+                if (sub) sub.innerText = `Generating ${numTeams} team(s) and ${numSolos} solo card(s)...`;
+            }
+
+            setTimeout(() => {
+                if (pBar) pBar.style.width = '100%';
+            }, 250);
+
+            setTimeout(() => {
+                appState.teams = [];
+                appState.anglers = [];
+
+                for (let t = 1; t <= numTeams; t++) {
+                    const teamId = 'team_custom_' + t;
+                    appState.teams.push({ id: teamId, name: `Team ${t}` });
+                    for (let m = 1; m <= 4; m++) {
+                        appState.anglers.push({
+                            id: `angler_t${t}_m${m}`,
+                            name: '',
+                            teamId: teamId,
+                            mobility: false
+                        });
+                    }
+                }
+
+                for (let s = 1; s <= numSolos; s++) {
                     appState.anglers.push({
-                        id: `angler_t${t}_m${m}`,
+                        id: `angler_solo_${s}`,
                         name: '',
-                        teamId: teamId,
+                        teamId: null,
                         mobility: false
                     });
                 }
-            }
 
-            for (let s = 1; s <= numSolos; s++) {
-                appState.anglers.push({
-                    id: `angler_solo_${s}`,
-                    name: '',
-                    teamId: null,
-                    mobility: false
-                });
-            }
+                renderSetupAnglerInputs();
 
-            renderSetupAnglerInputs();
+                if (overlay) overlay.classList.add('hidden');
+                if (pBar) pBar.style.width = '0%';
+
+                const rosterSection = document.getElementById('rosterStageSection');
+                if (rosterSection) {
+                    rosterSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 650);
         }
 
         function addSetupTeam() {
@@ -1260,7 +1293,29 @@
             updateMobilityAdvisor();
         }
 
-        function updateSetupAnglerName(id, val) { let a = appState.anglers.find(x => x.id === id); if (a) a.name = val.trim(); }
+        function isDuplicateAnglerName(trimmedName, excludeId) {
+            if (!trimmedName) return null;
+            const normalized = trimmedName.toLowerCase();
+            return appState.anglers.find(x => x.id !== excludeId && (x.name || '').trim().toLowerCase() === normalized) || null;
+        }
+
+        function updateSetupAnglerName(id, val) {
+            const a = appState.anglers.find(x => x.id === id);
+            if (!a) return;
+            const trimmed = val.trim();
+
+            const duplicate = isDuplicateAnglerName(trimmed, id);
+            if (duplicate) {
+                const dupTeam = appState.teams.find(t => t.id === duplicate.teamId);
+                const locationLabel = dupTeam ? dupTeam.name : 'Solo Competitors';
+                alert(`Duplicate Name Blocked: "${trimmed.toUpperCase()}" is already entered in ${locationLabel}.\n\nPlease enter a unique name for each angler.`);
+                a.name = '';
+                renderSetupAnglerInputs();
+                return;
+            }
+
+            a.name = trimmed;
+        }
         function updateSetupTeamName(teamId, val) { let t = appState.teams.find(x => x.id === teamId); if (t) t.name = val.trim(); }
         function toggleSetupAnglerMobility(id, checked) {
             let a = appState.anglers.find(x => x.id === id);
@@ -2134,13 +2189,24 @@
         }
 
         function updateLiveAnglerName(id, val) {
-            let a = appState.anglers.find(x => x.id === id);
-            if (a) a.name = val.trim();
+            const a = appState.anglers.find(x => x.id === id);
+            if (!a) return;
+            const trimmed = val.trim();
+
+            const duplicate = isDuplicateAnglerName(trimmed, id);
+            if (duplicate) {
+                const dupTeam = appState.teams.find(t => t.id === duplicate.teamId);
+                const locationLabel = dupTeam ? dupTeam.name : 'Solo Competitors';
+                alert(`Duplicate Name Blocked: "${trimmed.toUpperCase()}" is already entered in ${locationLabel}.\n\nReverting change.`);
+                renderTeamCardsDrawView();
+                return;
+            }
+
+            a.name = trimmed;
             saveState();
             renderScorecardView();
             renderResultsView();
         }
-
         function updateLiveTeamName(teamId, val) {
             let t = appState.teams.find(x => x.id === teamId);
             if (t) t.name = val.trim();
