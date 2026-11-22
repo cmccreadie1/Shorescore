@@ -1554,9 +1554,9 @@
             });
 
             // Abort early if any team member couldn't be placed cleanly so Monte Carlo retries
-            if (day1Draw.length !== appState.anglers.filter(a => a.teamId !== null).length) return null;
-            if (appState.config.duration === 2 && day2Draw.length !== appState.anglers.filter(a => a.teamId !== null).length) return null;
-
+            const teamAnglers = appState.anglers.filter(a => a.teamId !== null);
+            if (teamAnglers.some(m => !day1Draw.some(d => d.anglerId === m.id))) return null;
+            if (appState.config.duration === 2 && teamAnglers.some(m => !day2Draw.some(d => d.anglerId === m.id))) return null;
             // 3. Place remaining solo anglers into remaining open zone slots
             const unassignedSolos = appState.anglers.filter(a => !day1Draw.some(d => d.anglerId === a.id));
             for (let solo of unassignedSolos) {
