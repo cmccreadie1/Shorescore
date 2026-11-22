@@ -284,8 +284,8 @@
         <div class="flex items-center gap-3 relative">
             <!-- 1. Rules & Guide Button -->
             <button onclick="openRulesGuideModal()" class="glass-pill hover:bg-white/15 text-pixelCyan border border-pixelCyan/40 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 px-3.5 py-2">
-    <i class="fa-solid fa-book-open text-sm"></i> User Guide
-</button>
+                <i class="fa-solid fa-book-open text-sm"></i> User Guide
+            </button>
 
             <!-- 2. Output Menu Dropdown Button -->
             <div class="relative z-50">
@@ -388,16 +388,12 @@
             <!-- Mobility Advisor Live Status Banner -->
             <div id="mobilityAdvisor" class="hidden"></div>
 
-            <!-- Team & Angler Setup Builder -->
-            <div class="space-y-4">
+            <!-- STAGE 2: Team & Angler Setup Builder (Hidden until Create Team Cards is clicked) -->
+            <div id="rosterStageSection" class="space-y-4 hidden">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg font-black uppercase tracking-wider text-white font-heading flex items-center gap-2">
                         <i class="fa-solid fa-users text-pixelCyan"></i> Registered Roster & Teams
                     </h3>
-                    <div class="flex items-center gap-2">
-                        <button onclick="addSetupTeam()" class="glass-pill hover:bg-white/15 text-xs sm:text-sm font-bold text-pixelEmerald px-4 py-2 rounded-lg border border-pixelEmerald/40 transition-all touch-elastic">+ Add Team</button>
-                        <button onclick="addSetupSolo()" class="glass-pill hover:bg-white/15 text-xs sm:text-sm font-bold text-pixelCyan px-4 py-2 rounded-lg border border-pixelCyan/40 transition-all touch-elastic">+ Add Solo</button>
-                    </div>
                 </div>
 
                 <!-- 3-Column Grid for Horizontal Roster Spacing -->
@@ -406,7 +402,7 @@
                 </div>
             </div>
 
-            <div class="pt-4 border-t border-slate-700 flex items-center justify-between">
+            <div id="drawActionBar" class="pt-4 border-t border-slate-700 flex items-center justify-between hidden">
                 <span id="setupTotalCountLabel" class="text-base font-bold text-slate-300 font-mono">Total: 0 Anglers</span>
                 <button onclick="handleCreateTheDraw(event)" class="bg-gradient-to-r from-pixelBlue via-pixelCyan to-pixelEmerald hover:brightness-110 text-slate-950 font-black font-heading text-lg px-8 py-4 rounded-2xl shadow-xl transition-all touch-elastic flex items-center gap-3">
                     <i class="fa-solid fa-bolt text-xl"></i> CREATE THE DRAW ⚡
@@ -885,7 +881,7 @@
                 <div class="space-y-3">
                     <p class="font-semibold text-slate-100">5.1 Resetting the App for Next Match</p>
                     <ol class="list-decimal pl-5 space-y-1.5 text-xs text-slate-300">
-                        <li>Click <strong>Outputs &rarr; Scores JSON</strong> to save a final backup copy.</li>
+                        <li>Click <strong>Outputs → Scores JSON</strong> to save a final backup copy.</li>
                         <li>Click the red <strong>Reset / Wipe button</strong> (power icon) in the top-right header.</li>
                         <li>Confirm the prompt to wipe scorecards, draws, and rosters for the next match.</li>
                     </ol>
@@ -1090,12 +1086,12 @@
             else box.classList.add('hidden');
             updateMobilityAdvisor();
         }
-function parsePegList(inputStr) {
-    if (!inputStr) return [];
-    return inputStr.split(/[\s,]+/)
-        .map(s => parseInt(s.trim()))
-        .filter(n => !isNaN(n));
-}      
+        function parsePegList(inputStr) {
+            if (!inputStr) return [];
+            return inputStr.split(/[\s,]+/)
+                .map(s => parseInt(s.trim()))
+                .filter(n => !isNaN(n));
+        }      
         function updateMobilityAdvisor() {
             const advisor = document.getElementById('mobilityAdvisor');
             if (!advisor) return;
@@ -1131,9 +1127,9 @@ function parsePegList(inputStr) {
             const numTeams = parseInt(document.getElementById('cfgCountTeams').value) || 0;
             const numSolos = parseInt(document.getElementById('cfgCountSolos').value) || 0;
             if (numTeams === 0 && numSolos === 0) {
-    alert("Please enter the number of teams or solo anglers first.");
-    return;
-}
+                alert("Please enter the number of teams or solo anglers first.");
+                return;
+            }
 
             appState.teams = [];
             appState.anglers = [];
@@ -1203,7 +1199,21 @@ function parsePegList(inputStr) {
 
         function renderSetupAnglerInputs() {
             const container = document.getElementById('setupTeamInputsContainer');
+            const rosterSection = document.getElementById('rosterStageSection');
+            const drawActionBar = document.getElementById('drawActionBar');
             if (!container) return;
+
+            if (appState.anglers.length === 0) {
+                container.innerHTML = '';
+                if (rosterSection) rosterSection.classList.add('hidden');
+                if (drawActionBar) drawActionBar.classList.add('hidden');
+                updateMobilityAdvisor();
+                return;
+            }
+
+            if (rosterSection) rosterSection.classList.remove('hidden');
+            if (drawActionBar) drawActionBar.classList.remove('hidden');
+
             let html = '';
 
             appState.teams.forEach((t, tIdx) => {
@@ -1650,7 +1660,7 @@ function parsePegList(inputStr) {
 
                     const nameDisplay = isAmendNamesModeActive 
                         ? `<div class="relative flex-grow"><input type="text" value="${(m.name || '').toUpperCase()}" onchange="updateLiveAnglerName('${m.id}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-base font-black uppercase tracking-wider text-white focus:outline-none focus:border-pixelBlue w-full" placeholder="MEMBER NAME">${mobNameBadge}</div>` 
-                       : `<div class="relative flex-grow min-w-0">${mobNameBadge}<span class="text-xs font-black uppercase tracking-normal text-white truncate block">${(m.name || '').toUpperCase()}</span></div>`
+                        : `<div class="relative flex-grow min-w-0">${mobNameBadge}<span class="text-xs font-black uppercase tracking-normal text-white truncate block">${(m.name || '').toUpperCase()}</span></div>`;
                     const d1BadgeClass = isSwapModeActive && activeSwapDay === 1 ? 'swap-peg-active' : '';
                     const d1SelectedClass = isD1Selected ? 'swap-peg-selected' : '';
                     const d2BadgeClass = isSwapModeActive && activeSwapDay === 2 ? 'swap-peg-active' : '';
@@ -2911,56 +2921,56 @@ function renderStackedZoneResults(day, containerId) {
         }
 
         let currentGuidePage = 1;
-const totalGuidePages = 5;
+        const totalGuidePages = 5;
 
-function openRulesGuideModal() {
-    currentGuidePage = 1;
-    updateGuideView();
-    document.getElementById('rulesGuideModal').classList.remove('hidden');
-}
+        function openRulesGuideModal() {
+            currentGuidePage = 1;
+            updateGuideView();
+            document.getElementById('rulesGuideModal').classList.remove('hidden');
+        }
 
-function closeRulesGuideModal() {
-    document.getElementById('rulesGuideModal').classList.add('hidden');
-}
+        function closeRulesGuideModal() {
+            document.getElementById('rulesGuideModal').classList.add('hidden');
+        }
 
-function changeGuidePage(step) {
-    currentGuidePage = Math.max(1, Math.min(totalGuidePages, currentGuidePage + step));
-    updateGuideView();
-}
+        function changeGuidePage(step) {
+            currentGuidePage = Math.max(1, Math.min(totalGuidePages, currentGuidePage + step));
+            updateGuideView();
+        }
 
-function updateGuideView() {
-    const titles = [
-        'Setup & Draw',
-        'Scorecards & Input',
-        'Results & Mystery Pairs',
-        'Outputs & Exports',
-        'Reset & Checklist'
-    ];
+        function updateGuideView() {
+            const titles = [
+                'Setup & Draw',
+                'Scorecards & Input',
+                'Results & Mystery Pairs',
+                'Outputs & Exports',
+                'Reset & Checklist'
+            ];
 
-    for (let i = 1; i <= totalGuidePages; i++) {
-        const pageEl = document.getElementById(`guidePage${i}`);
-        if (pageEl) {
-            if (i === currentGuidePage) {
-                pageEl.classList.remove('hidden');
+            for (let i = 1; i <= totalGuidePages; i++) {
+                const pageEl = document.getElementById(`guidePage${i}`);
+                if (pageEl) {
+                    if (i === currentGuidePage) {
+                        pageEl.classList.remove('hidden');
+                    } else {
+                        pageEl.classList.add('hidden');
+                    }
+                }
+            }
+
+            document.getElementById('guidePageIndicator').innerText = `Page ${currentGuidePage} of ${totalGuidePages} — ${titles[currentGuidePage - 1]}`;
+            
+            document.getElementById('guidePrevBtn').disabled = (currentGuidePage === 1);
+            
+            const nextBtn = document.getElementById('guideNextBtn');
+            if (currentGuidePage === totalGuidePages) {
+                nextBtn.innerHTML = 'Close Guide <i class="fa-solid fa-check"></i>';
+                nextBtn.onclick = closeRulesGuideModal;
             } else {
-                pageEl.classList.add('hidden');
+                nextBtn.innerHTML = 'Next <i class="fa-solid fa-chevron-right"></i>';
+                nextBtn.onclick = () => changeGuidePage(1);
             }
         }
-    }
-
-    document.getElementById('guidePageIndicator').innerText = `Page ${currentGuidePage} of ${totalGuidePages} — ${titles[currentGuidePage - 1]}`;
-    
-    document.getElementById('guidePrevBtn').disabled = (currentGuidePage === 1);
-    
-    const nextBtn = document.getElementById('guideNextBtn');
-    if (currentGuidePage === totalGuidePages) {
-        nextBtn.innerHTML = 'Close Guide <i class="fa-solid fa-check"></i>';
-        nextBtn.onclick = closeRulesGuideModal;
-    } else {
-        nextBtn.innerHTML = 'Next <i class="fa-solid fa-chevron-right"></i>';
-        nextBtn.onclick = () => changeGuidePage(1);
-    }
-}
 
         function toggleGuideAccordion(id) {
             const content = document.getElementById(id);
@@ -3246,23 +3256,23 @@ function updateGuideView() {
         // ============================================================================
         // INITIALIZATION
         // ============================================================================
-      const autoCommaHandler = (e) => {
-    if (e.key === ' ' || e.code === 'Space' || e.key === 'Enter' || e.code === 'Enter') {
-        const input = e.target;
-        const val = input.value;
-        const cursor = input.selectionStart;
+        const autoCommaHandler = (e) => {
+            if (e.key === ' ' || e.code === 'Space' || e.key === 'Enter' || e.code === 'Enter') {
+                const input = e.target;
+                const val = input.value;
+                const cursor = input.selectionStart;
 
-        if (val.length > 0 && !/[,\s\-]$/.test(val.slice(0, cursor))) {
-            e.preventDefault();
-            const before = val.slice(0, cursor);
-            const after = val.slice(cursor);
-            input.value = before + ', ' + after;
-            input.selectionStart = input.selectionEnd = cursor + 2;
-            
-            input.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-    }
-};
+                if (val.length > 0 && !/[,\s\-]$/.test(val.slice(0, cursor))) {
+                    e.preventDefault();
+                    const before = val.slice(0, cursor);
+                    const after = val.slice(cursor);
+                    input.value = before + ', ' + after;
+                    input.selectionStart = input.selectionEnd = cursor + 2;
+                    
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            }
+        };
         window.addEventListener("DOMContentLoaded", () => {
             loadState();
 
@@ -3276,10 +3286,10 @@ function updateGuideView() {
 
             setScorecardDay(activeScoreDay);
             const d1PegsInput = document.getElementById('cfgAccessPegsD1');
-    const d2PegsInput = document.getElementById('cfgAccessPegsD2');
+            const d2PegsInput = document.getElementById('cfgAccessPegsD2');
 
-    if (d1PegsInput) d1PegsInput.addEventListener('keydown', autoCommaHandler);
-    if (d2PegsInput) d2PegsInput.addEventListener('keydown', autoCommaHandler);
+            if (d1PegsInput) d1PegsInput.addEventListener('keydown', autoCommaHandler);
+            if (d2PegsInput) d2PegsInput.addEventListener('keydown', autoCommaHandler);
 
             MysteryPairsModule.renderMatrix();
             MysteryPairsModule.renderLeaderboard();
