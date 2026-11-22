@@ -1557,6 +1557,59 @@
             const teamAnglers = appState.anglers.filter(a => a.teamId !== null);
             if (teamAnglers.some(m => !day1Draw.some(d => d.anglerId === m.id))) return null;
             if (appState.config.duration === 2 && teamAnglers.some(m => !day2Draw.some(d => d.anglerId === m.id))) return null;
+
+            // 2B. Intra-team optimizer: swap Day 1 or Day 2 pegs between non-mobility teammates
+            // so no non-mobility team member repeats the same zone on both days when a valid swap exists
+            if (appState.config.duration === 2) {
+                appState.teams.forEach(team => {
+                    const nonMobMembers = appState.anglers.filter(a => a.teamId === team.id && !a.mobility);
+                    nonMobMembers.forEach(m => {
+                        const d1Entry = day1Draw.find(d => d.anglerId === m.id);
+                        const d2Entry = day2Draw.find(d => d.anglerId === m.id);
+                        if (!d1Entry || !d2Entry || d1Entry.zone !== d2Entry.zone) return;
+
+                        // Try swapping Day 1 peg with another non-mobility teammate where both end up with 2 distinct zones
+                        let partner = nonMobMembers.find(other => {
+                            if (other.id === m.id) return false;
+                            const oD1 = day1Draw.find(d => d.anglerId === other.id);
+                            const oD2 = day2Draw.find(d => d.anglerId === other.id);
+                            return oD1 && oD2 && oD1.zone !== d2Entry.zone && d1Entry.zone !== oD2.zone;
+                        });
+
+                        if (partner) {
+                            const oD1 = day1Draw.find(d => d.anglerId === partner.id);
+                            const tempZone = d1Entry.zone;
+                            const tempPeg = d1Entry.peg;
+                            d1Entry.zone = oD1.zone;
+                            d1Entry.peg = oD1.peg;
+                            oD1.zone = tempZone;
+                            oD1.peg = tempPeg;
+                            drawNotes = drawNotes.filter(n => n.anglerId !== m.id && n.anglerId !== partner.id);
+                            return;
+                        }
+
+                        // Otherwise try swapping Day 2 peg with a non-mobility teammate
+                        partner = nonMobMembers.find(other => {
+                            if (other.id === m.id) return false;
+                            const oD1 = day1Draw.find(d => d.anglerId === other.id);
+                            const oD2 = day2Draw.find(d => d.anglerId === other.id);
+                            return oD1 && oD2 && d1Entry.zone !== oD2.zone && oD1.zone !== d2Entry.zone;
+                        });
+
+                        if (partner) {
+                            const oD2 = day2Draw.find(d => d.anglerId === partner.id);
+                            const tempZone = d2Entry.zone;
+                            const tempPeg = d2Entry.peg;
+                            d2Entry.zone = oD2.zone;
+                            d2Entry.peg = oD2.peg;
+                            oD2.zone = tempZone;
+                            oD2.peg = tempPeg;
+                            drawNotes = drawNotes.filter(n => n.anglerId !== m.id && n.anglerId !== partner.id);
+                        }
+                    });
+                });
+            }
+
             // 3. Place remaining solo anglers into remaining open zone slots
             const unassignedSolos = appState.anglers.filter(a => !day1Draw.some(d => d.anglerId === a.id));
             for (let solo of unassignedSolos) {
@@ -1581,7 +1634,7 @@
                         return currentInZone < maxTarget && z !== zD1;
                     });
 
-                    // Allow repeating zD1 on a different peg if that zone is the only one with remaining capacity (e.g. 5th Red peg)
+                    // Allow repeating zD1 on a different peg if that zone is the only one with remaining capacity
                     if (validPegsD2.length === 0) {
                         validPegsD2 = openPegsD2.filter(p => {
                             let z = bounds.getZoneForPeg(p);
@@ -1610,7 +1663,6 @@
 
             return { day1: day1Draw, day2: day2Draw, notes: drawNotes };
         }
-
         function teamHasMember(teamId, anglerId) {
             if (!teamId) return false;
             const a = appState.anglers.find(x => x.id === anglerId);
