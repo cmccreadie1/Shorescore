@@ -1657,8 +1657,36 @@
                         });
                     }
 
-                    day2Draw.push({ anglerId: solo.id, zone: zD2, peg: String(pD2) });
+                   day2Draw.push({ anglerId: solo.id, zone: zD2, peg: String(pD2) });
                 }
+            }
+
+            // 3B. Solo optimizer: swap Day 2 pegs between non-mobility solos if doing so prevents repeating a zone
+            if (appState.config.duration === 2) {
+                const nonMobSolos = appState.anglers.filter(a => a.teamId === null && !a.mobility);
+                nonMobSolos.forEach(s => {
+                    const d1Entry = day1Draw.find(d => d.anglerId === s.id);
+                    const d2Entry = day2Draw.find(d => d.anglerId === s.id);
+                    if (!d1Entry || !d2Entry || d1Entry.zone !== d2Entry.zone) return;
+
+                    const partner = nonMobSolos.find(other => {
+                        if (other.id === s.id) return false;
+                        const oD1 = day1Draw.find(d => d.anglerId === other.id);
+                        const oD2 = day2Draw.find(d => d.anglerId === other.id);
+                        return oD1 && oD2 && d1Entry.zone !== oD2.zone && oD1.zone !== d2Entry.zone;
+                    });
+
+                    if (partner) {
+                        const oD2 = day2Draw.find(d => d.anglerId === partner.id);
+                        const tempZone = d2Entry.zone;
+                        const tempPeg = d2Entry.peg;
+                        d2Entry.zone = oD2.zone;
+                        d2Entry.peg = oD2.peg;
+                        oD2.zone = tempZone;
+                        oD2.peg = tempPeg;
+                        drawNotes = drawNotes.filter(n => n.anglerId !== s.id && n.anglerId !== partner.id);
+                    }
+                });
             }
 
             return { day1: day1Draw, day2: day2Draw, notes: drawNotes };
