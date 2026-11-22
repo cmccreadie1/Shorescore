@@ -1394,7 +1394,10 @@
             setTimeout(() => {
                 let validDraw = runMonteCarloDrawSimulation();
                 if (!validDraw) {
-                    validDraw = generateSingleDrawAttempt();
+                    overlay.classList.add('hidden');
+                    pBar.style.width = '0%';
+                    alert("Could not find a valid draw with the current [A] mobility peg restrictions without placing teammates in the same zone. Please add more access pegs across different zones and try again.");
+                    return;
                 }
 
                 appState.draw = validDraw;
@@ -1615,6 +1618,7 @@
         }
 
         function validateDrawRules(drawObj) {
+            if (!drawObj || !drawObj.day1) return { isValid: false, errors: ["Draw attempt hit dead-end."] };
             let errors = [];
             
             const N = appState.anglers.length;
