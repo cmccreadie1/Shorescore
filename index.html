@@ -528,6 +528,14 @@
                 </div>
             </div>
 
+            <!-- Draw Allocation Notes / Exceptions Banner (Hidden unless an exception occurred) -->
+            <div id="drawExceptionsBanner" class="hidden glass-card p-5 border-2 border-pixelGold/50 bg-pixelGold/10 space-y-2.5">
+                <div class="flex items-center gap-2.5 text-pixelGold font-black font-heading uppercase text-sm sm:text-base tracking-wider">
+                    <i class="fa-solid fa-circle-info text-lg"></i> Draw Allocation Notes & Rule Exceptions
+                </div>
+                <ul id="drawExceptionsList" class="space-y-1.5 text-xs sm:text-sm text-slate-200 font-medium list-disc pl-5"></ul>
+            </div>
+
             <!-- Team Cards Container -->
             <div id="teamCardsDrawContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                 <!-- Dynamic Team Cards Rendered Here -->
@@ -1110,23 +1118,35 @@
             }
             advisor.classList.remove('hidden');
 
-            const mobAnglersCount = appState.anglers.filter(a => a.mobility).length;
+            const mobAnglers = appState.anglers.filter(a => a.mobility);
+            const mobAnglersCount = mobAnglers.length;
             const pegsD1 = parsePegList(document.getElementById('cfgAccessPegsD1').value);
             const pegsD2 = parsePegList(document.getElementById('cfgAccessPegsD2').value);
             const capD1 = pegsD1.length;
             const capD2 = pegsD2.length;
             const is2Day = appState.config.duration === 2;
 
-            let isOk = mobAnglersCount <= capD1 && (!is2Day || mobAnglersCount <= capD2);
+            const bounds = getZoneBoundsForN(appState.anglers.length || 28);
+            const distinctZonesD1 = new Set(pegsD1.map(p => bounds.getZoneForPeg(p))).size;
+            const distinctZonesD2 = new Set(pegsD2.map(p => bounds.getZoneForPeg(p))).size;
 
+            let teamWarning = "";
+            appState.teams.forEach(t => {
+                const teamMobCount = mobAnglers.filter(a => a.teamId === t.id).length;
+                if (teamMobCount > distinctZonesD1 || (is2Day && teamMobCount > distinctZonesD2)) {
+                    teamWarning = ` "${t.name}" has ${teamMobCount} [A] anglers, but access pegs only span ${Math.min(distinctZonesD1, is2Day ? distinctZonesD2 : distinctZonesD1)} zone(s) — teammates may share a zone.`;
+                }
+            });
+
+            let isOk = mobAnglersCount <= capD1 && (!is2Day || mobAnglersCount <= capD2) && !teamWarning;
             let msg = `<strong>Mobility Status:</strong> ${mobAnglersCount} Angler(s) marked [A]. Available Designated Pegs: Day 1 (${capD1})${is2Day ? ` | Day 2 (${capD2})` : ''}.`;
 
             if (isOk) {
                 advisor.className = "p-4 rounded-2xl bg-pixelEmerald/15 border border-pixelEmerald/40 text-pixelEmerald text-xs sm:text-sm font-bold flex items-center gap-3";
-                advisor.innerHTML = `<i class="fa-solid fa-circle-check text-base shrink-0"></i> <div>${msg} Capacity validation passed.</div>`;
+                advisor.innerHTML = `<i class="fa-solid fa-circle-check text-base shrink-0"></i> <div>${msg} Capacity & zone separation check passed.</div>`;
             } else {
                 advisor.className = "p-4 rounded-2xl bg-pixelCoral/15 border border-pixelCoral/40 text-pixelCoral text-xs sm:text-sm font-bold flex items-center gap-3";
-                advisor.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-base shrink-0"></i> <div>${msg} <strong>Warning:</strong> Marked [A] anglers exceed available designated access pegs!</div>`;
+                advisor.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-base shrink-0"></i> <div>${msg} <strong>Warning:</strong> ${teamWarning || 'Marked [A] anglers exceed available designated access pegs!'}</div>`;
             }
         }
 
@@ -1430,9 +1450,10 @@
 
             let day1Draw = [];
             let day2Draw = [];
+            let drawNotes = [];
 
-            const reqPegsD1 = appState.config.mobilityRequired ? parsePegList(appState.config.accessPegsD1) : [2, 3, 16, 17];
-            const reqPegsD2 = appState.config.mobilityRequired ? parsePegList(appState.config.accessPegsD2) : [9, 10, 23, 24];
+            const reqPegsD1 = appState.config.mobilityRequired ? parsePegList(appState.config.accessPegsD1) : [];
+            const reqPegsD2 = appState.config.mobilityRequired ? parsePegList(appState.config.accessPegsD2) : [];
 
             const jumpMapPrimaryD2 = { 'Red': 'Green', 'Yellow': 'Blue', 'Green': 'Red', 'Blue': 'Yellow' };
             const mobAnglers = appState.anglers.filter(a => a.mobility).sort(() => Math.random() - 0.5);
@@ -1442,23 +1463,60 @@
 
                 let d1TeamLockedZones = day1Draw.filter(d => teamHasMember(a.teamId, d.anglerId)).map(d => d.zone);
                 let validD1Pegs = reqPegsD1.filter(p => openPegsD1.includes(p) && !d1TeamLockedZones.includes(bounds.getZoneForPeg(p)));
-                if (validD1Pegs.length === 0) validD1Pegs = reqPegsD1.filter(p => openPegsD1.includes(p));
-                
+                let sharedZoneD1 = false;
+                if (validD1Pegs.length === 0) {
+                    validD1Pegs = reqPegsD1.filter(p => openPegsD1.includes(p));
+                    sharedZoneD1 = validD1Pegs.length > 0;
+                }
+
                 let p1 = validD1Pegs.length > 0 ? validD1Pegs[Math.floor(Math.random() * validD1Pegs.length)] : openPegsD1[0];
                 let z1 = bounds.getZoneForPeg(p1);
 
+                if (sharedZoneD1 && a.teamId) {
+                    const tName = (appState.teams.find(t => t.id === a.teamId) || {}).name || 'Team';
+                    drawNotes.push({
+                        anglerId: a.id,
+                        day: 1,
+                        reason: `Day 1 Peg ${p1} (${z1}): Shared zone with a ${tName} teammate because designated [A] mobility pegs were restricted to limited zones.`
+                    });
+                }
+
                 let d2TeamLockedZones = day2Draw.filter(d => teamHasMember(a.teamId, d.anglerId)).map(d => d.zone);
                 let diffZonePegsD2 = reqPegsD2.filter(p => bounds.getZoneForPeg(p) !== z1 && openPegsD2.includes(p) && !d2TeamLockedZones.includes(bounds.getZoneForPeg(p)));
-                
+
                 let p2;
+                let sharedZoneD2 = false;
+                let repeatZoneD2 = false;
+
                 if (diffZonePegsD2.length > 0) {
                     p2 = diffZonePegsD2[Math.floor(Math.random() * diffZonePegsD2.length)];
                 } else {
                     let fallbackD2 = reqPegsD2.filter(p => openPegsD2.includes(p) && !d2TeamLockedZones.includes(bounds.getZoneForPeg(p)));
-                    if (fallbackD2.length === 0) fallbackD2 = reqPegsD2.filter(p => openPegsD2.includes(p));
+                    if (fallbackD2.length === 0) {
+                        fallbackD2 = reqPegsD2.filter(p => openPegsD2.includes(p));
+                        if (fallbackD2.length > 0 && a.teamId) sharedZoneD2 = true;
+                    }
                     p2 = fallbackD2.length > 0 ? fallbackD2[Math.floor(Math.random() * fallbackD2.length)] : openPegsD2[0];
+                    if (p2 && bounds.getZoneForPeg(p2) === z1) repeatZoneD2 = true;
                 }
                 let z2 = bounds.getZoneForPeg(p2);
+
+                if (appState.config.duration === 2) {
+                    if (sharedZoneD2) {
+                        const tName = (appState.teams.find(t => t.id === a.teamId) || {}).name || 'Team';
+                        drawNotes.push({
+                            anglerId: a.id,
+                            day: 2,
+                            reason: `Day 2 Peg ${p2} (${z2}): Shared zone with a ${tName} teammate to honor [A] mobility peg limits.`
+                        });
+                    } else if (repeatZoneD2) {
+                        drawNotes.push({
+                            anglerId: a.id,
+                            day: 2,
+                            reason: `Day 2 Peg ${p2} (${z2}): Repeated ${z2} Zone on a different peg because available [A] mobility pegs were in ${z2}.`
+                        });
+                    }
+                }
 
                 day1Draw.push({ anglerId: a.id, zone: z1, peg: String(p1) });
                 if (appState.config.duration === 2) day2Draw.push({ anglerId: a.id, zone: z2, peg: String(p2) });
@@ -1469,7 +1527,7 @@
                 if (a.teamId) {
                     const team = appState.teams.find(t => t.id === a.teamId);
                     if (team) {
-                        const teammates = appState.anglers.filter(m => m.teamId === team.id && m.id !== a.id);
+                        const teammates = appState.anglers.filter(m => m.teamId === team.id && m.id !== a.id && !m.mobility);
                         let d1Locked = day1Draw.filter(d => teamHasMember(team.id, d.anglerId)).map(d => d.zone);
                         let availZonesD1 = ZONE_COLORS.filter(z => !d1Locked.includes(z)).sort(() => Math.random() - 0.5);
 
@@ -1482,7 +1540,7 @@
                             let d2Locked = day2Draw.filter(d => teamHasMember(team.id, d.anglerId)).map(d => d.zone);
                             if (d2Locked.includes(targetZD2)) {
                                 let fallbackZones = ZONE_COLORS.filter(z => z !== zD1 && !d2Locked.includes(z));
-                                targetZD2 = fallbackZones.length > 0 ? fallbackZones[0] : ZONE_COLORS.find(z => z !== zD1);
+                                targetZD2 = fallbackZones.length > 0 ? fallbackZones[0] : (ZONE_COLORS.find(z => !d2Locked.includes(z)) || ZONE_COLORS.find(z => z !== zD1));
                             }
 
                             let openInZD1 = openPegsD1.filter(p => bounds.getZoneForPeg(p) === zD1);
@@ -1515,7 +1573,7 @@
                         let d2Locked = day2Draw.filter(d => teamHasMember(team.id, d.anglerId)).map(d => d.zone);
                         if (d2Locked.includes(targetZD2)) {
                             let fallbackZones = ZONE_COLORS.filter(z => z !== zD1 && !d2Locked.includes(z));
-                            targetZD2 = fallbackZones.length > 0 ? fallbackZones[0] : ZONE_COLORS.find(z => z !== zD1);
+                            targetZD2 = fallbackZones.length > 0 ? fallbackZones[0] : (ZONE_COLORS.find(z => !d2Locked.includes(z)) || ZONE_COLORS.find(z => z !== zD1));
                         }
 
                         let openInZD1 = openPegsD1.filter(p => bounds.getZoneForPeg(p) === zD1);
@@ -1541,11 +1599,10 @@
                     return currentInZone < maxTarget;
                 });
 
-                let pD1 = validPegsD1.length > 0 ? validPegsD1[0] : openPegsD1[0];
+                let pD1 = validPegsD1.length > 0 ? validPegsD1[Math.floor(Math.random() * validPegsD1.length)] : openPegsD1[0];
                 openPegsD1 = openPegsD1.filter(p => p !== pD1);
                 let zD1 = bounds.getZoneForPeg(pD1);
 
-                let prefZD2 = jumpMapPrimaryD2[zD1];
                 let validPegsD2 = openPegsD2.filter(p => {
                     let z = bounds.getZoneForPeg(p);
                     let currentInZone = day2Draw.filter(d => d.zone === z).length;
@@ -1553,15 +1610,33 @@
                     return currentInZone < maxTarget && z !== zD1;
                 });
 
-                let pD2 = validPegsD2.length > 0 ? validPegsD2[0] : openPegsD2.find(p => bounds.getZoneForPeg(p) !== zD1) || openPegsD2[0];
+                // If no different zone has open capacity (e.g. 5th Red peg in a 17-angler match), allow same zone on a different peg
+                if (validPegsD2.length === 0) {
+                    validPegsD2 = openPegsD2.filter(p => {
+                        let z = bounds.getZoneForPeg(p);
+                        let currentInZone = day2Draw.filter(d => d.zone === z).length;
+                        let maxTarget = (z === 'Red' ? bounds.sizeRed : z === 'Yellow' ? bounds.sizeYellow : z === 'Green' ? bounds.sizeGreen : bounds.sizeBlue);
+                        return currentInZone < maxTarget && String(p) !== String(pD1);
+                    });
+                }
+
+                let pD2 = validPegsD2.length > 0 ? validPegsD2[Math.floor(Math.random() * validPegsD2.length)] : (openPegsD2.find(p => bounds.getZoneForPeg(p) !== zD1) || openPegsD2[0]);
                 openPegsD2 = openPegsD2.filter(p => p !== pD2);
                 let zD2 = bounds.getZoneForPeg(pD2);
+
+                if (appState.config.duration === 2 && zD2 === zD1) {
+                    drawNotes.push({
+                        anglerId: solo.id,
+                        day: 2,
+                        reason: `Day 2 Peg ${pD2} (${zD2}): Repeated ${zD2} Zone (different peg) because ${N} anglers creates 1 extra peg in ${zD2} Zone after all 4-person teams are placed.`
+                    });
+                }
 
                 day1Draw.push({ anglerId: solo.id, zone: zD1, peg: String(pD1) });
                 if (appState.config.duration === 2) day2Draw.push({ anglerId: solo.id, zone: zD2, peg: String(pD2) });
             });
 
-            return { day1: day1Draw, day2: day2Draw };
+            return { day1: day1Draw, day2: day2Draw, notes: drawNotes };
         }
 
         function teamHasMember(teamId, anglerId) {
@@ -1707,6 +1782,8 @@
 
                     const isD1Selected = swapFirstSelection && swapFirstSelection.anglerId === m.id && swapFirstSelection.day === 1;
                     const isD2Selected = swapFirstSelection && swapFirstSelection.anglerId === m.id && swapFirstSelection.day === 2;
+                    const d1Note = (appState.draw.notes || []).find(n => n.anglerId === m.id && n.day === 1);
+                    const d2Note = (appState.draw.notes || []).find(n => n.anglerId === m.id && n.day === 2);
 
                     const deleteBtn = isDeleteModeActive ? `<button onclick="triggerHaptic(); confirmDeleteAngler('${m.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-lg touch-elastic"><i class="fa-solid fa-circle-xmark"></i></button>` : '';
                     const batchChk = isBatchDeleteModeActive ? `<input type="checkbox" ${selectedBatchAnglerIds.has(m.id) ? 'checked' : ''} onchange="toggleBatchSelectAngler('${m.id}', this.checked)" class="w-4 h-4 rounded border-slate-600 text-pixelCoral focus:ring-pixelCoral bg-slate-950 shrink-0">` : '';
@@ -1730,14 +1807,16 @@
                             </div>
                             <div class="flex items-center gap-2 shrink-0 ml-1 font-mono-tabular">
                                 ${d1 ? `
-                                    <span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 1)" class="relative zone-badge-${d1.zone} w-12 h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
+                                    <span title="${d1Note ? d1Note.reason : ''}" onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 1)" class="relative zone-badge-${d1.zone} w-12 h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
                                         ${m.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[10px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+                                        ${d1Note ? '<span class="absolute -bottom-1.5 -left-1.5 bg-sky-400 text-slate-950 font-black text-[10px] px-1 rounded-full leading-none border border-slate-950 shadow-sm font-sans">i</span>' : ''}
                                         ${d1.peg}
                                     </span>
                                 ` : ''}
                                 ${appState.config.duration === 2 && d2 ? `
-                                    <span onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 2)" class="relative zone-badge-${d2.zone} w-12 h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
+                                    <span title="${d2Note ? d2Note.reason : ''}" onclick="triggerHaptic(); handlePegBadgeClick('${m.id}', 2)" class="relative zone-badge-${d2.zone} w-12 h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
                                         ${m.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[10px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+                                        ${d2Note ? '<span class="absolute -bottom-1.5 -left-1.5 bg-sky-400 text-slate-950 font-black text-[10px] px-1 rounded-full leading-none border border-slate-950 shadow-sm font-sans">i</span>' : ''}
                                         ${d2.peg}
                                     </span>
                                 ` : ''}
@@ -1776,6 +1855,8 @@
 
                     const isD1Selected = swapFirstSelection && swapFirstSelection.anglerId === s.id && swapFirstSelection.day === 1;
                     const isD2Selected = swapFirstSelection && swapFirstSelection.anglerId === s.id && swapFirstSelection.day === 2;
+                    const d1Note = (appState.draw.notes || []).find(n => n.anglerId === s.id && n.day === 1);
+                    const d2Note = (appState.draw.notes || []).find(n => n.anglerId === s.id && n.day === 2);
 
                     const deleteBtn = isDeleteModeActive ? `<button onclick="triggerHaptic(); confirmDeleteAngler('${s.id}')" class="text-pixelCoral hover:text-red-300 font-black px-1.5 text-lg touch-elastic"><i class="fa-solid fa-circle-xmark"></i></button>` : '';
                     const batchChk = isBatchDeleteModeActive ? `<input type="checkbox" ${selectedBatchAnglerIds.has(s.id) ? 'checked' : ''} onchange="toggleBatchSelectAngler('${s.id}', this.checked)" class="w-4 h-4 rounded border-slate-600 text-pixelCoral focus:ring-pixelCoral bg-slate-950 shrink-0">` : '';
@@ -1811,14 +1892,16 @@
                                 </div>
                                 <div class="flex items-center gap-2 shrink-0 ml-1 font-mono-tabular">
                                     ${d1 ? `
-                                        <span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 1)" class="relative zone-badge-${d1.zone} w-12 h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
+                                        <span title="${d1Note ? d1Note.reason : ''}" onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 1)" class="relative zone-badge-${d1.zone} w-12 h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-black tracking-wider ${d1BadgeClass} ${d1SelectedClass}">
                                             ${s.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[10px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+                                            ${d1Note ? '<span class="absolute -bottom-1.5 -left-1.5 bg-sky-400 text-slate-950 font-black text-[10px] px-1 rounded-full leading-none border border-slate-950 shadow-sm font-sans">i</span>' : ''}
                                             ${d1.peg}
                                         </span>
                                     ` : ''}
                                     ${appState.config.duration === 2 && d2 ? `
-                                        <span onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 2)" class="relative zone-badge-${d2.zone} w-12 h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
+                                        <span title="${d2Note ? d2Note.reason : ''}" onclick="triggerHaptic(); handlePegBadgeClick('${s.id}', 2)" class="relative zone-badge-${d2.zone} w-12 h-9 flex items-center justify-center rounded-lg text-sm sm:text-base font-black tracking-wider ${d2BadgeClass} ${d2SelectedClass}">
                                             ${s.mobility ? '<span class="absolute -top-1.5 -right-1.5 bg-pixelGold text-slate-950 font-black text-[10px] px-1 rounded-md leading-none border border-slate-950 shadow-sm uppercase font-sans">A</span>' : ''}
+                                            ${d2Note ? '<span class="absolute -bottom-1.5 -left-1.5 bg-sky-400 text-slate-950 font-black text-[10px] px-1 rounded-full leading-none border border-slate-950 shadow-sm font-sans">i</span>' : ''}
                                             ${d2.peg}
                                         </span>
                                     ` : ''}
@@ -1830,6 +1913,23 @@
             }
 
             container.innerHTML = html;
+
+            const notesBanner = document.getElementById('drawExceptionsBanner');
+            const notesList = document.getElementById('drawExceptionsList');
+            const activeNotes = appState.draw.notes || [];
+            if (notesBanner && notesList) {
+                if (activeNotes.length > 0) {
+                    notesBanner.classList.remove('hidden');
+                    notesList.innerHTML = activeNotes.map(n => {
+                        const a = appState.anglers.find(x => x.id === n.anglerId);
+                        const aName = a && a.name ? a.name.toUpperCase() : 'ANGLER';
+                        return `<li><strong class="text-pixelGold">${aName}:</strong> ${n.reason}</li>`;
+                    }).join('');
+                } else {
+                    notesBanner.classList.add('hidden');
+                    notesList.innerHTML = '';
+                }
+            }
         }
 
         function toggleBatchSelectMode() {
