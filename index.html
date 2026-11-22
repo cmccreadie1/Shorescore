@@ -2398,25 +2398,190 @@
         }
 
        function exportScoresJSON() {
+            if (!appState.draw.generated) {
+                alert("Please generate the draw first before exporting scores.");
+                return;
+            }
+
+            const zones = ["Red", "Yellow", "Green", "Blue"];
+
+            function computeDayZoneResults(dayKey) {
+                const drawArr = appState.draw[dayKey] || [];
+                const scoreMap = appState.scores[dayKey] || {};
+                const perAngler = {};
+
+                zones.forEach(z => {
+                    const zoneEntries = drawArr.filter(d => d.zone === z);
+                    const zoneCount = zoneEntries.length;
+
+                    const rows = zoneEntries.map(d => {
+                        const sc = scoreMap[d.anglerId] || {};
+                        const len = parseFloat(sc.totalMetric) || 0;
+                        const fish = parseInt(sc.fishCount, 10) || 0;
+                        const big = parseFloat(sc.bestFish) || 0;
+                        const species = (sc.bestFishSpecies || "").trim();
+                        const hasCatch = len > 0 || fish > 0;
+                        return {
+                            anglerId: d.anglerId,
+                            zone: `${z} Zone`,
+                            peg: String(d.peg || "-"),
+                            fishCount: fish,
+                            totalLengthCm: len,
+                            biggestFishCm: big,
+                            biggestFishSpecies: species,
+                            hasCatch
+                        };
+                    });
+
+                    rows.sort((a, b) => {
+                        if (a.hasCatch !== b.hasCatch) return a.hasCatch ? -1 : 1;
+                        return (
+                            b.totalLengthCm - a.totalLengthCm ||
+                            b.fishCount - a.fishCount ||
+                            b.biggestFishCm - a.biggestFishCm
+                        );
+                    });
+
+                    rows.forEach((r, idx) => {
+                        if (!r.hasCatch) {
+                            r.zonePoints = zoneCount;
+                        } else if (
+                            idx > 0 &&
+                            rows[idx - 1].hasCatch &&
+                            rows[idx - 1].totalLengthCm === r.totalLengthCm &&
+                            rows[idx - 1].fishCount === r.fishCount &&
+                            rows[idx - 1].biggestFishCm === r.biggestFishCm
+                        ) {
+                            r.zonePoints = rows[idx - 1].zonePoints;
+                        } else {
+                            r.zonePoints = idx + 1;
+                        }
+                        perAngler[r.anglerId] = {
+                            zone: r.zone,
+                            peg: r.peg,
+                            fishCount: r.fishCount,
+                            totalLengthCm: r.totalLengthCm,
+                            biggestFishCm: r.biggestFishCm,
+                            biggestFishSpecies: r.biggestFishSpecies,
+                            zonePoints: r.zonePoints
+                        };
+                    });
+                });
+
+                return perAngler;
+            }
+
+            const d1Results = computeDayZoneResults("day1");
+            const d2Results = appState.config.duration === 2 ? computeDayZoneResults("day2") : {};
+
+            const emptyDay = {
+                zone: "",
+                peg: "-",
+                fishCount: 0,
+                totalLengthCm: 0,
+                biggestFishCm: 0,
+                biggestFishSpecies: "",
+                zonePoints: 0
+            };
+
+            const anglerRecords = appState.anglers.map(a => {
+                const team = appState.teams.find(t => t.id === a.teamId);
+                const d1 = d1Results[a.id] || { ...emptyDay };
+                const d2 = d2Results[a.id] || { ...emptyDay };
+                const cumulativePoints = (d1.zonePoints || 0) + (d2.zonePoints || 0);
+                const cumulativeFish = (d1.fishCount || 0) + (d2.fishCount || 0);
+                const cumulativeLengthCm = (d1.totalLengthCm || 0) + (d2.totalLengthCm || 0);
+                const overallBiggestCm = Math.max(d1.biggestFishCm || 0, d2.biggestFishCm || 0);
+
+                return {
+                    anglerName: a.name || "Unnamed",
+                    teamName: team ? team.name : "Independent",
+                    day1: d1,
+                    day2: d2,
+                    _overallBiggestCm: overallBiggestCm,
+                    totals: {
+                        overallRank: 0,
+                        cumulativePoints,
+                        cumulativeFish,
+                        cumulativeLengthCm
+                    }
+                };
+            });
+
+            // Sort overall standings and assign exact competition ranks (with tie handling)
+            anglerRecords.sort((a, b) =>
+                a.totals.cumulativePoints - b.totals.cumulativePoints ||
+                b.totals.cumulativeLengthCm - a.totals.cumulativeLengthCm ||
+                b.totals.cumulativeFish - a.totals.cumulativeFish ||
+                b._overallBiggestCm - a._overallBiggestCm
+            );
+
+            anglerRecords.forEach((rec, idx) => {
+                if (
+                    idx > 0 &&
+                    anglerRecords[idx - 1].totals.cumulativePoints === rec.totals.cumulativePoints &&
+                    anglerRecords[idx - 1].totals.cumulativeLengthCm === rec.totals.cumulativeLengthCm &&
+                    anglerRecords[idx - 1].totals.cumulativeFish === rec.totals.cumulativeFish &&
+                    anglerRecords[idx - 1]._overallBiggestCm === rec._overallBiggestCm
+                ) {
+                    rec.totals.overallRank = anglerRecords[idx - 1].totals.overallRank;
+                } else {
+                    rec.totals.overallRank = idx + 1;
+                }
+                delete rec._overallBiggestCm;
+            });
+
+            // Format Mystery Pairs if generated
+            let secretPairs = {
+                description: "Target Length calculated for wildcard mystery pairing.",
+                targetLength: "0cm",
+                winners: [],
+                otherPairs: []
+            };
+
+            if (Array.isArray(appState.mysteryPairs) && appState.mysteryPairs.length > 0) {
+                const targetVal = appState.mysteryTargetLength || 0;
+                const formattedPairs = appState.mysteryPairs.map(pair => {
+                    const a1 = appState.anglers.find(x => x.id === pair.angler1Id);
+                    const a2 = appState.anglers.find(x => x.id === pair.angler2Id);
+                    const rec1 = anglerRecords.find(r => r.anglerName === (a1 ? a1.name : ""));
+                    const rec2 = anglerRecords.find(r => r.anglerName === (a2 ? a2.name : ""));
+                    const combined = ((rec1 ? rec1.totals.cumulativeLengthCm : 0) + (rec2 ? rec2.totals.cumulativeLengthCm : 0));
+                    const diffVal = Math.abs(combined - targetVal);
+                    return {
+                        angler1: a1 ? a1.name : "—",
+                        angler2: a2 ? a2.name : "—",
+                        combinedLength: `${combined}cm`,
+                        diff: `${diffVal}cm`,
+                        _diffNum: diffVal
+                    };
+                }).sort((a, b) => a._diffNum - b._diffNum);
+
+                formattedPairs.forEach(p => delete p._diffNum);
+                secretPairs = {
+                    description: "Target Length calculated for wildcard mystery pairing.",
+                    targetLength: `${targetVal}cm`,
+                    winners: formattedPairs.slice(0, 3),
+                    otherPairs: formattedPairs.slice(3)
+                };
+            }
+
             const payload = {
-                title: appState.config.title || "Shore Competition",
-                duration: appState.config.duration,
-                anglers: appState.anglers,
-                teams: appState.teams,
-                scores: appState.scores
+                title: appState.config.title || "SPRA Scottish Shore Championship 2027",
+                anglers: anglerRecords,
+                secretPairs
             };
 
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "match_scores.json");
+            downloadAnchor.setAttribute("download", "scores.json");
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
 
-            alert("'match_scores.json' exported successfully!");
+            alert("'scores.json' exported successfully!\n\nUpload this file directly to your Results Portal.");
         }
-
         function exportViewerJSON() {
             if (!appState.draw.generated) { 
                 alert("Please generate the draw first."); 
