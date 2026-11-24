@@ -2964,9 +2964,23 @@
                 return b.overallBestFish - a.overallBestFish;
             });
 
+          indSummary.forEach((res, idx) => {
+                if (
+                    idx > 0 &&
+                    indSummary[idx - 1].totalZonePts === res.totalZonePts &&
+                    indSummary[idx - 1].totalMetric === res.totalMetric &&
+                    indSummary[idx - 1].totalFish === res.totalFish &&
+                    indSummary[idx - 1].overallBestFish === res.overallBestFish
+                ) {
+                    res.rank = indSummary[idx - 1].rank;
+                } else {
+                    res.rank = idx + 1;
+                }
+            });
+
            tbody.innerHTML = indSummary.map((res, idx) => `
                 <tr class="font-mono-tabular text-sm">
-                    <td class="py-1.5 px-1 font-black text-center text-pixelBlue border-r border-slate-700">${idx+1}</td>
+                    <td class="py-1.5 px-1 font-black text-center text-pixelBlue border-r border-slate-700">${res.rank}</td>
                     <td class="py-1.5 px-3 font-black uppercase tracking-wider text-white font-heading border-r border-slate-700 min-w-[140px] truncate">${res.name.toUpperCase()}</td>
                     <td class="py-1.5 px-3 text-xs text-slate-300 font-bold uppercase tracking-wider font-heading border-r-2 border-slate-500 min-w-[120px] truncate">${res.teamName.toUpperCase()}</td>
                     
@@ -3038,14 +3052,29 @@
             teamSummaries.sort((a,b) => {
                 if (a.isValid !== b.isValid) return a.isValid ? -1 : 1;
                 if (a.totalTeamZonePts !== b.totalTeamZonePts) return a.totalTeamZonePts - b.totalTeamZonePts;
-                return b.totalTeamMetric - a.totalTeamMetric;
+                if (a.totalTeamMetric !== b.totalTeamMetric) return b.totalTeamMetric - a.totalTeamMetric;
+                return b.totalTeamFish - a.totalTeamFish;
+            });
+
+            teamSummaries.forEach((t, idx) => {
+                if (
+                    idx > 0 &&
+                    teamSummaries[idx - 1].isValid === t.isValid &&
+                    teamSummaries[idx - 1].totalTeamZonePts === t.totalTeamZonePts &&
+                    teamSummaries[idx - 1].totalTeamMetric === t.totalTeamMetric &&
+                    teamSummaries[idx - 1].totalTeamFish === t.totalTeamFish
+                ) {
+                    t.rank = teamSummaries[idx - 1].rank;
+                } else {
+                    t.rank = idx + 1;
+                }
             });
 
             container.innerHTML = teamSummaries.map((t, idx) => `
                 <tr class="font-mono-tabular">
                     <td class="py-2 px-3 text-left">
                         <div class="flex items-center gap-2">
-                            <span class="text-pixelGold font-black text-base w-6 text-center">${idx+1}</span>
+                            <span class="text-pixelGold font-black text-base w-6 text-center">${t.rank}</span>
                             <span class="font-black font-heading text-white uppercase tracking-wider text-base truncate min-w-[120px]">${t.teamName.toUpperCase()}</span>
                         </div>
                     </td>
